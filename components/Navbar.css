@@ -1,0 +1,50 @@
+.navbar-container {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  height: 15vh;
+  width: 100vw;
+  background-color: transparent;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  justify-content: space-between;
+}
+
+.navbar-logo {
+  grid-column: 2 / span 3;
+  display: flex;
+  align-items: center;
+  color: #000;
+  font-family: "Rock Salt";
+  font-size: 1.875vw;
+  font-style: normal;
+  line-height: normal;
+}
+
+.navbar-navigator {
+  grid-column: 10 / span 8;
+  display: flex;
+  gap: 1.875vw;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.navbar-options {
+  grid-column: 18 / span 2;
+  display: flex;
+  gap: 1vw;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
