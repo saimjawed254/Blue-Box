@@ -1,0 +1,40 @@
+nav{
+  z-index: 1;
+  width: 100vw;
+  height: 12.5vh;
+  position: fixed;
+  top: 0;
+  background: transparent;
+  grid-template-columns: repeat(40, 1fr);
+  display: grid;
+}
+
+
+.nav-logo{
+  grid-column: 3 / span 5;
+  justify-content: left;
+  font-size: 1.875vw;
+}
+
+.nav-nav{
+  grid-column: 22 / span 14;
+  font-size: 1.25vw;
+}
+
+.nav-nav a{
+  color: rgb(var(--pure-white));
+}
+
+.nav-tools{
+  grid-column: 37 / span 2;
+  justify-content: space-between;
+}
+
+.nav-blur{
+  position: fixed;
+  top: 2.5vh;
+  left: 3%;
+  width: 95%;
+  height: 7.5vh;
+background: linear-gradient(90deg, rgba(var(--off-white), 0.50) 0%, rgba(var(--pure-white), 0.00) 100%);
+}
