@@ -76,6 +76,7 @@ main {
 
 .hero-ml:hover {
   backdrop-filter: blur(0.5vw);
+  filter: saturate(2.0);
 }
 
 .hero-ml-head {
@@ -120,6 +121,7 @@ main {
 
 .hero-mr:hover {
   backdrop-filter: blur(0.5vw);
+  filter: saturate(2.0);
 }
 
 .hero-mr-head {
