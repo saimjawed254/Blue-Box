@@ -1,26 +1,105 @@
 "use client";
-
 import Image from "next/image";
 import "./page.css";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useEffect, useState } from "react";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import LocomotiveScroll from "locomotive-scroll";
-import { Orbitron, Poppins } from "next/font/google";
+import { Orbitron, Poppins, Bruno_Ace } from "next/font/google";
+import ProductCard from "@/components/UI/Cards/ProductCard";
+import PrimaryButton from "@/components/UI/Buttons/PrimaryButton";
+import ReviewCard from "@/components/UI/Cards/ReviewCard";
+import FAQCard from "@/components/UI/Cards/FAQCard";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
+export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
 export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
 
-export default function Home() {
-  useEffect(() => {
-    const locomotiveScroll = new LocomotiveScroll();
-  }, []);
+gsap.registerPlugin(ScrollTrigger);
 
+export default function Home() {
+  const [svgSize, setSvgSize] = useState(0);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const locomotiveScroll = new LocomotiveScroll();
+
+      setSvgSize(window.innerWidth * 0.02);
+    }
+  }, []);
+  useGSAP(() => {
+    function vwToPx(e: number) {
+      return (window.innerWidth * e) / 100;
+    }
+    function vhToPx(e: number) {
+      return (window.innerHeight * e) / 100;
+    }
+    const stackyGSAP = document.querySelector(".newest-arrival");
+    const naGSAP = document.querySelector(".na-stacky");
+
+    const t1 = gsap.timeline({
+      scrollTrigger: {
+        trigger: stackyGSAP,
+        pin: true,
+        pinSpacing: false,
+        start: "center center",
+        end: `+=${vhToPx(300)}`,
+        scrub: 1,
+      },
+      defaults: { ease: "none" },
+    });
+
+    t1.from(naGSAP, {
+      scale: 0.6,
+      ease: "power2.inOut",
+    })
+      .to(naGSAP, {
+        height: "300%",
+      })
+      .to(naGSAP, {
+        height: "100%",
+      })
+      .to(naGSAP, {
+        scale: 0.6,
+        ease: "power2.inOut",
+      });
+
+    gsap.to(".bs-sidebar-text", {
+      yPercent: -100,
+      repeat: -1,
+      duration: 15,
+      ease: "linear",
+    });
+
+    gsap.to(".rr-card", {
+      xPercent: -100,
+      repeat: -1,
+      duration: 5,
+      ease: "linear",
+    });
+
+        const t2 = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.faqs-header',
+        pin: true,
+        pinSpacing: false,
+        start: "top top",
+        end: `+=${vhToPx(207)}`,
+        scrub: 1,
+      },
+      defaults: { ease: "none" },
+    });
+
+    t2.set(".faqs-header",{
+      zIndex: -5
+    })
+  });
   return (
     <>
-      <main className={`${poppins.className}`}>
+      {/* -------------------------Hero-------------------------- */}
+      <section className={`hero ${poppins.className}`}>
         <div className="hero-ll">
           <div className="hero-ll-head">
             Beyond Fashion <br />
@@ -77,7 +156,7 @@ export default function Home() {
               <path
                 d="M0.00012207 0L0.000244141 70H67.0693L0.00012207 0Z"
                 fill="#F0F1FA"
-                fill-opacity="0.4"
+                fillOpacity="0.5"
               />
             </svg>
           </div>
@@ -100,7 +179,7 @@ export default function Home() {
               <path
                 d="M0.00012207 0L0.000244141 70H67.0693L0.00012207 0Z"
                 fill="#F0F1FA"
-                fill-opacity="0.4"
+                fillOpacity="0.5"
               />
             </svg>
           </div>
@@ -123,7 +202,7 @@ export default function Home() {
               <path
                 d="M67.0692 0L67.0691 70H0L67.0692 0Z"
                 fill="#F0F1FA"
-                fill-opacity="0.4"
+                fillOpacity="0.5"
               />
             </svg>
           </div>
@@ -184,13 +263,382 @@ export default function Home() {
               <path
                 d="M67.0692 0L67.0691 70H0L67.0692 0Z"
                 fill="#F0F1FA"
-                fill-opacity="0.4"
+                fillOpacity="0.5"
               />
             </svg>
           </div>
         </div>
-        <div className={`hero-name center ${orbitron.className}`}>BLUE BOX</div>
-      </main>
+        <div className={`hero-name center ${bruno_ace.className}`}>
+          BLUE BOX
+        </div>
+      </section>
+
+      {/* -------------------------Why Choose Us-------------------------- */}
+
+      <section className={`why-choose-us ${poppins.className}`}>
+        <div className="wcu-header center">Why choose Us?</div>
+        <div className="wcu-tags center blur gradient-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={svgSize}
+            height={svgSize}
+            viewBox="0 0 33 34"
+            fill="none"
+          >
+            <path
+              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
+              fill="black"
+            />
+          </svg>
+          &nbsp;Best Price
+        </div>
+        <div className="wcu-tags center blur gradient-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={svgSize}
+            height={svgSize}
+            viewBox="0 0 33 34"
+            fill="none"
+          >
+            <path
+              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
+              fill="black"
+            />
+          </svg>
+          &nbsp;Handpicked Products
+        </div>
+        <div className="wcu-tags center blur gradient-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={svgSize}
+            height={svgSize}
+            viewBox="0 0 33 34"
+            fill="none"
+          >
+            <path
+              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
+              fill="black"
+            />
+          </svg>
+          &nbsp;All India Delivery
+        </div>
+        <div className="wcu-tags center blur gradient-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={svgSize}
+            height={svgSize}
+            viewBox="0 0 33 34"
+            fill="none"
+          >
+            <path
+              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
+              fill="black"
+            />
+          </svg>
+          &nbsp;COD available in Patna
+        </div>
+        <div className="wcu-tags center blur gradient-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={svgSize}
+            height={svgSize}
+            viewBox="0 0 33 34"
+            fill="none"
+          >
+            <path
+              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
+              fill="black"
+            />
+          </svg>
+          &nbsp;Free Delivery across Patna
+        </div>
+        <div className="wcu-tags center blur gradient-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={svgSize + "px"}
+            height={svgSize + "px"}
+            viewBox="0 0 33 34"
+            fill="none"
+          >
+            <path
+              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
+              fill="black"
+            />
+          </svg>
+          &nbsp;Virtual TryOn
+        </div>
+      </section>
+
+      {/* -------------------------Newest Arrivals-------------------------- */}
+
+      <section className="newest-arrival">
+        <section className={`na-standards ${bruno_ace.className}`}>
+          Standards&nbsp;&nbsp;&nbsp;&nbsp;Standards
+        </section>
+        <section className="na-stacky"></section>
+      </section>
+      <section className="na-stacky-buffer-area"></section>
+
+      {/* -------------------------Best Sellers-------------------------- */}
+
+      <section className="best-sellers">
+        <div className="bs-sidebar">
+          <div
+            id="bs-marqueeOne"
+            className={`bs-sidebar-text ${bruno_ace.className}`}
+          >
+            Best Sellers Best Sellers&nbsp;
+          </div>
+          <div
+            id="bs-marqueeTwo"
+            className={`bs-sidebar-text ${bruno_ace.className}`}
+          >
+            Best Sellers Best Sellers&nbsp;
+          </div>
+        </div>
+        <div className="bs-display">
+          <div className="bsd-cargo-header">
+            <div className={`bsdch-text ${poppins.className}`}>
+              <div className="svg-floral">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="50"
+                  height="50"
+                  viewBox="0 0 50 50"
+                  fill="none"
+                >
+                  <path
+                    d="M30.9354 30.7835L38.4562 38.2335L34.925 41.7272L27.4042 34.2793C27.0874 33.9644 26.7116 33.7151 26.2984 33.5457C25.8851 33.3762 25.4425 33.29 24.9958 33.2918C24.0792 33.2918 23.2333 33.6397 22.5875 34.2793L15.0667 41.7293L11.5375 38.2335L19.0583 30.7835H30.9354ZM32.1896 28.6377L42.4604 31.3585L43.75 26.5793L33.4792 23.8564C33.0475 23.744 32.6424 23.547 32.2873 23.2771C31.9322 23.0071 31.6342 22.6694 31.4104 22.2835C31.186 21.9005 31.0404 21.4765 30.9821 21.0365C30.9238 20.5965 30.954 20.1492 31.0708 19.721L33.8208 9.55016L28.9958 8.271L26.2458 18.446L32.1833 28.6293L32.1896 28.6377ZM17.8104 28.6377L7.53958 31.3585L6.25 26.5793L16.5208 23.8564C16.9525 23.744 17.3576 23.547 17.7127 23.2771C18.0678 23.0071 18.3658 22.6694 18.5896 22.2835C18.814 21.9005 18.9596 21.4765 19.0179 21.0365C19.0762 20.5965 19.046 20.1492 18.9292 19.721L16.1792 9.55016L21.0042 8.271L23.7542 18.446L17.8167 28.6293L17.8104 28.6377Z"
+                    fill="#3F3F37"
+                  />
+                </svg>
+              </div>
+              &nbsp;Cargo Best Sellers
+            </div>
+            <div className="bsdch-button-show-all">
+              <PrimaryButton />
+            </div>
+            <div className="bsdch-button-left center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                viewBox="0 0 55 50"
+                fill="none"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
+                  fill="black"
+                />
+              </svg>
+            </div>
+            <div className="bsdch-button-right center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                viewBox="0 0 55 50"
+                fill="none"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
+                  fill="black"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div className="bsdc-cards">
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+          </div>
+          <div className="bsd-suits-header">
+            <div className={`bsdsh-text ${poppins.className}`}>
+              <div className="svg-floral">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="50"
+                  height="50"
+                  viewBox="0 0 50 50"
+                  fill="none"
+                >
+                  <path
+                    d="M30.9354 30.7835L38.4562 38.2335L34.925 41.7272L27.4042 34.2793C27.0874 33.9644 26.7116 33.7151 26.2984 33.5457C25.8851 33.3762 25.4425 33.29 24.9958 33.2918C24.0792 33.2918 23.2333 33.6397 22.5875 34.2793L15.0667 41.7293L11.5375 38.2335L19.0583 30.7835H30.9354ZM32.1896 28.6377L42.4604 31.3585L43.75 26.5793L33.4792 23.8564C33.0475 23.744 32.6424 23.547 32.2873 23.2771C31.9322 23.0071 31.6342 22.6694 31.4104 22.2835C31.186 21.9005 31.0404 21.4765 30.9821 21.0365C30.9238 20.5965 30.954 20.1492 31.0708 19.721L33.8208 9.55016L28.9958 8.271L26.2458 18.446L32.1833 28.6293L32.1896 28.6377ZM17.8104 28.6377L7.53958 31.3585L6.25 26.5793L16.5208 23.8564C16.9525 23.744 17.3576 23.547 17.7127 23.2771C18.0678 23.0071 18.3658 22.6694 18.5896 22.2835C18.814 21.9005 18.9596 21.4765 19.0179 21.0365C19.0762 20.5965 19.046 20.1492 18.9292 19.721L16.1792 9.55016L21.0042 8.271L23.7542 18.446L17.8167 28.6293L17.8104 28.6377Z"
+                    fill="#3F3F37"
+                  />
+                </svg>
+              </div>
+              &nbsp;Suits Best Sellers
+            </div>
+            <div className="bsdsh-button-show-all">
+              <PrimaryButton />
+            </div>
+            <div className="bsdsh-button-left center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                viewBox="0 0 55 50"
+                fill="none"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
+                  fill="black"
+                />
+              </svg>
+            </div>
+            <div className="bsdsh-button-right center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                viewBox="0 0 55 50"
+                fill="none"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
+                  fill="black"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div className="bsds-cards">
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+          </div>
+        </div>
+      </section>
+
+      {/* -------------------------Ratings and Reviews-------------------------- */}
+
+      <section className="ratings-reviews">
+        <div className={`rr-header-left ${bruno_ace.className}`}>
+          Growing Trust
+        </div>
+        <div className={`rr-header-right ${bruno_ace.className}`}>
+          Building Connections
+        </div>
+        <div className="rr-reviews-line1">
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+        </div>
+        <div className="rr-reviews-line2">
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+        </div>
+        <div className="rr-reviews-line3">
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+        </div>
+      </section>
+
+      {/* -------------------------Faqs-------------------------- */}
+
+      <section className="faqs">
+        <section className="faqs-header">
+          <div className={`faqs-text ${poppins.className}`}>
+            We understand customers have their doubts and <br />
+            we are here to answer them.
+          </div>
+          <div className={`faqs-heading ${bruno_ace.className}`}>FAQS</div>
+        </section>
+        <section className="faqs-cards">
+          <div className="faqs-cards-line1 center">
+            <FAQCard visibility="visible" />
+            <FAQCard visibility="hidden" />
+            <FAQCard visibility="hidden" />
+            <FAQCard visibility="visible" />
+          </div>
+          <div className="faqs-cards-line2 center">
+            <FAQCard visibility="hidden" />
+            <FAQCard visibility="visible" />
+            <FAQCard visibility="visible" />
+            <FAQCard visibility="hidden" />
+          </div>
+          <div className="faqs-cards-line3 center">
+            <FAQCard visibility="visible" />
+            <FAQCard visibility="hidden" />
+            <FAQCard visibility="visible" />
+            <FAQCard visibility="visible" />
+          </div>
+          <div className="faqs-cards-line4 center">
+            <FAQCard visibility="hidden" />
+            <FAQCard visibility="visible" />
+            <FAQCard visibility="hidden" />
+            <FAQCard visibility="visible" />
+          </div>
+        </section>
+      </section>
     </>
   );
 }

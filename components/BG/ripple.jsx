@@ -3,13 +3,13 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-export default function RippleSimulation() {
+export default function RippleSimulation(offset) {
   const mountRef = useRef();
-
+  // console.log(offset.offset)
   useEffect(() => {
-    const simRes = 512;
+    const simRes = window.innerHeight;
     const width = window.innerWidth;
-    const height = window.innerHeight;
+    const height = window.innerHeight * 2.0;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(width, height);
@@ -60,7 +60,7 @@ export default function RippleSimulation() {
         pVel += delta * (-2.0 * pressure + pU + pD) / 8.0;
         pressure += delta * pVel;
 
-        pVel -= 0.0025 * delta * pressure;
+        pVel -= 0.005 * delta * pressure;
         pVel *= 1.0 - 0.002 * delta;
         pressure *= 0.9;
 
@@ -99,9 +99,10 @@ export default function RippleSimulation() {
         float spec2 = pow(max(0.0, dot(normal, light2)), 50.0);
         vec3 color2 = vec3(0.0, 0.847, 0.976); // #00D8F940.0);
 
-        vec3 color = baseColor * brightness + spec1 * color1 + spec2 * color2;
+        vec3 color = baseColor * brightness + 4.0 * spec1 * color1 + 4.0 * spec2 * color2;
         float alpha = 0.6 * smoothstep(0.01, 0.1, abs(data.x));
 
+        color = clamp(color, 0.0, 1.0);
         fragColor = vec4(color, alpha);
       }
 
@@ -146,16 +147,18 @@ export default function RippleSimulation() {
 
     const onMouseMove = (e) => {
       const x = e.clientX / width;
-      const y = 1.0 - e.clientY / height;
+      const y = (1.0 - e.clientY / height);
 
       if (Math.abs(x - lastMouse.x) > 0.001 || Math.abs(y - lastMouse.y) > 0.001) {
         lastMoveTime = performance.now();
         mouse.z = 1.0;
         lastMouse.set(x, y);
       }
-
+      // const scrollY=window.scrollY / height;
+      // console.log(scrollY)
       mouse.x = x;
       mouse.y = y;
+      // mouse.y = y-scrollY+offset.offset;
     };
 
     window.addEventListener("mousemove", onMouseMove);
@@ -196,5 +199,5 @@ export default function RippleSimulation() {
     };
   }, []);
 
-  return <div ref={mountRef} style={{ width: '100%', height: '100%', position: 'absolute', top: '0' }} />;
+  return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
 };

@@ -1,0 +1,44 @@
+.faq-card{
+    width: 25vw;
+    height: 25vw;
+
+    background-color: rgb(var(--light-olive));
+    z-index: 1;
+}
+
+.faq-card-container{
+    width: 90%;
+    height: 90%;
+
+    border: 0.1vw solid rgb(var(--pure-white));
+
+    padding: 1vw;
+    position: relative;
+}
+
+.faq-question{
+    text-align: left;
+    font-size: 1.5vw;
+}
+
+.faq-answer{
+    padding-top: 1vw;
+    text-align: left;
+    font-size: 1vw;
+
+    color: rgb(var(--dark-olive));
+}
+
+.faq-floral{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    padding-right: 1vh;
+}
+
+.faq-related-icons{
+    position: absolute;
+    bottom: 1vh;
+    gap: 1vw;
+}

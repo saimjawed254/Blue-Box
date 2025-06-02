@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/UI/Navbar";
-import ShaderWrapper from "@/components/BG/RippleWrapper";
+import Footer from "@/components/UI/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,11 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ShaderWrapper>
           <Toaster />
           <Navbar />
           {children}
-        </ShaderWrapper>
+          <Footer />
       </body>
     </html>
   );
