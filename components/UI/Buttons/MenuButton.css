@@ -20,7 +20,7 @@
 }
 
 .menu-hamburger {
-  width: 6%;
+  width: 6vh;
   height: 6vh;
 
   background-color: rgb(var(--light-olive));
