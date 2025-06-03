@@ -1,12 +1,10 @@
 .primary-button {
-  width: 12vw;
+  width: 11vw;
   height: 7vh;
   font-size: 1.25vw;
   justify-content: center;
-  background: linear-gradient(
-    90deg,
-    rgba(240, 241, 250, 0.5) 0%,
-    rgba(142, 143, 148, 0) 100%
-  );
+    border:0.5vh solid rgb(var(--dark-olive));
+  background-color: rgb(var(--light-olive));
   border-radius: 100vw;
+  color: rgb(var(--dark-olive));
 }

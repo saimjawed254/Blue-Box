@@ -15,8 +15,9 @@
 .hero-ll {
   grid-row: 6 / span 26;
   grid-column: 1 / span 11;
-  border-right: rgb(var(--off-white)) solid 1px;
-  border-bottom: rgb(var(--off-white)) solid 1px;
+  border-right: rgb(var(--off-white)) solid 0.1vw;
+  border-bottom: rgb(var(--off-white)) solid 0.1vw;
+  border-top: rgb(var(--off-white)) solid 0.1vw;
   /* background: linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.3) 0%,
@@ -151,8 +152,9 @@
 .hero-rr {
   grid-row: 6 / span 26;
   grid-column: 30 / span 11;
-  border-right: rgb(var(--off-white)) solid 1px;
-  border-bottom: rgb(var(--off-white)) solid 1px;
+  border-right: rgb(var(--off-white)) solid 0.1vw;
+  border-bottom: rgb(var(--off-white)) solid 0.1vw;
+  border-top: rgb(var(--off-white)) solid 0.1vw;
   /* background: linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.3) 0%,
@@ -417,7 +419,7 @@
   height: 6vh;
   border-radius: 50%;
 
-  background-color: rgba(var(--off-white), 0.4);
+  background-color: rgba(var(--dark-olive),1);
 }
 
 .bsdch-button-right {
@@ -428,7 +430,7 @@
   height: 6vh;
   border-radius: 50%;
 
-  background-color: rgba(var(--off-white), 0.4);
+  background-color: rgba(var(--dark-olive),1);
 
   transform: rotate(180deg);
 }
@@ -484,7 +486,7 @@
   height: 6vh;
   border-radius: 50%;
 
-  background-color: rgba(var(--off-white), 0.4);
+  background-color: rgba(var(--dark-olive),1);
 }
 
 .bsdsh-button-right {
@@ -495,7 +497,7 @@
   height: 6vh;
   border-radius: 50%;
 
-  background-color: rgba(var(--off-white), 0.4);
+  background-color: rgba(var(--dark-olive),1);
 
   transform: rotate(180deg);
 }

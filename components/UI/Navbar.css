@@ -7,41 +7,86 @@ nav {
   background: transparent;
   grid-template-columns: repeat(40, 1fr);
   display: grid;
+  align-items: center;
+
 }
 
-.nav-logo {
-  grid-column: 3 / span 5;
-  justify-content: left;
-  font-size: 1.875vw;
+.navigate{
+    grid-column: 3 / span 15;
+    background-color: rgb(var(--pure-black));
+    height: 60%;
+        display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1vw;
+    color: rgb(var(--light-olive));
 }
 
-.nav-nav {
-  grid-column: 22 / span 14;
-  font-size: 1.25vw;
+.nav-home{
+  background-color: rgb(var(--light-olive));
+  width: 20%;
+  height: 80%;
+    color: rgb(var(--pure-black));
 }
 
-.nav-nav a {
-  color: rgb(var(--pure-white));
+.nav-na{
+  /* background-color: rgb(var(--light-olive)); */
+  width: 28%;
+  height: 80%;
 }
 
-.nav-tools {
-  grid-column: 37 / span 2;
-  justify-content: space-between;
+.nav-mc{
+  /* background-color: rgb(var(--light-olive)); */
+  width: 25%;
+  height: 80%;
 }
 
-.nav-blur {
-  z-index: 10;
-  position: fixed;
-  top: 2.5vh;
-  left: 3%;
-  width: 95%;
-  height: 7.5vh;
-  border-radius: 100vw;
-  background: linear-gradient(
-    90deg,
-    rgba(var(--off-white), 0) 0%,
-    rgba(var(--light-olive), 0.6) 25%,
-    rgba(var(--light-olive), 0.6) 75%,
-    rgba(var(--off-white), 0) 100%
-  );
+.nav-ls{
+  /* background-color: rgb(var(--light-olive)); */
+  width: 25%;
+  height: 80%;
+}
+
+.nav-search{
+    grid-column: 21 / span 11;
+    border:0.5vh solid rgb(var(--off-white));
+    height: 60%;
+
+    background-color: rgb(var(--light-olive));
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    font-size: 1vw;
+    color: rgba(var(--off-white),1);
+
+    /* filter: invert(1); */
+}
+
+.nav-credentials{
+    grid-column: 33 / span 6;
+    background-color: rgb(var(--off-white));
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1vw;
+    color: rgb(var(--off-white));
+}
+
+.nav-c-login{
+    color: rgb(var(--off-white));
+  background-color: rgb(var(--light-olive));
+  width: 48%;
+  height: 85%;
+  
+}
+
+.nav-c-signup{
+    color: rgb(var(--light-olive));
+  /* background-color: rgb(var(--light-olive)); */
+  width: 48%;
+  height: 85%;
 }
