@@ -1,10 +1,10 @@
 :root {
-  --off-white: 240,241,250;
-  --pure-white: 255,255,255;
-  --off-black: 37,37,37;
-  --pure-black: 0,0,0;
-  --blue: 0,216,249;
-  --orange: 249,87,0;
+  --off-white: 240, 241, 250;
+  --pure-white: 255, 255, 255;
+  --off-black: 37, 37, 37;
+  --pure-black: 0, 0, 0;
+  --blue: 0, 216, 249;
+  --orange: 249, 87, 0;
   --light-olive: 179, 178, 158;
   --dark-olive: 63, 63, 55;
   --green: 119, 204, 0;
@@ -26,8 +26,8 @@ body {
   margin: 0;
 }
 
-a{
-  text-decoration:none;
+a {
+  text-decoration: none;
 }
 
 canvas {
@@ -65,8 +65,8 @@ canvas {
   border-radius: 100vw;
 }
 
-.gradient-white{
-      background: linear-gradient(
+.gradient-white {
+  background: linear-gradient(
     90deg,
     rgba(var(--off-white), 0) 0%,
     rgba(var(--off-white), 0.6) 25%,

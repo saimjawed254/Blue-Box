@@ -13,12 +13,11 @@ import ProductCard from "@/components/UI/Cards/ProductCard";
 import PrimaryButton from "@/components/UI/Buttons/PrimaryButton";
 import ReviewCard from "@/components/UI/Cards/ReviewCard";
 import FAQCard from "@/components/UI/Cards/FAQCard";
+import { ScrollSmoother } from "gsap/all";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
 export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const [svgSize, setSvgSize] = useState(0);
@@ -27,44 +26,96 @@ export default function Home() {
       const locomotiveScroll = new LocomotiveScroll();
 
       setSvgSize(window.innerWidth * 0.02);
+
+      const ele = document.querySelector(
+        "#smooth-content"
+      ) as HTMLElement | null;
+      console.log(ele);
     }
   }, []);
   useGSAP(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
     function vwToPx(e: number) {
       return (window.innerWidth * e) / 100;
     }
     function vhToPx(e: number) {
       return (window.innerHeight * e) / 100;
     }
-    const stackyGSAP = document.querySelector(".newest-arrival");
-    const naGSAP = document.querySelector(".na-stacky");
+    window.addEventListener("scroll", () => {
+      const container = document.querySelector(
+        ".container"
+      ) as HTMLElement | null;
+      const naPage = document.querySelector(
+        ".newest-arrivals"
+      ) as HTMLElement | null;
+      if (window.scrollY > vhToPx(385)) {
+        if (container && naPage) {
+          container.style.opacity = "1";
+          naPage.style.opacity = "0";
+        }
+      }
+      if (window.scrollY < vhToPx(385)) {
+        if (container && naPage) {
+          container.style.opacity = "0";
+          naPage.style.opacity = "1";
+        }
+      }
+    });
 
-    const t1 = gsap.timeline({
+    const tl1 = gsap.timeline({
       scrollTrigger: {
-        trigger: stackyGSAP,
+        trigger: ".newest-arrivals",
         pin: true,
         pinSpacing: false,
         start: "center center",
-        end: `+=${vhToPx(300)}`,
+        end: `+=${vhToPx(200)}`,
         scrub: 1,
       },
       defaults: { ease: "none" },
     });
 
-    t1.from(naGSAP, {
-      scale: 0.6,
-      ease: "power2.inOut",
-    })
-      .to(naGSAP, {
-        height: "300%",
-      })
-      .to(naGSAP, {
-        height: "100%",
-      })
-      .to(naGSAP, {
+    tl1
+      .from(".newest-arrivals", {
         scale: 0.6,
-        ease: "power2.inOut",
-      });
+      })
+      .to(
+        ".newest-arrivals",
+        {
+          background: "black",
+        },
+        "<"
+      );
+
+    // const tl2 = gsap.timeline({
+    //   scrollTrigger: {
+    //     trigger: ".na-close",
+    //     pin: true,
+    //     pinSpacing: false,
+    //     start: `${vhToPx(1285)}`,
+    //     end: `+=${vhToPx(200)}`,
+    //     scrub: 1,
+    //   },
+    //   defaults: { ease: "none" },
+    // });
+    // tl2.to(".na-close", {
+    //   scale: 0.6,
+    // })
+
+    // t1.from(naGSAP, {
+    //   scale: 0.6,
+    //   ease: "power2.inOut",
+    // });
+    // .to(naGSAP, {
+    //   height: "300%",
+    // })
+    // .to(naGSAP, {
+    //   height: "100%",
+    // })
+    // .to(naGSAP, {
+    //   scale: 0.6,
+    //   ease: "power2.inOut",
+    // });
 
     gsap.to(".bs-sidebar-text", {
       yPercent: -100,
@@ -80,21 +131,64 @@ export default function Home() {
       ease: "linear",
     });
 
-        const t2 = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.faqs-header',
-        pin: true,
-        pinSpacing: false,
-        start: "top top",
-        end: `+=${vhToPx(207)}`,
-        scrub: 1,
-      },
-      defaults: { ease: "none" },
+    ScrollTrigger.create({
+      trigger: ".na-marquee",
+      pin: true,
+      pinSpacing: false,
+      start:`center center`,
+      end:`+=${vhToPx(200)}`
     });
 
-    t2.set(".faqs-header",{
-      zIndex: -5
-    })
+    gsap.to(".na-marq", {
+      xPercent: -100,
+      repeat: -1,
+      duration: 5,
+      ease: "linear",
+    });
+
+    // const t2 = gsap.timeline({
+    //   scrollTrigger: {
+    //     trigger: ".faqs-header",
+    //     pin: true,
+    //     pinSpacing: false,
+    //     start: "top top",
+    //     end: `+=${vhToPx(207)}`,
+    //     scrub: 1,
+    //   },
+    //   defaults: { ease: "none" },
+    // });
+
+    // t2.set(".faqs-header", {
+    //   zIndex: -5,
+    // });
+    const items = gsap.utils.toArray(".panel");
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".container",
+        pin: true,
+        scrub: 1,
+        start: "top top",
+        end: `+=${vhToPx(1000)}`,
+      },
+      defaults: {
+        ease: "power3.inOut",
+      },
+    });
+
+    tl.to(".na1", {
+      x: `-${vwToPx(400)}`,
+    });
+
+    ScrollTrigger.create({
+      trigger: ".faqs-header",
+      pin: true,
+      pinSpacing: false,
+      scrub: 1,
+      start: `${vhToPx(1750)}`,
+      end: `${vhToPx(1957)}`,
+      invalidateOnRefresh: true,
+    });
   });
   return (
     <>
@@ -194,9 +288,9 @@ export default function Home() {
           <div className="hero-mr-svg center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="68"
+              width="70"
               height="70"
-              viewBox="0 0 68 70"
+              viewBox="0 0 64 70"
               fill="none"
             >
               <path
@@ -371,13 +465,92 @@ export default function Home() {
 
       {/* -------------------------Newest Arrivals-------------------------- */}
 
-      <section className="newest-arrival">
-        <section className={`na-standards ${bruno_ace.className}`}>
-          Standards&nbsp;&nbsp;&nbsp;&nbsp;Standards
-        </section>
-        <section className="na-stacky"></section>
+      <section className="na">
+        <div className={`na-marquee ${bruno_ace.className}`}>
+          <section className="na-marq">Newest Arrivals&nbsp;</section>
+          <section className="na-marq">Newest Arrivals&nbsp;</section>
+          <section className="na-marq">Newest Arrivals&nbsp;</section>
+        </div>
+
+        <section className="newest-arrivals"></section>
       </section>
-      <section className="na-stacky-buffer-area"></section>
+      <section className="na-buffer"></section>
+
+      <div className="container">
+        <div className="panel na1 center">1</div>
+        {/* <div className="panel na2 center">2</div>
+        <div className="panel na3 center">3</div>
+        <div className="panel na4 center">4</div>
+        <div className="panel na5 center">5</div> */}
+      </div>
+
+      {/* -------------------------Ratings and Reviews-------------------------- */}
+
+      <section className="ratings-reviews">
+        <div className={`rr-header-left ${bruno_ace.className}`}>
+          Growing Trust
+        </div>
+        <div className={`rr-header-right ${bruno_ace.className}`}>
+          Building Connections
+        </div>
+        <div className="rr-reviews-line1">
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+        </div>
+        <div className="rr-reviews-line2">
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+        </div>
+        <div className="rr-reviews-line3">
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+          <div className="rr-card">
+            <ReviewCard />
+          </div>
+        </div>
+      </section>
 
       {/* -------------------------Best Sellers-------------------------- */}
 
@@ -530,74 +703,6 @@ export default function Home() {
             <ProductCard />
             <ProductCard />
             <ProductCard />
-          </div>
-        </div>
-      </section>
-
-      {/* -------------------------Ratings and Reviews-------------------------- */}
-
-      <section className="ratings-reviews">
-        <div className={`rr-header-left ${bruno_ace.className}`}>
-          Growing Trust
-        </div>
-        <div className={`rr-header-right ${bruno_ace.className}`}>
-          Building Connections
-        </div>
-        <div className="rr-reviews-line1">
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-        </div>
-        <div className="rr-reviews-line2">
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-        </div>
-        <div className="rr-reviews-line3">
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
           </div>
         </div>
       </section>

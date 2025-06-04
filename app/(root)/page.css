@@ -81,6 +81,7 @@
 .hero-ml:hover {
   backdrop-filter: blur(0.5vw);
   filter: saturate(2);
+  transform: scale(1.05);
 }
 
 .hero-ml-head {
@@ -126,6 +127,7 @@
 .hero-mr:hover {
   backdrop-filter: blur(0.5vw);
   filter: saturate(2);
+  transform: scale(1.05);
 }
 
 .hero-mr-head {
@@ -291,39 +293,83 @@
 
 /* ---------------------------------Newest Arrivals page-------------------------------- */
 
-.newest-arrival {
-  width: 100%;
+#smooth-wrapper {
+  width: auto;
+  height: auto;
+}
+
+#smooth-content {
+  width: auto;
+  height: auto;
+}
+
+.na{
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.na-marquee{
+  width: auto;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.na-marq{
+  width: auto;
+  height: 100vh;
+  font-size: 15vw;
+  z-index: -1;
+  text-wrap-mode: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.newest-arrivals {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+
+  border-radius: 1vh;
+  background: rgb(var(--light-olive));
+  /* transition: all 0.3s ease; */
+}
+
+.na-buffer {
+  width: 100vw;
   height: 100vh;
   position: relative;
   z-index: 1;
 }
 
-.na-standards {
-  font-size: 8vw;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.container {
+  width: 500vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
-.na-stacky {
-  width: 100%;
-  height: 100%;
-  background: #000;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(
-    270deg,
-    rgb(var(--light-olive)) 0%,
-    rgb(var(--pure-white)) 100%
-  );
-}
+.na1,
+.na2,
+.na3,
+.na4,
+.na5 {
+  width: 500vw;
+  height: 100vh;
+  flex-shrink: 0;
+  font-size: 20vw;
+  background-color: rgb(var(--pure-black));
+  color: aliceblue;
 
-.na-stacky-buffer-area {
-  width: 100vw;
-  height: 300vh;
+  border: none;
 }
 
 /* ---------------------------------Best Sellers page-------------------------------- */
@@ -419,7 +465,7 @@
   height: 6vh;
   border-radius: 50%;
 
-  background-color: rgba(var(--dark-olive),1);
+  background-color: rgba(var(--dark-olive), 1);
 }
 
 .bsdch-button-right {
@@ -430,7 +476,7 @@
   height: 6vh;
   border-radius: 50%;
 
-  background-color: rgba(var(--dark-olive),1);
+  background-color: rgba(var(--dark-olive), 1);
 
   transform: rotate(180deg);
 }
@@ -486,7 +532,7 @@
   height: 6vh;
   border-radius: 50%;
 
-  background-color: rgba(var(--dark-olive),1);
+  background-color: rgba(var(--dark-olive), 1);
 }
 
 .bsdsh-button-right {
@@ -497,7 +543,7 @@
   height: 6vh;
   border-radius: 50%;
 
-  background-color: rgba(var(--dark-olive),1);
+  background-color: rgba(var(--dark-olive), 1);
 
   transform: rotate(180deg);
 }

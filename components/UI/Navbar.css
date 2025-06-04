@@ -50,7 +50,7 @@ nav {
 
 .nav-search{
     grid-column: 21 / span 11;
-    border:0.5vh solid rgb(var(--off-white));
+    border:0.5vh solid rgb(var(--pure-black));
     height: 60%;
 
     background-color: rgb(var(--light-olive));
@@ -59,14 +59,14 @@ nav {
     justify-content: space-evenly;
 
     font-size: 1vw;
-    color: rgba(var(--off-white),1);
+    color: rgba(var(--pure-black),1);
 
     /* filter: invert(1); */
 }
 
 .nav-credentials{
     grid-column: 33 / span 6;
-    background-color: rgb(var(--off-white));
+    background-color: rgb(var(--pure-black));
     height: 60%;
     display: flex;
     align-items: center;
@@ -77,7 +77,7 @@ nav {
 }
 
 .nav-c-login{
-    color: rgb(var(--off-white));
+    color: rgb(var(--pure-black));
   background-color: rgb(var(--light-olive));
   width: 48%;
   height: 85%;
