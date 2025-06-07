@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/UI/Navbar";
 import Footer from "@/components/UI/Footer";
+import { ReduxProvider } from "@/store/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,10 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-          <Toaster />
-          <Navbar />
-          {children}
-          <Footer />
+        <Toaster />
+        <Navbar />
+        <ReduxProvider>{children}</ReduxProvider>
+        <Footer />
       </body>
     </html>
   );

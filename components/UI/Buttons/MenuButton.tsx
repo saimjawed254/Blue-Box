@@ -1,14 +1,15 @@
 "use client";
 
-import { Poppins } from "next/font/google";
+import { IBM_Plex_Mono, Poppins } from "next/font/google";
 import "./MenuButton.css";
 
 export const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
+export const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
 
 export default function MenuButton() {
   return (
     <>
-      <div className={`menu-button center blur ${poppins.className}`}>
+      <div className={`menu-button center blur ${ibm_plex_mono.className}`}>
         <div className="menu-text">&#x2022; Menu&nbsp;</div>
         <div className="menu-hamburger center">
           <svg

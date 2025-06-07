@@ -1,10 +1,11 @@
 import Link from "next/link";
 import "./Footer.css";
-import { Poppins, Orbitron, Bruno_Ace } from "next/font/google";
+import { Poppins, Orbitron, Bruno_Ace, IBM_Plex_Mono } from "next/font/google";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
 export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
+export const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
 
 export default function Footer() {
   return (
@@ -88,7 +89,7 @@ export default function Footer() {
             <div className="footer-top-socials-text">Follow us on</div>
           </div>
         </div>
-        <div className={`footer-left ${poppins.className}`}>
+        <div className={`footer-left ${ibm_plex_mono.className}`}>
           <div className="footer-left-text">
             <div className="flt-l1">Got any queries?</div>
             <br />
@@ -191,7 +192,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className={`footer-right ${poppins.className}`}>
+        <div className={`footer-right ${ibm_plex_mono.className}`}>
           <div className="footer-right-navigate">
             <span>HOME</span>
             <span>NEWEST ARRIVALS</span>

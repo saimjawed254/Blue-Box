@@ -1,16 +1,17 @@
 import Link from "next/link";
 import "./Navbar.css";
-import { Poppins, Rock_Salt } from "next/font/google";
+import { IBM_Plex_Mono, Poppins, Rock_Salt } from "next/font/google";
 
 export const rockSalt = Rock_Salt({ subsets: ["latin"], weight: ["400"] });
 export const poppins = Poppins({ subsets: ["latin"], weight: ["300"] });
+export const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
 
 export default function Navbar() {
   return (
     <>
-      <nav className={`${poppins.className}`}>
+      <nav className={`${ibm_plex_mono.className}`}>
         <div className="navigate rounded-corners">
-          <div className="nav-home center rounded-corners">Home</div>
+          <div className={`nav-home center rounded-corners`}>Home</div>
           <div className="nav-na center rounded-corners">&#x2022; Newest Arrivals</div>
           <div className="nav-mc center rounded-corners">&#x2022; Men's Cargo</div>
           <div className="nav-ls center rounded-corners">&#x2022; Ladies' Suits</div>

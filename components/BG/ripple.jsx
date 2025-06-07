@@ -1,12 +1,14 @@
-'use-client';
+'use client';
 
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-export default function RippleSimulation(offset) {
-  const mountRef = useRef();
-  // console.log(offset.offset)
+export default function RippleSimulation({ visible, offset}) {
+  const mountRef = useRef(null);
+
   useEffect(() => {
+    if (!visible || !mountRef.current) return;
+
     const simRes = window.innerHeight;
     const width = window.innerWidth;
     const height = window.innerHeight * 2.0;
@@ -30,6 +32,14 @@ export default function RippleSimulation(offset) {
     const rtB = rtA.clone();
     let currentRT = rtA;
     let nextRT = rtB;
+
+    const simUniforms = {
+      iChannel0: { value: null },
+      iResolution: { value: new THREE.Vector3(simRes, simRes, 1) },
+      iTime: { value: 0 },
+      iFrame: { value: 0 },
+      iMouse: { value: new THREE.Vector4() },
+    };
 
     const bufferAShader = `
       uniform sampler2D iChannel0;
@@ -111,14 +121,6 @@ export default function RippleSimulation(offset) {
       }
     `;
 
-    const simUniforms = {
-      iChannel0: { value: null },
-      iResolution: { value: new THREE.Vector3(simRes, simRes, 1) },
-      iTime: { value: 0 },
-      iFrame: { value: 0 },
-      iMouse: { value: new THREE.Vector4() },
-    };
-
     const simMat = new THREE.ShaderMaterial({
       fragmentShader: bufferAShader,
       vertexShader: `void main() { gl_Position = vec4(position, 1.0); }`,
@@ -147,18 +149,14 @@ export default function RippleSimulation(offset) {
 
     const onMouseMove = (e) => {
       const x = e.clientX / width;
-      const y = (1.0 - e.clientY / height);
-
+      const y = 1.0 - e.clientY / height;
       if (Math.abs(x - lastMouse.x) > 0.001 || Math.abs(y - lastMouse.y) > 0.001) {
         lastMoveTime = performance.now();
         mouse.z = 1.0;
         lastMouse.set(x, y);
       }
-      // const scrollY=window.scrollY / height;
-      // console.log(scrollY)
       mouse.x = x;
       mouse.y = y;
-      // mouse.y = y-scrollY+offset.offset;
     };
 
     window.addEventListener("mousemove", onMouseMove);
@@ -170,6 +168,7 @@ export default function RippleSimulation(offset) {
     }, 100);
 
     let frame = 0;
+    let animationId;
 
     const animate = (t) => {
       simMat.uniforms.iTime.value = t / 1000;
@@ -187,17 +186,38 @@ export default function RippleSimulation(offset) {
       [currentRT, nextRT] = [nextRT, currentRT];
       frame++;
 
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     };
 
-    animate(0);
+    animationId = requestAnimationFrame(animate);
 
     return () => {
       clearInterval(idleTimer);
+      cancelAnimationFrame(animationId);
       window.removeEventListener("mousemove", onMouseMove);
-      renderer.dispose();
-    };
-  }, []);
 
-  return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
-};
+      // 🔥 Dispose of GPU resources
+      quadGeo.dispose();
+      simMat.dispose();
+      displayMat.dispose();
+      rtA.dispose();
+      rtB.dispose();
+      renderer.dispose();
+
+      if (renderer.domElement && renderer.domElement.parentNode) {
+        renderer.domElement.parentNode.removeChild(renderer.domElement);
+      }
+    };
+  }, [visible]);
+
+  return (
+    <div
+      ref={mountRef}
+      style={{
+        width: '100%',
+        height: '100%',
+        display: visible ? 'block' : 'none',
+      }}
+    />
+  );
+}

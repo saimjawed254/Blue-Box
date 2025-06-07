@@ -5,33 +5,64 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import LocomotiveScroll from "locomotive-scroll";
-import { Orbitron, Poppins, Bruno_Ace } from "next/font/google";
+import {
+  Orbitron,
+  Poppins,
+  Bruno_Ace,
+  IBM_Plex_Mono,
+  Cinzel_Decorative,
+  Italiana,
+} from "next/font/google";
 import ProductCard from "@/components/UI/Cards/ProductCard";
 import PrimaryButton from "@/components/UI/Buttons/PrimaryButton";
 import ReviewCard from "@/components/UI/Cards/ReviewCard";
 import FAQCard from "@/components/UI/Cards/FAQCard";
 import { ScrollSmoother } from "gsap/all";
+import ShaderWrapper from "@/components/BG/RippleWrapper";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { hideShader, showShader } from "@/store/slices/uiSlice";
+import NACardUp from "@/components/UI/Cards/NACardUp";
+import NACardDown from "@/components/UI/Cards/NACardDown";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
-export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
+export const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "300", "200", "100"],
+});
+export const ibm_plex_mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+export const cinzel_decorative = Cinzel_Decorative({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+export const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 
 export default function Home() {
   const [svgSize, setSvgSize] = useState(0);
+  const dispatch = useDispatch();
+  const shadersVisible = useSelector(
+    (state: RootState) => state.ui.shadersVisible
+  );
+  console.log("shadersVisible : ", shadersVisible);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const locomotiveScroll = new LocomotiveScroll();
 
       setSvgSize(window.innerWidth * 0.02);
-
-      const ele = document.querySelector(
-        "#smooth-content"
-      ) as HTMLElement | null;
-      console.log(ele);
     }
+    //     if (document.querySelectorAll(".pin-spacer")) {
+    //   document.querySelectorAll(".pin-spacer").forEach((spacer) => {
+    //     (spacer as HTMLElement).style.zIndex = "2";
+    //     (spacer as HTMLElement).style.background = "transparent";
+    //   });
+    // }
   }, []);
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -44,22 +75,30 @@ export default function Home() {
     }
     window.addEventListener("scroll", () => {
       const container = document.querySelector(
-        ".container"
+        ".na-container"
       ) as HTMLElement | null;
       const naPage = document.querySelector(
         ".newest-arrivals"
       ) as HTMLElement | null;
+
       if (window.scrollY > vhToPx(385)) {
         if (container && naPage) {
-          container.style.opacity = "1";
-          naPage.style.opacity = "0";
+          container.style.visibility = "visible";
+          naPage.style.visibility = "hidden";
         }
       }
       if (window.scrollY < vhToPx(385)) {
         if (container && naPage) {
-          container.style.opacity = "0";
-          naPage.style.opacity = "1";
+          container.style.visibility = "hidden";
+          naPage.style.visibility = "visible";
         }
+      }
+
+      if (window.scrollY > vhToPx(385) && window.scrollY < vhToPx(1385)) {
+        dispatch(hideShader());
+      }
+      if (window.scrollY > vhToPx(1385) || window.scrollY < vhToPx(385)) {
+        dispatch(showShader());
       }
     });
 
@@ -72,12 +111,13 @@ export default function Home() {
         end: `+=${vhToPx(200)}`,
         scrub: 1,
       },
-      defaults: { ease: "none" },
+      defaults: { ease: "power2.out" },
     });
 
     tl1
       .from(".newest-arrivals", {
         scale: 0.6,
+        borderRadius: `${vwToPx(10)}`,
       })
       .to(
         ".newest-arrivals",
@@ -135,8 +175,8 @@ export default function Home() {
       trigger: ".na-marquee",
       pin: true,
       pinSpacing: false,
-      start:`center center`,
-      end:`+=${vhToPx(200)}`
+      start: `center center`,
+      end: `+=${vhToPx(200)}`,
     });
 
     gsap.to(".na-marq", {
@@ -146,6 +186,18 @@ export default function Home() {
       ease: "linear",
     });
 
+    // gsap.to(".nap2-marq1", {
+    //   yPercent: -100,
+    //   repeat: -1,
+    //   duration: 5,
+    //   ease: "linear",
+    // });
+    // gsap.to(".nap2-marq2", {
+    //   yPercent: -100,
+    //   repeat: -1,
+    //   duration: 5,
+    //   ease: "linear",
+    // });
     // const t2 = gsap.timeline({
     //   scrollTrigger: {
     //     trigger: ".faqs-header",
@@ -161,23 +213,23 @@ export default function Home() {
     // t2.set(".faqs-header", {
     //   zIndex: -5,
     // });
-    const items = gsap.utils.toArray(".panel");
+    const items = gsap.utils.toArray(".na-panels");
 
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: ".container",
+        trigger: ".na-container",
         pin: true,
         scrub: 1,
         start: "top top",
-        end: `+=${vhToPx(1000)}`,
+        end: `+=${vhToPx(2000)}`,
       },
       defaults: {
-        ease: "power3.inOut",
+        ease: "power2.inOut",
       },
     });
 
-    tl.to(".na1", {
-      x: `-${vwToPx(400)}`,
+    tl.to(items, {
+      x: `-${vwToPx(500)}`,
     });
 
     ScrollTrigger.create({
@@ -185,19 +237,19 @@ export default function Home() {
       pin: true,
       pinSpacing: false,
       scrub: 1,
-      start: `${vhToPx(1750)}`,
-      end: `${vhToPx(1957)}`,
+      start: `${vhToPx(2750)}`,
+      end: `${vhToPx(2957)}`,
       invalidateOnRefresh: true,
     });
   });
   return (
     <>
       {/* -------------------------Hero-------------------------- */}
-      <section className={`hero ${poppins.className}`}>
+      <section className={`hero ${ibm_plex_mono.className}`}>
         <div className="hero-ll">
           <div className="hero-ll-head">
-            Beyond Fashion <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;—Built for You.
+            BEYOND FASHION <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;—BUILT FOR YOU.
           </div>
           <div className="hero-ll-points1">
             <span>
@@ -256,7 +308,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-ml">
-          <div className="hero-ml-head">We sell Men’s Cargo.</div>
+          <div className="hero-ml-head">WE SELL MEN'S CARGO.</div>
           <div className="hero-ml-text">
             Utility Meets Edge <br /> <br />
             Dynamic fits, rugged function, and street-ready impact for your
@@ -279,7 +331,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-mr">
-          <div className="hero-mr-head">We sell Men’s Cargo.</div>
+          <div className="hero-mr-head">WE SELL MEN'S CARGO.</div>
           <div className="hero-mr-text">
             Utility Meets Edge <br /> <br />
             Dynamic fits, rugged function, and street-ready impact for your
@@ -303,8 +355,8 @@ export default function Home() {
         </div>
         <div className="hero-rr">
           <div className="hero-rr-head">
-            Beyond Fashion <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;—Built for You.
+            BEYOND FASHION <br />
+            —BUILT FOR YOU.&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
           <div className="hero-rr-points1">
             <span>&nbsp;200+&nbsp;</span>
@@ -362,7 +414,7 @@ export default function Home() {
             </svg>
           </div>
         </div>
-        <div className={`hero-name center ${bruno_ace.className}`}>
+        <div className={`hero-name center ${cinzel_decorative.className}`}>
           BLUE BOX
         </div>
       </section>
@@ -476,13 +528,216 @@ export default function Home() {
       </section>
       <section className="na-buffer"></section>
 
-      <div className="container">
-        <div className="panel na1 center">1</div>
-        {/* <div className="panel na2 center">2</div>
-        <div className="panel na3 center">3</div>
-        <div className="panel na4 center">4</div>
-        <div className="panel na5 center">5</div> */}
-      </div>
+      <section className="na-container">
+        <div style={{ zIndex: -1 }}>
+          {" "}
+          {!shadersVisible && <ShaderWrapper visible={!shadersVisible} />}
+        </div>
+        <div className="na-panel-1 na-panels">
+          <div className={`nap1-vertical-text ${poppins.className}`}>
+            Modern Innovation. <br /> Elegance Meets
+            <br />
+            Timeless
+          </div>
+          <div className="nap1-button-1 center">
+            <PrimaryButton borderColor={"#B3B29E"} fillColor={"#000000"} />
+          </div>
+          <div className="nap1-tertiary-text-up">
+            Newest Arrivals – Elevate Your Experience
+          </div>
+          <div className={`nap1-tertiary-text-bottom ${italiana.className}`}>
+            Discover the Collection.
+          </div>
+          <div className={`nap1-tertiary-text ${poppins.className}`}>
+            Each piece in our newest collection embodies craftsmanship,
+            refinement, and exclusivity. Indulge in design that speaks of
+            effortless sophistication
+          </div>
+          <div className="nap1-tagline-secondary center">Latest in Stock.</div>
+          <div className="nap1-tagline-main center">Latest in Fashion.</div>
+          <div className={`nap1-centre-text ${poppins.className}`}>
+            Indulge in the ultimate design experience. Be among the first to
+            explore our newest arrivals. Limited availability. Secure yours
+            today.
+          </div>
+          <div className={`nap1-centre-heading1 ${italiana.className}`}>
+            Shop Now!
+          </div>
+          <div className={`nap1-centre-heading2 ${poppins.className}`}>
+            Before it's gone.
+          </div>
+          <div className="nap1-button-2 center">
+            <PrimaryButton borderColor={"#B3B29E"} fillColor={"#000000"} />
+          </div>
+          <div className="nap1-product-image1">
+            <Image src={"/Rem.png"} alt="" layout="fill" objectFit="contain" />
+          </div>
+          <div className="nap1-product-image2">
+            <div className="nap1-p2">
+              <Image
+                src={"/Rem.png"}
+                alt=""
+                layout="fill"
+                objectFit="contain"
+              />
+            </div>
+          </div>
+          <div className="nap1-product-image3">
+            <Image src={"/Rem.png"} alt="" layout="fill" objectFit="contain" />
+          </div>
+        </div>
+        <div className="na-panel-2 na-panels">
+          <div className="nap2-left-bar"></div>
+          <div className="nap2-left-bar-image"></div>
+
+          <div className={`nap2-marquee1`}>
+            <section className="nap2-marq1">
+              Cargo&nbsp;Cargo&nbsp;Cargo
+            </section>
+            <section className="nap2-marq1">
+              Cargo&nbsp;Cargo&nbsp;Cargo
+            </section>
+            <section className="nap2-marq1">
+              Cargo&nbsp;Cargo&nbsp;Cargo
+            </section>
+            <section className="nap2-marq1">
+              Cargo&nbsp;Cargo&nbsp;Cargo
+            </section>
+            <section className="nap2-marq1">
+              Cargo&nbsp;Cargo&nbsp;Cargo
+            </section>
+            <section className="nap2-marq1">
+              Cargo&nbsp;Cargo&nbsp;Cargo
+            </section>
+          </div>
+          <div className={`nap2-marquee2`}>
+            <section className="nap2-marq2">
+              Suits&nbsp;Suits&nbsp;Suits&nbsp;
+            </section>
+            <section className="nap2-marq2">
+              Suits&nbsp;Suits&nbsp;Suits&nbsp;
+            </section>
+            <section className="nap2-marq2">
+              Suits&nbsp;Suits&nbsp;Suits&nbsp;
+            </section>
+            <section className="nap2-marq2">
+              Suits&nbsp;Suits&nbsp;Suits&nbsp;
+            </section>
+            <section className="nap2-marq2">
+              Suits&nbsp;Suits&nbsp;Suits&nbsp;
+            </section>
+            <section className="nap2-marq2">
+              Suits&nbsp;Suits&nbsp;Suits&nbsp;
+            </section>
+          </div>
+          <div className="nap2-collections-cargo">
+            <div className={`nap2-cc-heading1 ${italiana.className}`}>
+              The Newly added Collections of{" "}
+            </div>
+            <div className="nap2-cc-heading2">Men's Cargo</div>
+            <div className={`nap2-cc-brand blur ${italiana.className}`}>
+              <div className="nap2-cc-brand-serial">01</div>
+              <div className="nap2-cc-brand-name">Pantaloons</div>
+            </div>
+            <div className={`nap2-cc-brand blur ${italiana.className}`}>
+              <div className="nap2-cc-brand-serial">01</div>
+              <div className="nap2-cc-brand-name">HRX</div>
+            </div>
+            <div className={`nap2-cc-brand blur ${italiana.className}`}>
+              <div className="nap2-cc-brand-serial">01</div>
+              <div className="nap2-cc-brand-name">Levis</div>
+            </div>
+            <div className={`nap2-cc-brand blur ${italiana.className}`}>
+              <div className="nap2-cc-brand-serial">01</div>
+              <div className="nap2-cc-brand-name">GodSpeed</div>
+            </div>
+            <div className={`nap2-cc-brand blur ${italiana.className}`}>
+              <div className="nap2-cc-brand-serial">01</div>
+              <div className="nap2-cc-brand-name">Denim & Co.</div>
+            </div>
+          </div>
+          <div className="nap2-collections-suits">
+            <div className={`nap2-cs-heading1 ${italiana.className}`}>
+              The Newly added Collections of{" "}
+            </div>
+            <div className="nap2-cs-heading2">
+              Ladies' <br />
+              Suits
+            </div>
+            <div className={`nap2-cs-brand blur ${italiana.className}`}>
+              <div className="nap2-cs-brand-serial">01</div>
+              <div className="nap2-cs-brand-name">Zara</div>
+            </div>
+            <div className={`nap2-cs-brand blur ${italiana.className}`}>
+              <div className="nap2-cs-brand-serial">01</div>
+              <div className="nap2-cs-brand-name">Gucci</div>
+            </div>
+            <div className={`nap2-cs-brand blur ${italiana.className}`}>
+              <div className="nap2-cs-brand-serial">01</div>
+              <div className="nap2-cs-brand-name">Saanjh</div>
+            </div>
+            <div className={`nap2-cs-brand blur ${italiana.className}`}>
+              <div className="nap2-cs-brand-serial">01</div>
+              <div className="nap2-cs-brand-name">GodSpeed</div>
+            </div>
+            <div className={`nap2-cs-brand blur ${italiana.className}`}>
+              <div className="nap2-cs-brand-serial">01</div>
+              <div className="nap2-cs-brand-name">Denim & Co.</div>
+            </div>
+            <div className={`nap2-cs-brand blur ${italiana.className}`}>
+              <div className="nap2-cs-brand-serial">01</div>
+              <div className="nap2-cs-brand-name">Sharjah</div>
+            </div>
+          </div>
+          <div className="nap2-right-bar"></div>
+          <div className="nap2-right-bar-image"></div>
+        </div>
+        <div className="na-panel-3 na-panels">
+          <div className="na-cards-container">
+            <div className="na-cards">
+              <NACardUp />
+            </div>
+            <div className="na-cards">
+              <NACardDown />
+            </div>
+            <div className="na-cards">
+              <NACardUp />
+            </div>
+            <div className="na-cards">
+              <NACardDown />
+            </div>
+            <div className="na-cards">
+              <NACardUp />
+            </div>
+            <div className="na-cards">
+              <NACardDown />
+            </div>
+            <div className="na-cards">
+              <NACardUp />
+            </div>
+            <div className="na-cards">
+              <NACardDown />
+            </div>
+            <div className="na-cards">
+              <NACardUp />
+            </div>
+            <div className="na-cards">
+              <NACardDown />
+            </div>
+          </div>
+          <div className="nap3-end">
+            <div className="nap3-end-top-text">That's it!</div>
+            <div className="nap3-end-button center">
+              <PrimaryButton borderColor="#B3B29E" fillColor="#000000"/>
+            </div>
+            <div className="nap3-end-bottom-text1">You know</div>
+            <div className="nap3-end-bottom-text2">Quality</div>
+            <div className="nap3-end-bottom-text3">when</div>
+            <div className="nap3-end-bottom-text4">you see</div>
+            <div className="nap3-end-bottom-text5">it... Don't wait!</div>
+          </div>
+        </div>
+      </section>
 
       {/* -------------------------Ratings and Reviews-------------------------- */}
 
@@ -589,7 +844,7 @@ export default function Home() {
               &nbsp;Cargo Best Sellers
             </div>
             <div className="bsdch-button-show-all">
-              <PrimaryButton />
+              <PrimaryButton borderColor={"#3F3F37"} fillColor={"#B3B29E"} />
             </div>
             <div className="bsdch-button-left center">
               <svg
@@ -656,7 +911,7 @@ export default function Home() {
               &nbsp;Suits Best Sellers
             </div>
             <div className="bsdsh-button-show-all">
-              <PrimaryButton />
+              <PrimaryButton borderColor={"#3F3F37"} fillColor={"#B3B29E"} />
             </div>
             <div className="bsdsh-button-left center">
               <svg

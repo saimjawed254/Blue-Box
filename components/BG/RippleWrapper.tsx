@@ -1,12 +1,17 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { ReactNode, useState } from "react";
+// import { ReactNode, useState } from "react";
 const RippleSimulation = dynamic(() => import("@/components/BG/ripple"), {
   ssr: false,
+  loading: () => null,
 });
 
-export default function ShaderWrapper({ children }: { children: ReactNode }) {
+type RipplWrapperProps = {
+  visible:boolean,
+};
+
+export default function ShaderWrapper({visible}:RipplWrapperProps) {
 
   // const [offset,setOffset] = useState(0)
   //     const onMouseMove = (e : any) => {
@@ -29,12 +34,13 @@ export default function ShaderWrapper({ children }: { children: ReactNode }) {
         style={{
           position: "fixed",
           top: "0vh",
+          left: "0vw",
           width: "100vw",
           height: "200vh",
           zIndex: 1,
         }}
       >
-        <RippleSimulation offset={0.0}/>
+        <RippleSimulation visible={visible} offset={0.0}/>
       </div>
       {/* <div
         style={{
@@ -59,7 +65,6 @@ export default function ShaderWrapper({ children }: { children: ReactNode }) {
         <RippleSimulation offset={2.0} />
       </div>
        */}
-      {children}
     </>
   );
 }
