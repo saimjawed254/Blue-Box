@@ -454,6 +454,7 @@
   aspect-ratio: 1/1;
   background-color: aqua;
   border-radius: 50%;
+  overflow: hidden;
 }
 
 .nap1-product-image3 {

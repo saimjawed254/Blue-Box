@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import "./page.css";
 import { gsap } from "gsap";
@@ -20,7 +21,6 @@ import ProductCard from "@/components/UI/Cards/ProductCard";
 import PrimaryButton from "@/components/UI/Buttons/PrimaryButton";
 import ReviewCard from "@/components/UI/Cards/ReviewCard";
 import FAQCard from "@/components/UI/Cards/FAQCard";
-import { ScrollSmoother } from "gsap/all";
 import ShaderWrapper from "@/components/BG/RippleWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -94,10 +94,10 @@ export default function Home() {
         }
       }
 
-      if (window.scrollY > vhToPx(385) && window.scrollY < vhToPx(1385)) {
+      if (window.scrollY > vhToPx(385) && window.scrollY < vhToPx(2385)) {
         dispatch(hideShader());
       }
-      if (window.scrollY > vhToPx(1385) || window.scrollY < vhToPx(385)) {
+      if (window.scrollY > vhToPx(2385) || window.scrollY < vhToPx(385)) {
         dispatch(showShader());
       }
     });
@@ -241,6 +241,20 @@ export default function Home() {
       end: `${vhToPx(2957)}`,
       invalidateOnRefresh: true,
     });
+
+
+    // ----------------Horizontal Scroll--------------------//
+
+    //     gsap.from(".nap1-p2",{
+    //   scale: 1.5,
+    //   scrollTrigger:{
+    //     trigger:".na-panel-1",
+    //     start:"top top",
+    //     end: `+=${vhToPx(200)}`,
+    //     scrub:1,
+    //     invalidateOnRefresh: false,
+    //   }
+    // })
   });
   return (
     <>
