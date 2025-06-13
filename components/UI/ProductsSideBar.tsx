@@ -13,6 +13,21 @@ export const poppins = Poppins({
   weight: ["600", "400", "200"],
 });
 
+export function lightenHexColor(hex: string, amount: number): string {
+  const h = hex.replace("#", "");
+  let r = parseInt(h.slice(0, 2), 16);
+  let g = parseInt(h.slice(2, 4), 16);
+  let b = parseInt(h.slice(4, 6), 16);
+
+  const max = Math.max(r, g, b);
+
+  if (r === max) r = Math.max(0, r - amount);
+  else if (g === max) g = Math.max(0, g - amount);
+  else if (b === max) b = Math.max(0, b - amount);
+
+  return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("")}`;
+}
+
 export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
   const filters = ["HRX", "DENIM & CO.", "LEVIS", "ZUDIO", "BATA"];
   const discountFilters = [">30%", ">40%", ">50%", ">60%"];
@@ -68,21 +83,6 @@ export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
   const handleDiscountCheckboxChange = (label: string) => {
     setSelectedDiscountFilter(label);
   };
-
-  function lightenHexColor(hex: string, amount: number): string {
-    const h = hex.replace("#", "");
-    let r = parseInt(h.slice(0, 2), 16);
-    let g = parseInt(h.slice(2, 4), 16);
-    let b = parseInt(h.slice(4, 6), 16);
-
-    const max = Math.max(r, g, b);
-
-    if (r === max) r = Math.max(0, r - amount);
-    else if (g === max) g = Math.max(0, g - amount);
-    else if (b === max) b = Math.max(0, b - amount);
-
-    return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("")}`;
-  }
 
   return (
     <section className={`products-sidebar ${poppins.className}`}>
