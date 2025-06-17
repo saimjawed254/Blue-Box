@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/UI/Navbar";
 import Footer from "@/components/UI/Footer";
 import { ReduxProvider } from "@/store/ReduxProvider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,13 +17,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <Toaster />
-        <Navbar />
-        <ReduxProvider>{children}</ReduxProvider>
-        <Footer />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <Toaster />
+          <Navbar />
+          <ReduxProvider>{children}</ReduxProvider>
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

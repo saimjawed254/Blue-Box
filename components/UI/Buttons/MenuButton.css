@@ -29,3 +29,13 @@
   position: absolute;
   right: 5%;
 }
+
+.menu-options{
+  position: absolute;
+  bottom: 0;
+  width: 10vw;
+  height: 20vh;
+  background-color: rgba(var(--pure-black),0.5);
+  z-index: 10;
+  cursor: pointer;
+}

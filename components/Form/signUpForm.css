@@ -1,0 +1,103 @@
+.sign-up-card {
+  width: 30vw;
+  aspect-ratio: 5/6;
+  border-radius: 1vw;
+  border:inset 0.2vw solid rgb(var(--light-olive));
+  box-shadow: 0vh 0.5vh 2vh 0vh rgb(var(--light-olive));
+  position: relative;
+  z-index: 2;
+}
+
+.suc-top {
+  padding: 2vw 3vw 2vw 3vw;
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  top: 0;
+  border-radius: 1vw;
+  background: linear-gradient(
+    0deg,
+    rgba(var(--pure-white), 1) 10%,
+    rgba(var(--pure-white), 0) 100%
+  );
+  border: 0.2vw solid rgb(var(--light-olive));
+  font-size: 1vw;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.suc-top-create-text {
+  color: rgb(var(--dark-olive));
+  font-size: 1.5vw;
+  font-weight: 500;
+}
+
+.suc-top-signup-text {
+  color: rgb(var(--light-olive));
+}
+
+.suc-top-button {
+  width: 100%;
+  height: 18%;
+  background: rgb(var(--light-olive));
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 0.6vh;
+  cursor: pointer;
+}
+
+.suc-top-google {
+  width: 97%;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.4vh;
+
+  border: 0.15vw solid rgb(var(--pure-white));
+  color: rgb(var(--pure-white));
+}
+
+.suc-bottom {
+  width: 100%;
+  height: 40%;
+  position: absolute;
+  bottom: 0;
+  border-radius: 0.625vw;
+
+  background-color: rgb(var(--light-olive));
+  padding: 4vw 0vw 2vw 0vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 1vw;
+    color: rgb(var(--pure-white));
+}
+
+.suc-bottom-already-text{
+    width: 100%;
+    height: 40%;
+    border-bottom: 0.1vw solid rgb(var(--pure-white));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.suc-bottom-clerk-text{
+    padding-top: 1vw;
+    display: flex;
+    align-items: center;
+    font-size: 0.875vw;
+    color: rgb(var(--dark-olive));
+}
+
+.suc-bottom-brand-text{
+    padding-top: 1vw;
+    font-size: 1.5vw;
+}

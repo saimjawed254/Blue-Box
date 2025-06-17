@@ -73,16 +73,35 @@ nav {
 
   font-size: 1vw;
   color: rgb(var(--off-white));
+  position: relative;
 }
 
-.nav-c-login {
+.nav-c-signin {
   color: rgb(var(--pure-black));
   background-color: rgb(var(--light-olive));
   width: 48%;
   height: 85%;
+  position: relative;
 }
 
-.nav-c-signup {
+.nav-c-user-image{
+  position: relative;
+  width: 40%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+}
+
+.nav-c-cart-icon{
+  position: relative;
+  left: 10%;
+  width: 40%;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  color: rgb(var(--pure-black));
+}
+
+
+.nav-c-logo {
   color: rgb(var(--light-olive));
   /* background-color: rgb(var(--light-olive)); */
   width: 48%;

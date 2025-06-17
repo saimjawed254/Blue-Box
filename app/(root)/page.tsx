@@ -242,7 +242,6 @@ export default function Home() {
       invalidateOnRefresh: true,
     });
 
-
     // ----------------Horizontal Scroll--------------------//
 
     //     gsap.from(".nap1-p2",{
@@ -742,7 +741,7 @@ export default function Home() {
           <div className="nap3-end">
             <div className="nap3-end-top-text">That's it!</div>
             <div className="nap3-end-button center">
-              <PrimaryButton borderColor="#B3B29E" fillColor="#000000"/>
+              <PrimaryButton borderColor="#B3B29E" fillColor="#000000" />
             </div>
             <div className="nap3-end-bottom-text1">You know</div>
             <div className="nap3-end-bottom-text2">Quality</div>

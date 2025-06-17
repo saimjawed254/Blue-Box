@@ -1,20 +1,49 @@
+"use client";
+
+// import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import "./Navbar.css";
-import { IBM_Plex_Mono, Poppins, Rock_Salt } from "next/font/google";
+import { Cinzel_Decorative, IBM_Plex_Mono, Poppins } from "next/font/google";
+import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 
-export const rockSalt = Rock_Salt({ subsets: ["latin"], weight: ["400"] });
+export const cinzel = Cinzel_Decorative({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 export const poppins = Poppins({ subsets: ["latin"], weight: ["300"] });
-export const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
+export const ibm_plex_mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const { isLoaded, isSignedIn, user } = useUser();
+  console.log(user);
+
+  const AUTH_ROUTES = ["/log-in", "/sign-in"];
+  const hideNavbar = AUTH_ROUTES.includes(pathname);
+
+  if (hideNavbar) {
+    return null;
+  }
+
   return (
     <>
       <nav className={`${ibm_plex_mono.className}`}>
         <div className="navigate rounded-corners">
           <div className={`nav-home center rounded-corners`}>Home</div>
-          <div className="nav-na center rounded-corners">&#x2022; Newest Arrivals</div>
-          <div className="nav-mc center rounded-corners">&#x2022; Men's Cargo</div>
-          <div className="nav-ls center rounded-corners">&#x2022; Ladies' Suits</div>
+          <div className="nav-na center rounded-corners">
+            &#x2022; Newest Arrivals
+          </div>
+          <div className="nav-mc center rounded-corners">
+            &#x2022; Men's Cargo
+          </div>
+          <div className="nav-ls center rounded-corners">
+            &#x2022; Ladies' Suits
+          </div>
         </div>
         <div className="nav-search rounded-corners">
           Find products easily with our AI Search...
@@ -34,12 +63,44 @@ export default function Navbar() {
           </svg>
         </div>
         <div className="nav-credentials rounded-corners">
-          <Link href="/" className="nav-c-login center rounded-corners">
-            Log In
+          <Link
+            href="/"
+            className={`nav-c-logo center rounded-corners ${cinzel.className}`}
+          >
+            BLUEBOX
           </Link>
-          <Link href="/" className="nav-c-signup center rounded-corners">
-            Sign Up
-          </Link>
+          {isSignedIn ? (
+            <>
+              <div className="nav-c-signin center rounded-corners">
+                <Link
+                  href="/sign-in"
+                  className="nav-c-cart-icon center rounded-corners"
+                >
+                 Cart
+                </Link>
+                &nbsp;
+                <Link
+                  href="/sign-in"
+                  className="nav-c-user-image center rounded-corners"
+                >
+                  <Image
+                    className="rounded-corners"
+                    alt=""
+                    fill
+                    src={user.imageUrl}
+                    objectFit="cover"
+                  />
+                </Link>
+              </div>
+            </>
+          ) : (
+            <Link
+              href="/sign-in"
+              className="nav-c-signin center rounded-corners"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       </nav>
     </>

@@ -2,14 +2,27 @@
 
 import { IBM_Plex_Mono, Poppins } from "next/font/google";
 import "./MenuButton.css";
+import { useState } from "react";
+import { useClerk } from "@clerk/nextjs";
 
 export const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
-export const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
+export const ibm_plex_mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 
 export default function MenuButton() {
+  const { signOut }=useClerk()
+
+  const [active, setActive] = useState(false);
+
+  const handleOnClick = () => {
+    setActive(!active);
+  };
+
   return (
     <>
-      <div className={`menu-button center blur ${ibm_plex_mono.className}`}>
+      <div onClick={handleOnClick} className={`menu-button center blur ${ibm_plex_mono.className}`}>
         <div className="menu-text">&#x2022; Menu&nbsp;</div>
         <div className="menu-hamburger center">
           <svg
@@ -25,6 +38,13 @@ export default function MenuButton() {
             />
           </svg>
         </div>
+        {active ? (
+          <div onClick={()=>{signOut({redirectUrl:"/"})}} className="menu-options">
+            Logout
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
