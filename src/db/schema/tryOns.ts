@@ -4,8 +4,12 @@ import { products } from "./products";
 
 export const try_ons = pgTable("try_ons", {
   tryon_id: uuid("tryon_id").defaultRandom().primaryKey(),
-  user_id: varchar("user_id", { length: 255 }).references(() => users.user_id),
-  product_id: varchar("product_id", { length: 32 }).notNull().references(() => products.product_id),
+  user_id: uuid("user_id")
+    .notNull()
+    .references(() => users.user_id, { onDelete: "cascade" }),
+  product_id: uuid("product_id")
+    .notNull()
+    .references(() => products.product_id, { onDelete: "cascade" }),
   color: varchar("color", { length: 32 }),
   size: varchar("size", { length: 16 }),
   image_url: text("image_url"),

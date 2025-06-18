@@ -1,0 +1,78 @@
+.product-form {
+  max-width: 700px;
+  margin: 100px auto;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  font-family: sans-serif;
+}
+
+.product-form h2 {
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.product-form input,
+.product-form textarea,
+.product-form button {
+  padding: 8px 10px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.group-section {
+  margin-bottom: 16px;
+}
+
+.group-section label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.field-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.field-row input {
+    width: 100px;
+    flex: 1;
+}
+
+button[type="submit"] {
+  background-color: #000;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #333;
+}
+
+button {
+  background: none;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.error-text {
+  color: red;
+  margin-top: 10px;
+}

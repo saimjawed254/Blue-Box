@@ -4,7 +4,7 @@ import { cart } from "./cart";
 
 export const orders = pgTable("orders", {
   order_id: uuid("order_id").defaultRandom().primaryKey(),
-  user_id: varchar("user_id", { length: 255 }).notNull().references(() => users.user_id),
+  user_id: uuid("user_id").notNull().references(() => users.user_id, { onDelete: "cascade" }),
   cart_id: uuid("cart_id").notNull().references(() => cart.cart_id),
   total_amount: integer("total_amount").notNull(),
   payment_status: varchar("payment_status", { enum: ["pending", "paid", "failed", "refunded"] }).notNull(),
