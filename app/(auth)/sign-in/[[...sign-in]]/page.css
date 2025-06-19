@@ -1,0 +1,10 @@
+.sign-up-card {
+  width: 30vw;
+  aspect-ratio: 5/6;
+  border-radius: 1vw;
+  border: inset 0.2vw solid rgb(var(--light-olive));
+  box-shadow: 0vh 0.5vh 2vh 0vh rgb(var(--light-olive));
+  background: rgb(var(--light-olive));
+  position: relative;
+  z-index: 2;
+}

@@ -3,20 +3,14 @@ import { db } from "@/src/db";
 import { products } from "@/src/db/schema/products";
 import { sql } from "drizzle-orm";
 
-// Helper: Get current & previous month codes like JAN25
+// Helper: Get current & previous month codes like JUN25, MAY25
 function getValidMonthCodes(): string[] {
   const now = new Date();
-  const thisMonth = now
-    .toLocaleString("en-US", { month: "short" })
-    .toUpperCase();
+  const thisMonth = now.toLocaleString("en-US", { month: "short" }).toUpperCase();
   const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
-  const prevMonth = lastMonth
-    .toLocaleString("en-US", { month: "short" })
-    .toUpperCase();
-
+  const prevMonth = lastMonth.toLocaleString("en-US", { month: "short" }).toUpperCase();
   const yearSuffix = now.getFullYear().toString().slice(-2);
-
-  return [`${thisMonth}${yearSuffix}`, `${prevMonth}${yearSuffix}`]; // e.g., ['JUN25', 'MAY25']
+  return [`${thisMonth}${yearSuffix}`, `${prevMonth}${yearSuffix}`];
 }
 
 export async function GET(req: NextRequest) {
@@ -26,29 +20,36 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const offset = (page - 1) * limit;
 
-    const monthCodes = getValidMonthCodes(); // e.g., ['JUN25', 'MAY25']
+    const category = searchParams.get("category") || null;
 
+    const monthCodes = getValidMonthCodes();
     const likePatterns = monthCodes.map((code) => `%${code}%`);
 
-    const newProducts = await db.execute(
-      sql`
-    SELECT * FROM ${products}
-    WHERE ${products.product_code} ILIKE ANY (ARRAY[${sql.join(
-        likePatterns.map((pattern) => sql`${pattern}`),
+    // Dynamic WHERE clause
+    const whereClauses = [
+      sql`${products.product_code} ILIKE ANY (ARRAY[${sql.join(
+        likePatterns.map((p) => sql`${p}`),
         sql`,`
-      )}]::text[])
-    LIMIT ${limit} OFFSET ${offset}
-  `
+      )}]::text[])`,
+    ];
+
+    if (category) {
+      whereClauses.push(sql`${products.category} = ${category}`);
+    }
+
+    const whereSql = sql.join(whereClauses, sql` AND `);
+
+    // Query products
+    const newProducts = await db.execute(
+      sql`SELECT * FROM ${products}
+           WHERE ${whereSql}
+           LIMIT ${limit} OFFSET ${offset}`
     );
 
+    // Count total
     const totalResult = await db.execute(
-      sql`
-        SELECT COUNT(*) AS count FROM ${products}
-        WHERE ${products.product_code} ILIKE ANY (ARRAY[${sql.join(
-        likePatterns.map((pattern) => sql`${pattern}`),
-        sql`,`
-      )}]::text[])
-      `
+      sql`SELECT COUNT(*) AS count FROM ${products}
+           WHERE ${whereSql}`
     );
 
     const total = Number(totalResult.rows[0]?.count || 0);

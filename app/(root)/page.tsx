@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { Children, useEffect, useState } from "react";
+import { Children, useEffect, useRef, useState } from "react";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import LocomotiveScroll from "locomotive-scroll";
 import {
@@ -27,6 +27,8 @@ import { RootState } from "@/store";
 import { hideShader, showShader } from "@/store/slices/uiSlice";
 import NACardUp from "@/components/UI/Cards/NACardUp";
 import NACardDown from "@/components/UI/Cards/NACardDown";
+import { useUser } from "@clerk/nextjs";
+import { Product } from "@/src/db/schema/products";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
@@ -45,25 +47,108 @@ export const cinzel_decorative = Cinzel_Decorative({
 export const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 
 export default function Home() {
+  const { user } = useUser();
+  const alreadyInserted = useRef(false);
+  console.log(user, alreadyInserted);
+
+  const [bestsellersCargosData, setBestsellersCargosData] =
+    useState<Product[]>();
+  const [bestsellersSuitsData, setBestsellersSuitsData] = useState<Product[]>();
+  const [newestArrivalsCargossData, setNewestArrivalsCargosData] =
+    useState<Product[]>();
+  const [newestArrivalsSuitsData, setNewestArrivalsSuitsData] =
+    useState<Product[]>();
   const [svgSize, setSvgSize] = useState(0);
   const dispatch = useDispatch();
+
   const shadersVisible = useSelector(
     (state: RootState) => state.ui.shadersVisible
   );
   console.log("shadersVisible : ", shadersVisible);
+
   useEffect(() => {
+    if (user && !alreadyInserted.current) {
+      console.log(user.primaryEmailAddress);
+      alreadyInserted.current = true;
+
+      fetch("api/users/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clerk_id: user.id,
+          email: user.primaryEmailAddress?.emailAddress,
+          name: user.fullName,
+          avatar_url: user.imageUrl,
+        }),
+      }).then((res) => {
+        console.log("RES", res);
+      });
+    }
+
+    const fetchBestsellersCargo = async () => {
+      try {
+        const res = await fetch(
+          "/api/products/best-sellers/cargos?page=1&limit=5"
+        );
+        const data = await res.json();
+        setBestsellersCargosData(data.data);
+        console.log("Fetched bestsellers cargos:", data.data);
+      } catch (err) {
+        console.error("Error fetching bestsellers:", err);
+      }
+    };
+
+    const fetchBestsellersSuits = async () => {
+      try {
+        const res = await fetch(
+          "/api/products/best-sellers/suits?page=1&limit=5"
+        );
+        const data = await res.json();
+        setBestsellersSuitsData(data.data);
+        console.log("Fetched bestsellers suits:", data.data);
+      } catch (err) {
+        console.error("Error fetching bestsellers:", err);
+      }
+    };
+
+    const fetchNewestArrivalsCargos = async () => {
+      try {
+        const res = await fetch(
+          "/api/products/newest-arrivals?page=1&limit=5&category=CARGO"
+        );
+        const data = await res.json();
+        setNewestArrivalsCargosData(data.data);
+        console.log("Fetched Newest Arrivals Cargos:", data.data);
+      } catch (err) {
+        console.error("Error fetching Newest Arrivals:", err);
+      }
+    };
+
+    const fetchNewestArrivalsSuits = async () => {
+      try {
+        const res = await fetch(
+          "/api/products/newest-arrivals?page=1&limit=5&category=LADIES' SUIT"
+        );
+        const data = await res.json();
+        setNewestArrivalsSuitsData(data.data);
+        console.log("Fetched Newest Arrivals suits:", data.data);
+      } catch (err) {
+        console.error("Error fetching Newest Arrivals:", err);
+      }
+    };
+
+    fetchBestsellersCargo();
+    fetchBestsellersSuits();
+    fetchNewestArrivalsCargos();
+    fetchNewestArrivalsSuits();
+
     if (typeof window !== "undefined") {
       const locomotiveScroll = new LocomotiveScroll();
 
       setSvgSize(window.innerWidth * 0.02);
     }
-    //     if (document.querySelectorAll(".pin-spacer")) {
-    //   document.querySelectorAll(".pin-spacer").forEach((spacer) => {
-    //     (spacer as HTMLElement).style.zIndex = "2";
-    //     (spacer as HTMLElement).style.background = "transparent";
-    //   });
-    // }
-  }, []);
+  }, [user]);
+
   useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -894,16 +979,9 @@ export default function Home() {
           </div>
 
           <div className="bsdc-cards">
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {bestsellersCargosData?.map((product) => (
+              <ProductCard key={product.product_id} product={product} />
+            ))}
           </div>
           <div className="bsd-suits-header">
             <div className={`bsdsh-text ${poppins.className}`}>
@@ -961,16 +1039,9 @@ export default function Home() {
           </div>
 
           <div className="bsds-cards">
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {bestsellersSuitsData?.map((product) => (
+              <ProductCard key={product.product_id} product={product} />
+            ))}
           </div>
         </div>
       </section>

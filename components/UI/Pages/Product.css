@@ -245,7 +245,7 @@
 .pdc-wishlist-button {
   height: 6vh;
   aspect-ratio: 1/1;
-  border: 0.5vh solid #ff0037;
+  border: 0.5vh solid rgb(var(--pink));
   border-radius: 0.5vh;
 }
 

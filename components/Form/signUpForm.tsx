@@ -1,6 +1,6 @@
 "use client";
 
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn, useSignUp } from "@clerk/nextjs";
 import "./signUpForm.css";
 import { Cinzel_Decorative, Poppins } from "next/font/google";
 import Link from "next/link";
@@ -13,7 +13,20 @@ export const cinzel = Cinzel_Decorative({
 
 export default function SignUpForm() {
   const { signIn, isLoaded } = useSignIn();
+  const {signUp} = useSignUp()
 
+  const handleSignUp=async()=>{
+    if(!isLoaded) return;
+    try{
+      await signUp?.authenticateWithRedirect({
+        strategy:"oauth_google",
+        redirectUrl:"/",
+        redirectUrlComplete:"/",
+      })
+    } catch(err){
+      console.log(err)
+    }
+  }
   const handleGoogleSignIn = async () => {
     if (!isLoaded) return;
 
@@ -97,7 +110,7 @@ export default function SignUpForm() {
               </defs>
             </svg>
           </div>
-          <div className={`suc-bottom-brand-text ${cinzel.className}`}>
+          <div onClick={handleSignUp} className={`suc-bottom-brand-text ${cinzel.className}`}>
             BLUEBOX
           </div>
         </div>

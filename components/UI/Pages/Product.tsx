@@ -438,7 +438,7 @@ export default function ProductPage() {
           <div className="simp-cards">
             {Array.from({ length: 20 }, (_, index) => (
               <div key={index} className="simp-card">
-                <ProductCard />
+                {/* <ProductCard /> */}
               </div>
             ))}
           </div>

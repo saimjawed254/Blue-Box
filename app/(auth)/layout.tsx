@@ -13,7 +13,7 @@ export default function Layout({
 }) {
   return (
     <>
-      <ShaderWrapper visible={true} />
+      {/* <ShaderWrapper visible={true} /> */}
       {children}
     </>
   );

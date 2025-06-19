@@ -9,8 +9,6 @@ export const cart_items = pgTable("cart_items", {
   color: varchar("color", { length: 32 }).notNull(),
   size: varchar("size", { length: 16 }).notNull(),
   quantity: integer("quantity").notNull(),
-  price_per_unit: integer("price_per_unit").notNull(),
-  subtotal: integer("subtotal").notNull(),
 });
 
 export type CartItem = typeof cart_items.$inferSelect;

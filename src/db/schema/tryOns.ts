@@ -4,9 +4,9 @@ import { products } from "./products";
 
 export const try_ons = pgTable("try_ons", {
   tryon_id: uuid("tryon_id").defaultRandom().primaryKey(),
-  user_id: uuid("user_id")
-    .notNull()
-    .references(() => users.user_id, { onDelete: "cascade" }),
+clerk_id: varchar("clerk_id", { length: 64 })
+  .notNull()
+  .references(() => users.clerk_id, { onDelete: "cascade" }),
   product_id: uuid("product_id")
     .notNull()
     .references(() => products.product_id, { onDelete: "cascade" }),

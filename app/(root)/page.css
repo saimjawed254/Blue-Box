@@ -814,7 +814,7 @@
 }
 
 .bsdc-cards {
-  grid-row: 11 / span 20;
+  grid-row: 11 / span 22;
   grid-column: 1 / span 36;
 
   display: flex;
@@ -897,7 +897,7 @@
 }
 
 .bsds-cards {
-  grid-row: 40 / span 20;
+  grid-row: 40 / span 22;
   grid-column: 1 / span 36;
 
   display: flex;

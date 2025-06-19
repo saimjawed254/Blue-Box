@@ -2,7 +2,6 @@ import ProductsPage from "@/components/UI/Pages/ProductsPage";
 import "./page.css";
 import { notFound } from "next/navigation";
 import * as React from "react";
-import { filters, productData } from "@/lib/mock-data/productsPage";
 
 const validTopLevel = ["best-sellers", "new-arrivals", "cargos", "suits"];
 
@@ -33,22 +32,10 @@ export default function Page({
     console.log(page, limit);
   }
 
-  let products;
-  let filter;
- if (slugParts[0] in productData) {
-  const topLevel = slugParts[0] as keyof typeof productData;
-  products = productData[topLevel]; // ✅ Safe
-  filter = filters[topLevel]; // ✅ Safe
-} else {
-  notFound(); // or some fallback
-}
 
   return (
     <>
-      <ProductsPage data={{
-        products,
-        filter,
-      }}/>
+      <ProductsPage data={{}}/>
     </>
   );
 }
