@@ -3,30 +3,22 @@
 import "./ProductsPage.css";
 import ProductsSidebar from "@/components/UI/ProductsSideBar";
 import ProductCard from "@/components/UI/Cards/ProductCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Poppins } from "next/font/google";
 import PrimaryButton from "@/components/UI/Buttons/PrimaryButton";
+import { Product } from "@/src/db/schema/products";
+import { useUser } from "@clerk/nextjs";
 
-type Product = {
-  id: number;
-  name: string;
-  price: number;
+type Filters = {
+  priceRange: number[];
   tags: string[];
 };
 
-type Filters={
-    priceRange: number[];
-    tags: string[]
-}
-
 type ProductsPageProps = {
-  data: {
-    products: Product[];
-    filter: Filters;
-  };
+  products: Product[];
 };
 
 export const poppins = Poppins({
@@ -34,9 +26,8 @@ export const poppins = Poppins({
   weight: ["400", "300", "200", "100"],
 });
 
-export default function ProductsPage(data:ProductsPageProps) {
+export default function ProductsPage({ products }: ProductsPageProps) {
 
-    console.log(data)
   function vwToPx(e: number) {
     return (window.innerWidth * e) / 100;
   }
@@ -307,7 +298,10 @@ export default function ProductsPage(data:ProductsPageProps) {
             </div>
           </div>
           <div className="pp-cards">
-            <div className="pp-card">
+            {products?.map((product) => (
+              <ProductCard key={product.product_id} product={product} />
+            ))}
+            {/* <div className="pp-card">
               <ProductCard />
             </div>
             <div className="pp-card">
@@ -345,7 +339,7 @@ export default function ProductsPage(data:ProductsPageProps) {
             </div>
             <div className="pp-card">
               <ProductCard />
-            </div>
+            </div> */}
           </div>
           <div className="pp-footer-space"></div>
         </div>

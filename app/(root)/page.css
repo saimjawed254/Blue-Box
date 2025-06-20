@@ -398,7 +398,6 @@
   grid-column: 3 / span 10;
   padding-left: 1vh;
   font-size: 2.25vw;
-
 }
 
 .nap1-tertiary-text {
@@ -521,10 +520,12 @@
   grid-row: 10 / span 25;
   grid-column: 4 / span 15;
   z-index: 1;
-  background: url("/BGPrimary.png");
-  background-size: cover;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
+  overflow: hidden;
+  position: relative;
+  /* background: url("/BGPrimary.png"); */
+  /* background-size: cover; */
+  /* background-position: 50% 50%; */
+  /* background-repeat: no-repeat; */
 }
 
 .nap2-right-bar {
@@ -542,6 +543,8 @@
   grid-row: 10 / span 25;
   grid-column: 43 / span 15;
   z-index: 1;
+  overflow: hidden;
+  position: relative;
   background: url("/BGPrimary.png");
   background-size: cover;
   background-position: 50% 50%;
@@ -617,18 +620,18 @@
   transition: transform 0.3s ease;
 }
 
-.nap2-cc-brand:hover{
+.nap2-cc-brand:hover {
   transform: scale(1.1);
 }
 
-.nap2-cc-brand-serial{
+.nap2-cc-brand-serial {
   font-size: 0.875vw;
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.nap2-cc-brand-name{
+.nap2-cc-brand-name {
   font-size: 2.25vw;
   position: absolute;
   right: 1vw;
@@ -670,18 +673,18 @@
   transition: transform 0.3s ease;
 }
 
-.nap2-cs-brand:hover{
+.nap2-cs-brand:hover {
   transform: scale(1.1);
 }
 
-.nap2-cs-brand-serial{
+.nap2-cs-brand-serial {
   font-size: 0.875vw;
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.nap2-cs-brand-name{
+.nap2-cs-brand-name {
   font-size: 2.25vw;
   position: absolute;
   right: 1vw;
@@ -692,12 +695,11 @@
   width: 300vw;
   height: 100vh;
   display: grid;
-  grid-template-rows: repeat(40,1fr);
-  grid-template-columns: repeat(120,1fr);
-
+  grid-template-rows: repeat(40, 1fr);
+  grid-template-columns: repeat(120, 1fr);
 }
 
-.na-cards-container{
+.na-cards-container {
   grid-row: 7 / span 32;
   grid-column: 6 / span 100;
   position: relative;
@@ -705,68 +707,67 @@
   display: flex;
 }
 
-.na-cards{
+.na-cards {
   width: 25vw;
   height: 80vh;
   flex-shrink: 0;
   position: relative;
 }
 
-.nap3-end{
+.nap3-end {
   grid-row: 7 / span 32;
   grid-column: 107 / span 11;
   flex-shrink: 0;
   position: relative;
 
   display: grid;
-  grid-template-rows: repeat(30,1fr);
-  grid-template-columns: repeat(10,1fr);
+  grid-template-rows: repeat(30, 1fr);
+  grid-template-columns: repeat(10, 1fr);
 
   font-size: 6vw;
   font-family: Milchella;
 }
 
-.nap3-end-top-text{
+.nap3-end-top-text {
   grid-row: 1 / span 6;
   grid-column: 1 / span 10;
   text-align: center;
 }
 
-.nap3-end-button{
+.nap3-end-button {
   grid-row: 10 / span 3;
   grid-column: 3 / span 6;
-
 }
 
-.nap3-end-bottom-text1{
+.nap3-end-bottom-text1 {
   grid-row: 11 / span 20;
   grid-column: 1 / span 2;
 
   writing-mode: sideways-lr;
 }
 
-.nap3-end-bottom-text2{
+.nap3-end-bottom-text2 {
   grid-row: 14 / span 20;
   grid-column: 3 / span 2;
 
   writing-mode: sideways-lr;
 }
 
-.nap3-end-bottom-text3{
+.nap3-end-bottom-text3 {
   grid-row: 15 / span 20;
   grid-column: 5 / span 2;
 
   writing-mode: sideways-lr;
 }
 
-.nap3-end-bottom-text4{
+.nap3-end-bottom-text4 {
   grid-row: 14 / span 20;
   grid-column: 7 / span 2;
 
   writing-mode: sideways-lr;
 }
 
-.nap3-end-bottom-text5{
+.nap3-end-bottom-text5 {
   grid-row: 6 / span 25;
   grid-column: 9 / span 2;
 

@@ -3,6 +3,7 @@
 import { Italiana, Poppins } from "next/font/google";
 import "./NACardUp.css";
 import Image from "next/image";
+import { Product } from "@/src/db/schema/products";
 
 export const poppins = Poppins({
   subsets: ["latin"],
@@ -10,7 +11,11 @@ export const poppins = Poppins({
 });
 export const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 
-export default function NACardUp() {
+type NACardProps = {
+  product: Product;
+};
+
+export default function NACardUp({ product }: NACardProps) {
   return (
     <>
       <div className="na-card-up">
@@ -30,7 +35,7 @@ export default function NACardUp() {
         </div>
         <div className="na-card-up-image">
           <Image
-            src={"/pexels-jos-penaran-927928177-27240488.jpg"}
+            src={product?.image_urls[0] || "/Rem.png"}
             alt=""
             layout="fill"
             objectFit="cover"
@@ -39,20 +44,14 @@ export default function NACardUp() {
         </div>
         <div className={`na-card-up-product-info ${poppins.className}`}>
           <div className={`na-card-up-product-company ${italiana.className}`}>
-            Levis
+            {product?.brand}
           </div>
-          <div className="na-card-up-product-title">Green Denim Cargo</div>
+          <div className="na-card-up-product-title">{product?.title}</div>
           <div className="na-card-up-product-description">
-            We accept all major credit and debit cards, UPI, PayPal, net
-            banking, and select digital wallets. We also accept Cash on Delivery
-            all across Patna. We accept all major credit and debit cards, UPI,
-            PayPal, net banking, and select digital wallets. We also accept Cash
-            on Delivery all across Patna. We accept all major credit and debit
-            cards, UPI, PayPal, net banking, and select digital wallets. We also
-            accept Cash on Delivery all across Patna.
+            {product?.description}
           </div>
           <div className="na-card-up-product-price">
-            &#x20B9;849
+            &#x20B9;{product?.price}
           </div>
           <div className="na-card-up-product-options">
             <div

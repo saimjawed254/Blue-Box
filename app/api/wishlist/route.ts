@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error("Error fetching wishlists:", error);
     return NextResponse.json(
-      { error: "Failed to fetch users" },
+      { error: "Failed to fetch wishlist" },
       { status: 500 }
     );
   }

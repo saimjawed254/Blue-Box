@@ -24,18 +24,27 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { product_id, color, size } = product;
 
   useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
     const fetchIsWishlist = async () => {
-      const res = await fetch(
-        `api/wishlist?clerk_id=${clerk_id}&product_id=${product_id}`
-      );
-      const data = await res.json();
-      if (data.length > 0) {
-        wishlistIconRef.current?.classList.add("product-wishlist-icon-pink");
-        setIsAdding(!isAdding);
+        try {
+          const res = await fetch(
+            `/api/wishlist?clerk_id=${clerk_id}&product_id=${product_id}`
+          );
+          const data = await res.json();
+          if (data.length > 0) {
+            wishlistIconRef.current?.classList.add(
+              "product-wishlist-icon-pink"
+            );
+            setIsAdding(!isAdding);
+          }
+        } catch (err) {
+          console.log(err);
       }
     };
     fetchIsWishlist();
-  }, []);
+  }, [isLoaded, user?.id]);
   const handleAddToWishlist = async () => {
     if (!isSignedIn) {
       router.push("/sign-in");

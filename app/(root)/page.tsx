@@ -54,10 +54,12 @@ export default function Home() {
   const [bestsellersCargosData, setBestsellersCargosData] =
     useState<Product[]>();
   const [bestsellersSuitsData, setBestsellersSuitsData] = useState<Product[]>();
-  const [newestArrivalsCargossData, setNewestArrivalsCargosData] =
+  const [newestArrivalsCargosData, setNewestArrivalsCargosData] =
     useState<Product[]>();
   const [newestArrivalsSuitsData, setNewestArrivalsSuitsData] =
     useState<Product[]>();
+  const [leftBar, setLeftBar] = useState("/Rem.png");
+  const [rightBar, setRightBar] = useState("/Rem.png");
   const [svgSize, setSvgSize] = useState(0);
   const dispatch = useDispatch();
 
@@ -88,7 +90,7 @@ export default function Home() {
     const fetchBestsellersCargo = async () => {
       try {
         const res = await fetch(
-          "/api/products/best-sellers/cargos?page=1&limit=5"
+          "/api/products/best-sellers/cargos?page=1&limit=10"
         );
         const data = await res.json();
         setBestsellersCargosData(data.data);
@@ -101,7 +103,7 @@ export default function Home() {
     const fetchBestsellersSuits = async () => {
       try {
         const res = await fetch(
-          "/api/products/best-sellers/suits?page=1&limit=5"
+          "/api/products/best-sellers/suits?page=1&limit=10"
         );
         const data = await res.json();
         setBestsellersSuitsData(data.data);
@@ -114,10 +116,13 @@ export default function Home() {
     const fetchNewestArrivalsCargos = async () => {
       try {
         const res = await fetch(
-          "/api/products/newest-arrivals?page=1&limit=5&category=CARGO"
+          "/api/products/newest-arrivals?page=1&limit=7&category=CARGO"
         );
         const data = await res.json();
         setNewestArrivalsCargosData(data.data);
+        const cargos = data.data ?? [];
+        const product = cargos[6];
+        setLeftBar(product?.image_urls[0] || "/Rem.png");
         console.log("Fetched Newest Arrivals Cargos:", data.data);
       } catch (err) {
         console.error("Error fetching Newest Arrivals:", err);
@@ -127,10 +132,13 @@ export default function Home() {
     const fetchNewestArrivalsSuits = async () => {
       try {
         const res = await fetch(
-          "/api/products/newest-arrivals?page=1&limit=5&category=LADIES' SUIT"
+          "/api/products/newest-arrivals?page=1&limit=8&category=LADIES' SUIT"
         );
         const data = await res.json();
         setNewestArrivalsSuitsData(data.data);
+        const suits = data.data ?? [];
+        const product = suits[7];
+        setRightBar(product?.image_urls[0] || "/Rem.png");
         console.log("Fetched Newest Arrivals suits:", data.data);
       } catch (err) {
         console.error("Error fetching Newest Arrivals:", err);
@@ -668,25 +676,81 @@ export default function Home() {
             <PrimaryButton borderColor={"#B3B29E"} fillColor={"#000000"} />
           </div>
           <div className="nap1-product-image1">
-            <Image src={"/Rem.png"} alt="" layout="fill" objectFit="contain" />
+            {(() => {
+              const suits = newestArrivalsSuitsData ?? [];
+              const product = suits[5];
+              const fallback = "/Rem.png";
+
+              const imageSrc =
+                product?.image_urls?.[0] && product.image_urls[0].length > 0
+                  ? product.image_urls[0]
+                  : fallback;
+
+              return (
+                <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
+              );
+            })()}
           </div>
           <div className="nap1-product-image2">
             <div className="nap1-p2">
-              <Image
-                src={"/Rem.png"}
-                alt=""
-                layout="fill"
-                objectFit="contain"
-              />
+              {(() => {
+                const cargos = newestArrivalsCargosData ?? [];
+                const product = cargos[5];
+                const fallback = "/Rem.png";
+
+                const imageSrc =
+                  product?.image_urls?.[0] && product.image_urls[0].length > 0
+                    ? product.image_urls[0]
+                    : fallback;
+
+                return (
+                  <Image
+                    src={imageSrc}
+                    alt=""
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                );
+              })()}
             </div>
           </div>
           <div className="nap1-product-image3">
-            <Image src={"/Rem.png"} alt="" layout="fill" objectFit="contain" />
+            {(() => {
+              const suits = newestArrivalsSuitsData ?? [];
+              const product = suits[6];
+              const fallback = "/Rem.png";
+
+              const imageSrc =
+                product?.image_urls?.[0] && product.image_urls[0].length > 0
+                  ? product.image_urls[0]
+                  : fallback;
+
+              return (
+                <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
+              );
+            })()}
           </div>
         </div>
         <div className="na-panel-2 na-panels">
-          <div className="nap2-left-bar"></div>
-          <div className="nap2-left-bar-image"></div>
+          <div
+            style={{ background: `url(${leftBar})`, backgroundSize: "cover" }}
+            className="nap2-left-bar"
+          ></div>
+          <div className="nap2-left-bar-image">
+            {(() => {
+              const cargos = newestArrivalsCargosData ?? [];
+              const product = cargos[6];
+              const fallback = "/Rem.png";
+              const imageSrc =
+                product?.image_urls?.[0] && product.image_urls[0].length > 0
+                  ? product.image_urls[0]
+                  : fallback;
+
+              return (
+                <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
+              );
+            })()}
+          </div>
 
           <div className={`nap2-marquee1`}>
             <section className="nap2-marq1">
@@ -787,41 +851,44 @@ export default function Home() {
               <div className="nap2-cs-brand-name">Sharjah</div>
             </div>
           </div>
-          <div className="nap2-right-bar"></div>
-          <div className="nap2-right-bar-image"></div>
+          <div
+            style={{ background: `url(${rightBar})`, backgroundSize: "cover" }}
+            className="nap2-right-bar"
+          ></div>
+          <div className="nap2-right-bar-image">
+            {(() => {
+              const suits = newestArrivalsSuitsData ?? [];
+              const product = suits[7];
+              const fallback = "/Rem.png";
+
+              const imageSrc =
+                product?.image_urls?.[0] && product.image_urls[0].length > 0
+                  ? product.image_urls[0]
+                  : fallback;
+
+              return (
+                <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
+              );
+            })()}
+          </div>
         </div>
         <div className="na-panel-3 na-panels">
           <div className="na-cards-container">
-            <div className="na-cards">
-              <NACardUp />
-            </div>
-            <div className="na-cards">
-              <NACardDown />
-            </div>
-            <div className="na-cards">
-              <NACardUp />
-            </div>
-            <div className="na-cards">
-              <NACardDown />
-            </div>
-            <div className="na-cards">
-              <NACardUp />
-            </div>
-            <div className="na-cards">
-              <NACardDown />
-            </div>
-            <div className="na-cards">
-              <NACardUp />
-            </div>
-            <div className="na-cards">
-              <NACardDown />
-            </div>
-            <div className="na-cards">
-              <NACardUp />
-            </div>
-            <div className="na-cards">
-              <NACardDown />
-            </div>
+            {(() => {
+              const cargos = newestArrivalsCargosData ?? [];
+              const suits = newestArrivalsSuitsData ?? [];
+
+              return Array.from({ length: 5 }).map((_, i) => (
+                <div className="center" key={i}>
+                  <div className="na-cards">
+                    <NACardUp product={cargos[i]} />
+                  </div>
+                  <div className="na-cards">
+                    <NACardDown product={suits[i]} />
+                  </div>
+                </div>
+              ));
+            })()}
           </div>
           <div className="nap3-end">
             <div className="nap3-end-top-text">That's it!</div>

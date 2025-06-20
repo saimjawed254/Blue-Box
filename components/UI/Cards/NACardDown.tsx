@@ -3,6 +3,7 @@
 import { Italiana, Poppins } from "next/font/google";
 import "./NACardDown.css";
 import Image from "next/image";
+import { Product } from "@/src/db/schema/products";
 
 export const poppins = Poppins({
   subsets: ["latin"],
@@ -10,7 +11,11 @@ export const poppins = Poppins({
 });
 export const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 
-export default function NACardDown() {
+type NACardProps = {
+  product: Product;
+};
+
+export default function NACardDown({ product }: NACardProps) {
   return (
     <>
       <div className="na-card-down">
@@ -30,7 +35,7 @@ export default function NACardDown() {
         </div>
         <div className="na-card-down-image">
           <Image
-            src={"/pexels-jos-penaran-927928177-27240488.jpg"}
+            src={product?.image_urls[0] || "/Rem.png"}
             alt=""
             layout="fill"
             objectFit="cover"
@@ -38,7 +43,9 @@ export default function NACardDown() {
           />
         </div>
         <div className={`na-card-down-product-info ${poppins.className}`}>
-          <div className="na-card-down-product-price">&#x20B9;849</div>
+          <div className="na-card-down-product-price">
+            &#x20B9;{product?.price}
+          </div>
           <div className="na-card-down-product-options">
             <div
               className="na-card-down-color-options"
@@ -56,17 +63,11 @@ export default function NACardDown() {
             ></div>
           </div>
           <div className={`na-card-down-product-company ${italiana.className}`}>
-            Levis
+            {product?.brand}
           </div>
-          <div className="na-card-down-product-title">Green Denim Cargo</div>
+          <div className="na-card-down-product-title">{product?.title}</div>
           <div className="na-card-down-product-description">
-            We accept all major credit and debit cards, UPI, PayPal, net
-            banking, and select digital wallets. We also accept Cash on Delivery
-            all across Patna. We accept all major credit and debit cards, UPI,
-            PayPal, net banking, and select digital wallets. We also accept Cash
-            on Delivery all across Patna. We accept all major credit and debit
-            cards, UPI, PayPal, net banking, and select digital wallets. We also
-            accept Cash on Delivery all across Patna.
+            {product?.description}
           </div>
         </div>
       </div>
