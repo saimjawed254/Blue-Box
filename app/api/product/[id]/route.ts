@@ -8,7 +8,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const productId = params.id;
+    const product=await params
+    const productId = product.id;
 
     const result = await db
       .select()

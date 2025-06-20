@@ -5,14 +5,14 @@ import ProductPage from "@/components/UI/Pages/Product";
 
 const validTopLevel = ["cargo", "suit"];
 
-export default function Page({
+export default async function Page({
   params,
   searchParams,
 }: {
-  params: Promise<{ slug?: string[] }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: { slug?: string[] };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { slug } = React.use(params);
+  const { slug } = await params;
   const slugParts = slug || [];
   if (slugParts && slugParts.length > 2) {
     notFound();
@@ -20,16 +20,28 @@ export default function Page({
 
   const topLevel = slugParts[0] || "";
   if (!validTopLevel.includes(topLevel)) {
-    notFound(); 
+    notFound();
   }
   console.log(slugParts);
 
-  const query = React.use(searchParams);
+  const query = await searchParams;
+  const product_id = query.id || null;
+
   console.log(query);
+  let product;
+  try {
+    const res = await fetch(`http://localhost:3000/api/product/${product_id}`);
+    if (!res?.ok) throw new Error("API failed");
+    product = await res.json();
+    console.log(product);
+  } catch (err) {
+    console.error(err);
+    notFound(); // fallback on error
+  }
 
   return (
     <>
-      <ProductPage/>
+      <ProductPage product={product} />
     </>
   );
 }

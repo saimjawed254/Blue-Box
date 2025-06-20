@@ -5,27 +5,82 @@ import ProductCard from "../Cards/ProductCard";
 import "./Product.css";
 import Image from "next/image";
 import { lightenHexColor } from "../ProductsSideBar";
+import { Product } from "@/src/db/schema/products";
+import { useEffect, useState } from "react";
 
 export const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
 
-export default function ProductPage() {
+type ProductPageProps = {
+  product: Product;
+};
+
+export default function ProductPage({ product }: ProductPageProps) {
+  const [similarProductData, setSimilarProductData] = useState<Product[]>();
+  const [productCodeData, setProductCodeData] = useState<Product[]>();
+
+  useEffect(() => {
+    const fetchProductsByProductCode = async () => {
+      try {
+        const res = await fetch(
+          `/api/product/by-code?product_code=${product.product_code}`
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch products");
+
+        const data = await res.json();
+        setProductCodeData(data);
+        console.log(data);
+        return data; // assumed to be an array of products
+      } catch (err) {
+        console.error("Error fetching by product_code:", err);
+        return [];
+      }
+    };
+
+    const fetchProductsByTags = async () => {
+      try {
+        const queryString = product.tags
+          .map((tag) => `tags=${encodeURIComponent(tag)}`)
+          .join("&");
+        const res = await fetch(
+          `/api/product/by-tags?${queryString}&page=1&limit=10`
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch products");
+
+        const data = await res.json();
+        console.log(data);
+        setSimilarProductData(data.data);
+        return data; // assumed to be an array of products
+      } catch (err) {
+        console.error("Error fetching by tags:", err);
+        return [];
+      }
+    };
+
+    fetchProductsByTags();
+    fetchProductsByProductCode();
+  }, []);
   return (
     <>
       <section className={`product-page ${poppins.className}`}>
         <section className="p-page-header">
           <div className="pph-limited"></div>
           <div className="pph-navigate">
-            <span>BlueBox / Product / Cargo /</span>
+            <span>
+              BlueBox / Product /{" "}
+              {product.category === "CARGO" ? `Cargo` : `Ladies' Suit`} /
+            </span>
             <span
               style={{
                 fontWeight: "600",
                 color: "rgb(var(--dark-olive))",
               }}
             >
-              &nbsp;Levis &gt; Green Denim Cargo{" "}
+              &nbsp;{product.brand} &gt; {product.title}
             </span>
           </div>
         </section>
@@ -33,7 +88,7 @@ export default function ProductPage() {
           <div className="pd-images">
             <div className="pd-image">
               <Image
-                src={"/mark-adriane-1533MrY5liQ-unsplash.jpg"}
+                src={product.image_urls[0]}
                 alt=""
                 layout="fill"
                 objectFit="cover"
@@ -41,7 +96,7 @@ export default function ProductPage() {
             </div>
             <div className="pd-image">
               <Image
-                src={"/wilson-montoya-LP-MzWsvLd0-unsplash.jpg"}
+                src={product.image_urls[1]}
                 alt=""
                 layout="fill"
                 objectFit="cover"
@@ -49,7 +104,7 @@ export default function ProductPage() {
             </div>
             <div className="pd-image">
               <Image
-                src={"/BGPrimary.png"}
+                src={product.image_urls[2]}
                 alt=""
                 layout="fill"
                 objectFit="cover"
@@ -57,7 +112,7 @@ export default function ProductPage() {
             </div>
             <div className="pd-image">
               <Image
-                src={"/mark-adriane-1533MrY5liQ-unsplash.jpg"}
+                src={product.image_urls[3]}
                 alt=""
                 layout="fill"
                 objectFit="cover"
@@ -65,7 +120,7 @@ export default function ProductPage() {
             </div>
             <div className="pd-image">
               <Image
-                src={"/wilson-montoya-LP-MzWsvLd0-unsplash.jpg"}
+                src={product.image_urls[4]}
                 alt=""
                 layout="fill"
                 objectFit="cover"
@@ -74,7 +129,7 @@ export default function ProductPage() {
           </div>
           <div className="pd-content">
             <div className="pdc-company">
-              LEVIS
+              {product.brand}
               <span className="pdc-share-button center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -90,10 +145,10 @@ export default function ProductPage() {
                 </svg>
               </span>
             </div>
-            <div className="pdc-title">Green Denim Cargo</div>
+            <div className="pdc-title">{product.title}</div>
             <div className="pdc-price">
               <span style={{ fontWeight: "500" }}>
-                &#x20B9;849&nbsp;&nbsp;&nbsp;
+                &#x20B9;{product.price}&nbsp;&nbsp;&nbsp;
               </span>
               <span
                 style={{
@@ -102,10 +157,10 @@ export default function ProductPage() {
                   color: "rgb(var(--light-olive))",
                 }}
               >
-                &#x20B9;1499{" "}
+                &#x20B9;{product.mrp}&nbsp;
               </span>
               <span style={{ color: "rgb(var(--green))" }}>
-                &nbsp;&nbsp;&nbsp;43% off
+                &nbsp;&nbsp;&nbsp;{product.discount}% off
               </span>
             </div>
             <div className="pdc-taxes">inclusive of all taxes</div>
@@ -123,47 +178,28 @@ export default function ProductPage() {
             <div className="pdc-sizes">
               <div className="pdc-sizes-header">AVAILABLE SIZES</div>
               <div className="pdc-sizes-box">
-                <div className="pdc-size">
-                  28
-                  <div className="pdc-qty">Qty: 2</div>
-                </div>
-                <div className="pdc-size">28</div>
-                <div className="pdc-size">28</div>
-                <div className="pdc-size">28</div>
-                <div className="pdc-size">28</div>
+                {productCodeData?.map((codeProduct) => (
+                  <div key={codeProduct.product_id} className="pdc-size">
+                    {codeProduct.size}
+                    <div className="pdc-qty">Qty: {codeProduct.quantity}</div>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="pdc-colors">
               <div className="pdc-colors-header">AVAILABLE COLORS</div>
               <div className="pdc-colors-box">
-                <div
+                {/* color will also become like tags an array for each size */}
+                {productCodeData?.map((codeProduct)=>(
+                  <div
+                  key={codeProduct.product_id}
                   style={{
-                    background: "#3f3f37",
-                    border: `0.5vh solid ${lightenHexColor("#3f3f37", 30)}`,
+                    background: `${codeProduct.color}`,
+                    border: `0.5vh solid ${lightenHexColor(`${codeProduct.color}`, 30)}`,
                   }}
                   className="pdc-color"
                 ></div>
-                <div
-                  style={{
-                    background: "#2449ff",
-                    border: `0.5vh solid ${lightenHexColor("#2449ff", 30)}`,
-                  }}
-                  className="pdc-color"
-                ></div>
-                <div
-                  style={{
-                    background: "#d08921",
-                    border: `0.5vh solid ${lightenHexColor("#d08923", 30)}`,
-                  }}
-                  className="pdc-color"
-                ></div>
-                <div
-                  style={{
-                    background: "#24d609",
-                    border: `0.5vh solid ${lightenHexColor("#24d609", 30)}`,
-                  }}
-                  className="pdc-color"
-                ></div>
+                ))}
               </div>
             </div>
             <div className="pdc-buttons">
@@ -390,42 +426,31 @@ export default function ProductPage() {
               <div className="pdc-details-header">PRODUCT DETAILS</div>
               <div className="pdc-details-brand">
                 <div className="pdc-details-header">Brand</div>
-                <div className="pdc-details-text">Levis</div>
+                <div className="pdc-details-text">{product.brand}</div>
               </div>
               <div className="pdc-details-title">
                 <div className="pdc-details-header">Title</div>
-                <div className="pdc-details-text">Green Denim Cargo</div>
+                <div className="pdc-details-text">{product.title}</div>
               </div>
               <div className="pdc-details-description">
                 <div className="pdc-details-header">Description</div>
                 <div className="pdc-details-text">
-                  Our Bevan Hammered Pearl Drop Earrings are a unique and
-                  elegant addition to any jewellery collection. These earrings
-                  are crafted from 18kt yellow gold and feature a hammered
-                  design adorned with freshwater pearls. The pearls add a touch
-                  of natural beauty and elegance to these earrings, making them
-                  perfect for any occasion. These earrings are perfect for any
-                  woman who loves modern, elegant and sophisticated jewellery. A
-                  perfect gift for any occasion, these earrings will add a touch
-                  of luxury to any look. <br />
-                  <br /> Every design has a unique character and texture as each
-                  one is uniquely handcrafted with the traditional hammer
-                  technique.
+                  {product.description}
                 </div>
               </div>
               <div className="pdc-details-size">
                 <div className="pdc-details-header">Size & Dimensions</div>
                 <div className="pdc-details-text">
-                  Slim Fit <br /> Narrow ankle <br /> 118 cm high
+                  {product.dimensions}
                 </div>
               </div>
               <div className="pdc-details-material">
                 <div className="pdc-details-header">Material</div>
-                <div className="pdc-details-text">98% Cotton & 2% Elastane</div>
+                <div className="pdc-details-text">{product.material}</div>
               </div>
               <div className="pdc-details-code">
                 <div className="pdc-details-header">Product Code</div>
-                <div className="pdc-details-text">UE00445-YG00PL</div>
+                <div className="pdc-details-text">{product.product_code}</div>
               </div>
             </div>
           </div>
@@ -436,9 +461,9 @@ export default function ProductPage() {
         <section className="similar-products">
           <div className="simp-header">SIMILAR PRODUCTS THAT YOU MAY LIKE</div>
           <div className="simp-cards">
-            {Array.from({ length: 20 }, (_, index) => (
-              <div key={index} className="simp-card">
-                {/* <ProductCard /> */}
+            {similarProductData?.map((similarProduct) => (
+              <div key={similarProduct.product_id} className="simp-card">
+                <ProductCard product={similarProduct} />
               </div>
             ))}
           </div>

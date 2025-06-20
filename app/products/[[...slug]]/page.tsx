@@ -1,7 +1,6 @@
 import ProductsPage from "@/components/UI/Pages/ProductsPage";
 import "./page.css";
 import { notFound } from "next/navigation";
-import * as React from "react";
 
 const validTopLevel = ["best-sellers", "newest-arrivals", "cargos", "suits"];
 
