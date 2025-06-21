@@ -10,15 +10,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Poppins } from "next/font/google";
 import PrimaryButton from "@/components/UI/Buttons/PrimaryButton";
 import { Product } from "@/src/db/schema/products";
-import { useUser } from "@clerk/nextjs";
-
-type Filters = {
-  priceRange: number[];
-  tags: string[];
-};
 
 type ProductsPageProps = {
-  products: Product[];
+  slug: string[];
+  total: number;
+  productsData: Product[];
 };
 
 export const poppins = Poppins({
@@ -26,8 +22,20 @@ export const poppins = Poppins({
   weight: ["400", "300", "200", "100"],
 });
 
-export default function ProductsPage({ products }: ProductsPageProps) {
-
+export default function ProductsPage({
+  slug,
+  total,
+  productsData,
+}: ProductsPageProps) {
+  console.log(slug, total);
+  let slugString = "";
+  if (slug.length === 1) {
+    slugString = slug[0].charAt(0).toUpperCase() + slug[0].substring(1);
+  } else {
+    slugString = slug[0] + " > " + slug[1];
+  }
+  const [products, setProducts] = useState(productsData);
+  const [sortButtonActive, setSortButtonActive] = useState(false);
   function vwToPx(e: number) {
     return (window.innerWidth * e) / 100;
   }
@@ -111,11 +119,45 @@ export default function ProductsPage({ products }: ProductsPageProps) {
       ease: "linear",
     });
   });
+
+  const handleApplyFilters = async (filters: {
+    brands?: string[];
+    priceRange?: [number, number];
+    colors?: string[];
+    discounts?: string;
+  }) => {
+    try {
+      const res = await fetch("/api/products/filters", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filters),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch filtered products");
+      }
+
+      const data = await res.json();
+      setProducts(data.products);
+      console.log("Hello", data);
+    } catch (err) {
+      console.error("Error applying filters:", err);
+      // Optionally show a toast or error UI
+    }
+  };
+
   return (
     <>
       <section className={`products ${poppins.className}`}>
         <div className="products-page-sidebar">
-          {/* <ProductsSidebar slug={`best-sellers`} /> */}
+          <ProductsSidebar
+            products={products}
+            slug={slug[0]}
+            totalCount={`${productsData.length}`}
+            onApplyFilters={handleApplyFilters}
+          />
         </div>
         <div className="products-content">
           <div className="pp-top-buffer"></div>
@@ -285,15 +327,101 @@ export default function ProductsPage({ products }: ProductsPageProps) {
               </div>
             </div>
             <div className="pp-header-pagination">
-              <div className="pphp-category">Cargos {`>`} Best Sellers</div>
+              <div className="pphp-category">{slugString}</div>
               <div className="pphp-text">
-                (Showing 1 – 40 products of 2,014 products)
+                (Showing 1 – 20 products of 2,014 products)
               </div>
             </div>
-            <div className="pp-header-button center blur">
-              <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sort by:&nbsp;</div>
-              <div className="pp-header-button-sort">
-                <PrimaryButton borderColor="#3F3F37" fillColor="#B3B29E" />
+            <div className="pp-header-button blur">
+              <div className="pp-header-button-text">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sort by:&nbsp;
+              </div>
+              <div
+                onClick={() => setSortButtonActive((prev) => !prev)}
+                className={
+                  sortButtonActive
+                    ? `pp-header-button-cover-active`
+                    : `pp-header-button-cover`
+                }
+              >
+                <div className="pp-header-button-sort">
+                  <div
+                    style={{
+                      cursor: "pointer",
+                      padding: "1.5vh 1.5vh",
+                      display: "flex",
+                      justifyContent: "space-around",
+                      alignItems: "center",
+                      userSelect: "none",
+                    }}
+                  >
+                    <span style={{fontWeight:"600"}}>Price:</span>
+                    <span>Low to High</span>
+                    <span
+                      style={{
+                        transform: sortButtonActive
+                          ? "rotate(90deg)"
+                          : "rotate(0deg)",
+                        transition: "transform 0.3s",
+                      }}
+                    >
+                      ⏵
+                    </span>
+                  </div>
+
+                  {/* Content */}
+                  <div
+                    style={{
+                      maxHeight: sortButtonActive ? "15vh" : "0vh",
+                      overflow: "hidden",
+                      transition: "all 0.3s ease",
+                      padding: "0vh 0vh 0.5vh 0vh"
+                    }}
+                  >
+                    <div
+                      style={{
+                        cursor: "pointer",
+                        padding: "0vh 1.5vh 1.5vh 1.5vh",
+                        display: "flex",
+                        justifyContent: "space-around",
+                        alignItems: "center",
+                        userSelect: "none",
+                      }}
+                    >
+                      <span style={{fontWeight:"600"}}>Price:</span>
+                      <span>Low to High</span>
+                      <span>&nbsp;&nbsp;</span>
+                    </div>
+                    <div
+                      style={{
+                        cursor: "pointer",
+                        padding: "0vh 1.5vh 1.5vh 1.5vh",
+                        display: "flex",
+                        justifyContent: "space-around",
+                        alignItems: "center",
+                        userSelect: "none",
+                      }}
+                    >
+                      <span style={{fontWeight:"600"}}>Price:</span>
+                      <span>Low to High</span>
+                      <span>&nbsp;&nbsp;</span>
+                    </div>
+                    <div
+                      style={{
+                        cursor: "pointer",
+                        padding: "0vh 1.5vh 1.5vh 1.5vh",
+                        display: "flex",
+                        justifyContent: "space-around",
+                        alignItems: "center",
+                        userSelect: "none",
+                      }}
+                    >
+                      <span style={{fontWeight:"600"}}>Price:</span>
+                      <span>Low to High</span>
+                      <span>&nbsp;&nbsp;</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -301,45 +429,6 @@ export default function ProductsPage({ products }: ProductsPageProps) {
             {products?.map((product) => (
               <ProductCard key={product.product_id} product={product} />
             ))}
-            {/* <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div>
-            <div className="pp-card">
-              <ProductCard />
-            </div> */}
           </div>
           <div className="pp-footer-space"></div>
         </div>

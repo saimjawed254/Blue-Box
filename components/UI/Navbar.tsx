@@ -34,16 +34,16 @@ export default function Navbar() {
     <>
       <nav className={`${ibm_plex_mono.className}`}>
         <div className="navigate rounded-corners">
-          <div className={`nav-home center rounded-corners`}>Home</div>
-          <div className="nav-na center rounded-corners">
+          <Link href={'/'} className={`nav-home center rounded-corners`}>Home</Link>
+          <Link href={'/products/newest-arrivals'} className="nav-na center rounded-corners">
             &#x2022; Newest Arrivals
-          </div>
-          <div className="nav-mc center rounded-corners">
+          </Link>
+          <Link href={`/products/cargos`} className="nav-mc center rounded-corners">
             &#x2022; Men's Cargo
-          </div>
-          <div className="nav-ls center rounded-corners">
+          </Link>
+          <Link href={`/products/suits`} className="nav-ls center rounded-corners">
             &#x2022; Ladies' Suits
-          </div>
+          </Link>
         </div>
         <div className="nav-search rounded-corners">
           Find products easily with our AI Search...

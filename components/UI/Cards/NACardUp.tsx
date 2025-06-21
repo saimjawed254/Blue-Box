@@ -4,6 +4,7 @@ import { Italiana, Poppins } from "next/font/google";
 import "./NACardUp.css";
 import Image from "next/image";
 import { Product } from "@/src/db/schema/products";
+import Link from "next/link";
 
 export const poppins = Poppins({
   subsets: ["latin"],
@@ -33,7 +34,7 @@ export default function NACardUp({ product }: NACardProps) {
             />
           </svg>
         </div>
-        <div className="na-card-up-image">
+        <Link href={product ? `product/cargo?id=${product.product_id}` : '/products/newest-arrivals'}  className="na-card-up-image">
           <Image
             src={product?.image_urls[0] || "/Rem.png"}
             alt=""
@@ -41,7 +42,7 @@ export default function NACardUp({ product }: NACardProps) {
             objectFit="cover"
             objectPosition="0% 0%"
           />
-        </div>
+        </Link>
         <div className={`na-card-up-product-info ${poppins.className}`}>
           <div className={`na-card-up-product-company ${italiana.className}`}>
             {product?.brand}

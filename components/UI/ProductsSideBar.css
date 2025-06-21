@@ -241,3 +241,34 @@
     width: 1vw;
     height: 1vw;
 }
+
+.psb-filters-apply {
+  width: 100%;
+  height: auto;
+  padding: 10% 10% 10% 10%;
+  border-bottom: 0.1vw solid rgb(var(--pure-white));
+}
+
+.psb-filters-apply-header {
+  height: 4vh;
+  font-weight: 600;
+  font-size: 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.psb-filters-apply-header-cancel{
+  width: 5vw;
+  height: 4vh;
+  background-color: rgba(var(--off-white),0.4);
+  border-radius: 100vw;
+  font-weight: 400;
+  font-size: 0.875vw;
+  cursor: pointer;
+}
+
+.psb-filters-apply-header-apply{
+  font-size: 1.25vw;
+  cursor: pointer;
+}

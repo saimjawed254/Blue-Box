@@ -2,10 +2,21 @@
 
 import { Poppins } from "next/font/google";
 import "./ProductsSideBar.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Product } from "@/src/db/schema/products";
+
+export interface ProductFilters {
+  brands?: string[];
+  priceRange?: [number, number];
+  colors?: string[];
+  discounts?: string;
+}
 
 type ProductsSidebarProps = {
   slug: string;
+  totalCount: string;
+  products: Product[];
+  onApplyFilters: (filters: ProductFilters) => void;
 };
 
 export const poppins = Poppins({
@@ -28,27 +39,82 @@ export function lightenHexColor(hex: string, amount: number): string {
   return `#${[r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("")}`;
 }
 
-export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
-  const filters = ["HRX", "DENIM & CO.", "LEVIS", "ZUDIO", "BATA"];
-  const discountFilters = [">30%", ">40%", ">50%", ">60%"];
-  const colorFilters = [
-    "#00fd89",
-    "#f02128",
-    "#df792d",
-    "#002810",
-    "#182713",
-    "#571891",
-    "#218d78",
-  ];
+export default function ProductsSidebar({
+  slug,
+  totalCount = "0",
+  onApplyFilters,
+  products,
+}: ProductsSidebarProps) {
+  const discountFilters = [">10%", ">20%", ">30%", ">40%", ">50%", ">60%"];
 
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedBrandFilters, setSelectedBrandFilters] = useState<string[]>(
+    []
+  );
   const [selectedDiscountFilter, setSelectedDiscountFilter] =
     useState<string>();
   const [selectedColorFilters, setSelectedColorFilters] = useState<string[]>(
     []
   );
-  const [minValue, setMinValue] = useState(1);
-  const [maxValue, setMaxValue] = useState(100);
+  const [minValue, setMinValue] = useState<number>(1);
+  const [maxValue, setMaxValue] = useState<number>(10000);
+
+  const [brands, setBrands] = useState<string[]>([]);
+  const [colors, setColors] = useState<string[]>([]);
+  const [minPrice, setMinPrice] = useState<number>(1);
+  const [maxPrice, setMaxPrice] = useState<number>(10000);
+  useEffect(() => {
+    if (!products || products.length === 0) return;
+
+    const brandSet = new Set<string>();
+    const colorSet = new Set<string>();
+    let min = Number.POSITIVE_INFINITY;
+    let max = Number.NEGATIVE_INFINITY;
+
+    for (const product of products) {
+      brandSet.add(product.brand);
+      colorSet.add(product.color);
+
+      if (product.price < min) min = product.price;
+      if (product.price > max) max = product.price;
+    }
+
+    setBrands(Array.from(brandSet));
+    setColors(Array.from(colorSet));
+    setMinPrice(min);
+    setMaxPrice(max);
+    setMinValue(min);
+    setMaxValue(max);
+  }, [products]);
+
+  const handleApply = () => {
+    console.log(selectedBrandFilters);
+    console.log(selectedColorFilters);
+    console.log(selectedDiscountFilter);
+    console.log(minValue, maxValue);
+    if (
+      selectedBrandFilters.length === 0 &&
+      minValue === minPrice &&
+      maxValue === maxPrice &&
+      selectedColorFilters.length === 0 &&
+      selectedDiscountFilter === undefined
+    ) {
+      return;
+    }
+    onApplyFilters({
+      brands: selectedBrandFilters,
+      priceRange: [minValue, maxValue],
+      colors: selectedColorFilters,
+      discounts: selectedDiscountFilter,
+    });
+  };
+
+  const clearAllSelections = () => {
+    setSelectedBrandFilters([]);
+    setSelectedColorFilters([]);
+    setSelectedDiscountFilter("");
+    setMinValue(minPrice);
+    setMaxValue(maxPrice);
+  };
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Number(e.target.value);
@@ -63,7 +129,7 @@ export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
     }
   };
   const handleCheckboxChange = (label: string) => {
-    setSelectedFilters(
+    setSelectedBrandFilters(
       (prev) =>
         prev.includes(label)
           ? prev.filter((item) => item !== label) // Remove from filters
@@ -95,17 +161,20 @@ export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
           </div>
           <div className="psb-info-total">
             Total Products:&nbsp;
-            <span style={{ color: "rgb(var(--pure-black))" }}>49</span>
+            <span style={{ color: "rgb(var(--pure-black))" }}>
+              {totalCount}
+            </span>
           </div>
         </div>
         <div className="psb-filters">
           <div className="psb-filters-header">
             <span>FILTERS&nbsp; </span>
-            <span
+            <span onClick={clearAllSelections}
               style={{
                 color: "rgb(var(--red))",
                 fontSize: "0.875vw",
                 fontWeight: 400,
+                cursor:"pointer"
               }}
             >
               Clear All&nbsp;{" "}
@@ -118,14 +187,14 @@ export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
             >
               BRANDS
             </div>
-            {filters.map((label) => (
+            {brands.map((label) => (
               <div key={label} className="psb-filters-brand-name">
                 <input
                   className="psb-filters-checkbox"
                   type="checkbox"
                   id={label}
                   onChange={() => handleCheckboxChange(label)}
-                  checked={selectedFilters.includes(label)}
+                  checked={selectedBrandFilters.includes(label)}
                 />
                 <label htmlFor={label}>&nbsp;&nbsp;&nbsp;{label}</label>
                 <div className="psb-filters-brand-quantity">
@@ -148,16 +217,16 @@ export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
             <div className="psb-filters-price-slider">
               <input
                 type="range"
-                min="1"
-                max="100"
+                min={minPrice}
+                max={maxPrice}
                 value={minValue}
                 onChange={handleMinChange}
                 className=""
               />
               <input
                 type="range"
-                min="1"
-                max="100"
+                min={minPrice}
+                max={maxPrice}
                 value={maxValue}
                 onChange={handleMaxChange}
                 className=""
@@ -172,7 +241,7 @@ export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
           <div className="psb-filters-color">
             <div className="psb-filters-color-header">COLORS</div>
             <div className="psb-filters-color-checkboxes">
-              {colorFilters.map((label) => {
+              {colors.map((label) => {
                 return (
                   <div
                     key={label}
@@ -214,6 +283,19 @@ export default function ProductsSidebar({ slug }: ProductsSidebarProps) {
                 </span>
               </div>
             ))}
+          </div>
+          <div className="psb-filters-apply">
+            <div className="psb-filters-apply-header">
+              <div onClick={clearAllSelections} className="psb-filters-apply-header-cancel center">
+                Cancel
+              </div>
+              <div
+                onClick={handleApply}
+                className="psb-filters-apply-header-apply"
+              >
+                Apply
+              </div>
+            </div>
           </div>
         </div>
       </div>

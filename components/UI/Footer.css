@@ -12,6 +12,7 @@
   grid-template-rows: repeat(36, 1fr);
   grid-template-columns: repeat(40, 1fr);
   overflow: hidden;
+  border-top: 0.1vw solid rgb(var(--pure-white));
 }
 
 .footer-name {

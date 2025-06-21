@@ -1,6 +1,7 @@
 import ProductsPage from "@/components/UI/Pages/ProductsPage";
 import "./page.css";
 import { notFound } from "next/navigation";
+import ProductsSidebar from "@/components/UI/ProductsSideBar";
 
 const validTopLevel = ["best-sellers", "newest-arrivals", "cargos", "suits"];
 
@@ -43,8 +44,7 @@ export default async function Page({
         res = await fetch(
           `http://localhost:3000/api/products/${slugParts[0]}?category=CARGO&page=${page}&limit=${limit}`
         );
-      }
-      else if (slugParts[1] === "suits") {
+      } else if (slugParts[1] === "suits") {
         res = await fetch(
           `http://localhost:3000/api/products/${slugParts[0]}?category=LADIES' SUIT&page=${page}&limit=${limit}`
         );
@@ -60,8 +60,7 @@ export default async function Page({
 
   return (
     <>
-      {" "}
-      <ProductsPage products={data.data} />{" "}
+      <ProductsPage slug={slugParts} total={data.total} productsData={data.data} />
     </>
   );
 }

@@ -7,6 +7,7 @@ import { Product } from "@/src/db/schema/products";
 import { useEffect, useRef, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
 
@@ -28,19 +29,17 @@ export default function ProductCard({ product }: ProductCardProps) {
       return;
     }
     const fetchIsWishlist = async () => {
-        try {
-          const res = await fetch(
-            `/api/wishlist?clerk_id=${clerk_id}&product_id=${product_id}`
-          );
-          const data = await res.json();
-          if (data.length > 0) {
-            wishlistIconRef.current?.classList.add(
-              "product-wishlist-icon-pink"
-            );
-            setIsAdding(!isAdding);
-          }
-        } catch (err) {
-          console.log(err);
+      try {
+        const res = await fetch(
+          `/api/wishlist?clerk_id=${clerk_id}&product_id=${product_id}`
+        );
+        const data = await res.json();
+        if (data.length > 0) {
+          wishlistIconRef.current?.classList.add("product-wishlist-icon-pink");
+          setIsAdding(!isAdding);
+        }
+      } catch (err) {
+        console.log(err);
       }
     };
     fetchIsWishlist();
@@ -109,14 +108,17 @@ export default function ProductCard({ product }: ProductCardProps) {
             />
           </svg>
         </div>
-        <div className="product-image">
+        <Link
+          href={`/product/cargo?id=${product.product_id}`}
+          className="product-image"
+        >
           <Image
             src={product.image_urls[0]}
             alt=""
             layout="fill"
             objectFit="contain"
           />
-        </div>
+        </Link>
         <div className={`product-info ${poppins.className}`}>
           <div className="product-company">{product.brand}</div>
           <div className="product-quantity center">

@@ -29,6 +29,7 @@ import NACardUp from "@/components/UI/Cards/NACardUp";
 import NACardDown from "@/components/UI/Cards/NACardDown";
 import { useUser } from "@clerk/nextjs";
 import { Product } from "@/src/db/schema/products";
+import Link from "next/link";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
@@ -151,7 +152,7 @@ export default function Home() {
     fetchNewestArrivalsSuits();
 
     if (typeof window !== "undefined") {
-      const locomotiveScroll = new LocomotiveScroll();
+      // const locomotiveScroll = new LocomotiveScroll();
 
       setSvgSize(window.innerWidth * 0.02);
     }
@@ -646,7 +647,11 @@ export default function Home() {
             Timeless
           </div>
           <div className="nap1-button-1 center">
-            <PrimaryButton borderColor={"#B3B29E"} fillColor={"#000000"} />
+            <PrimaryButton
+              link={"/products/newest-arrivals"}
+              borderColor={"#B3B29E"}
+              fillColor={"#000000"}
+            />
           </div>
           <div className="nap1-tertiary-text-up">
             Newest Arrivals – Elevate Your Experience
@@ -673,84 +678,114 @@ export default function Home() {
             Before it's gone.
           </div>
           <div className="nap1-button-2 center">
-            <PrimaryButton borderColor={"#B3B29E"} fillColor={"#000000"} />
+            <PrimaryButton
+              link="/products/newest-arrivals"
+              borderColor={"#B3B29E"}
+              fillColor={"#000000"}
+            />
           </div>
-          <div className="nap1-product-image1">
-            {(() => {
-              const suits = newestArrivalsSuitsData ?? [];
-              const product = suits[5];
-              const fallback = "/Rem.png";
+          {(() => {
+            const suits = newestArrivalsSuitsData ?? [];
+            const product = suits[5];
+            const fallback = "/Rem.png";
 
-              const imageSrc =
-                product?.image_urls?.[0] && product.image_urls[0].length > 0
-                  ? product.image_urls[0]
-                  : fallback;
+            const imageSrc =
+              product?.image_urls?.[0] && product.image_urls[0].length > 0
+                ? product.image_urls[0]
+                : fallback;
 
-              return (
+            return (
+              <Link
+                href={
+                  product?.product_id ? `/product/suit?id=${product.product_id}` : `/products/newest-arrivals`
+                }
+                className="nap1-product-image1"
+              >
                 <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
-              );
-            })()}
-          </div>
-          <div className="nap1-product-image2">
-            <div className="nap1-p2">
-              {(() => {
-                const cargos = newestArrivalsCargosData ?? [];
-                const product = cargos[5];
-                const fallback = "/Rem.png";
+              </Link>
+            );
+          })()}
+          {(() => {
+            const cargos = newestArrivalsCargosData ?? [];
+            const product = cargos[5];
+            const fallback = "/Rem.png";
 
-                const imageSrc =
-                  product?.image_urls?.[0] && product.image_urls[0].length > 0
-                    ? product.image_urls[0]
-                    : fallback;
+            const imageSrc =
+              product?.image_urls?.[0] && product.image_urls[0].length > 0
+                ? product.image_urls[0]
+                : fallback;
 
-                return (
+            return (
+              <div className="nap1-product-image2">
+                <Link
+                  href={
+                    product?.product_id
+                      ? `/product/cargo?id=${product.product_id}`
+                      : "/products/newest-arrivals"
+                  }
+                  className="nap1-p2"
+                >
                   <Image
                     src={imageSrc}
                     alt=""
                     layout="fill"
                     objectFit="cover"
                   />
-                );
-              })()}
-            </div>
-          </div>
-          <div className="nap1-product-image3">
-            {(() => {
-              const suits = newestArrivalsSuitsData ?? [];
-              const product = suits[6];
-              const fallback = "/Rem.png";
+                </Link>
+              </div>
+            );
+          })()}
+          {(() => {
+            const suits = newestArrivalsSuitsData ?? [];
+            const product = suits[6];
+            const fallback = "/Rem.png";
 
-              const imageSrc =
-                product?.image_urls?.[0] && product.image_urls[0].length > 0
-                  ? product.image_urls[0]
-                  : fallback;
+            const imageSrc =
+              product?.image_urls?.[0] && product.image_urls[0].length > 0
+                ? product.image_urls[0]
+                : fallback;
 
-              return (
+            return (
+              <Link
+                href={
+                  product?.product_id
+                    ? `/product/suit?id=${product.product_id}`
+                    : "/products/newest-arrivals"
+                }
+                className="nap1-product-image3"
+              >
                 <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
-              );
-            })()}
-          </div>
+              </Link>
+            );
+          })()}
         </div>
         <div className="na-panel-2 na-panels">
           <div
-            style={{ background: `url(${leftBar})`, backgroundSize: "cover" }}
+            style={{ background: `url(${leftBar}) cover` }}
             className="nap2-left-bar"
           ></div>
-          <div className="nap2-left-bar-image">
-            {(() => {
-              const cargos = newestArrivalsCargosData ?? [];
-              const product = cargos[6];
-              const fallback = "/Rem.png";
-              const imageSrc =
-                product?.image_urls?.[0] && product.image_urls[0].length > 0
-                  ? product.image_urls[0]
-                  : fallback;
+          {(() => {
+            const cargos = newestArrivalsCargosData ?? [];
+            const product = cargos[6];
+            const fallback = "/Rem.png";
+            const imageSrc =
+              product?.image_urls?.[0] && product.image_urls[0].length > 0
+                ? product.image_urls[0]
+                : fallback;
 
-              return (
+            return (
+              <Link
+                href={
+                  product?.product_id
+                    ? `/product/cargo?id=${product.product_id}`
+                    : "/products/newest-arrivals"
+                }
+                className="nap2-left-bar-image"
+              >
                 <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
-              );
-            })()}
-          </div>
+              </Link>
+            );
+          })()}
 
           <div className={`nap2-marquee1`}>
             <section className="nap2-marq1">
@@ -852,25 +887,33 @@ export default function Home() {
             </div>
           </div>
           <div
-            style={{ background: `url(${rightBar})`, backgroundSize: "cover" }}
+            style={{ background: `url(${rightBar}) cover` }}
             className="nap2-right-bar"
           ></div>
-          <div className="nap2-right-bar-image">
-            {(() => {
-              const suits = newestArrivalsSuitsData ?? [];
-              const product = suits[7];
-              const fallback = "/Rem.png";
 
-              const imageSrc =
-                product?.image_urls?.[0] && product.image_urls[0].length > 0
-                  ? product.image_urls[0]
-                  : fallback;
+          {(() => {
+            const suits = newestArrivalsSuitsData ?? [];
+            const product = suits[7];
+            const fallback = "/Rem.png";
 
-              return (
+            const imageSrc =
+              product?.image_urls?.[0] && product.image_urls[0].length > 0
+                ? product.image_urls[0]
+                : fallback;
+
+            return (
+              <Link
+                href={
+                  product?.product_id
+                    ? `/product/cargo?id=${product.product_id}`
+                    : "/products/newest-arrivals"
+                }
+                className="nap2-right-bar-image"
+              >
                 <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
-              );
-            })()}
-          </div>
+              </Link>
+            );
+          })()}
         </div>
         <div className="na-panel-3 na-panels">
           <div className="na-cards-container">
@@ -893,7 +936,11 @@ export default function Home() {
           <div className="nap3-end">
             <div className="nap3-end-top-text">That's it!</div>
             <div className="nap3-end-button center">
-              <PrimaryButton borderColor="#B3B29E" fillColor="#000000" />
+              <PrimaryButton
+                link={`products/newest-arrivals`}
+                borderColor="#B3B29E"
+                fillColor="#000000"
+              />
             </div>
             <div className="nap3-end-bottom-text1">You know</div>
             <div className="nap3-end-bottom-text2">Quality</div>
@@ -1009,7 +1056,7 @@ export default function Home() {
               &nbsp;Cargo Best Sellers
             </div>
             <div className="bsdch-button-show-all">
-              <PrimaryButton borderColor={"#3F3F37"} fillColor={"#B3B29E"} />
+              <PrimaryButton link={`products/best-sellers/cargos`} borderColor={"#3F3F37"} fillColor={"#B3B29E"} />
             </div>
             <div className="bsdch-button-left center">
               <svg
@@ -1069,7 +1116,7 @@ export default function Home() {
               &nbsp;Suits Best Sellers
             </div>
             <div className="bsdsh-button-show-all">
-              <PrimaryButton borderColor={"#3F3F37"} fillColor={"#B3B29E"} />
+              <PrimaryButton link={`products/best-sellers/suits`} borderColor={"#3F3F37"} fillColor={"#B3B29E"} />
             </div>
             <div className="bsdsh-button-left center">
               <svg

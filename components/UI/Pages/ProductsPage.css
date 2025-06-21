@@ -90,6 +90,53 @@
   background-color: rgb(var(--pure-black));
   color: rgb(var(--light-olive));
   border-radius: 100vw;
+  z-index: 10;
+  position: relative;
+}
+
+.pp-header-button-text {
+  position: absolute;
+  top: 2vh;
+  left: 0.7vh;
+}
+
+.pp-header-button-cover {
+  position: absolute;
+  top: 0.2vh;
+  right: 0.2vh;
+  width: 11vw;
+  height: 7vh;
+  font-size: 1.25vw;
+  justify-content: center;
+  border: 0.5vh solid rgb(var(--pure-black));
+  background-color: rgb(var(--light-olive));
+  border-radius: 2vw;
+  color: rgb(var(--dark-olive));
+  overflow: hidden;
+}
+.pp-header-button-cover-active {
+  position: absolute;
+  top: 0.2vh;
+  right: 0.2vh;
+  width: 11vw;
+  height: 7vh;
+  font-size: 1.25vw;
+  justify-content: center;
+  border: 0.5vh solid rgb(var(--pure-black));
+  background-color: rgb(var(--light-olive));
+  border-radius: 2vw;
+  color: rgb(var(--dark-olive));
+}
+
+
+.pp-header-button-sort {
+  width: 11vw;
+  font-size: 0.875vw;
+  justify-content: center;
+  background-color: rgb(var(--light-olive));
+  border-radius: 2vw;
+  color: rgb(var(--pure-black));
+  overflow: hidden;
 }
 
 .pp-cards {
