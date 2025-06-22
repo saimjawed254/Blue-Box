@@ -116,6 +116,7 @@
 .pdc-sizes-box {
   padding-top: 1vh;
   display: flex;
+  align-items: center;
 }
 
 .pdc-size {
@@ -155,6 +156,24 @@
   background-color: rgb(var(--dark-olive));
 }
 
+.pdc-size-current{
+    position: relative;
+  margin: 1vh;
+  width: 3.5vw;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+
+  color: rgb(var(--light-olive));
+  border: 0.5vh solid rgb(var(--light-olive));
+  background-color: rgb(var(--dark-olive));
+  
+  font-size: 1.25vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+}
+
 .pdc-colors {
   padding-top: 3vh;
   height: auto;
@@ -172,13 +191,14 @@
   display: flex;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .pdc-color {
   position: relative;
   margin: 1vh;
-  width: 5vw;
-  height: 2.5vh;
+  width: 4vw;
+  height: 2vh;
   border-radius: 100vw;
 
   color: rgb(var(--light-olive));
@@ -188,7 +208,20 @@
 }
 
 .pdc-color:hover {
-  transform: scale(1.1);
+  transform: scale(1.25);
+}
+
+.pdc-color-current {
+  position: relative;
+  margin: 1vh;
+  width: 6vw;
+  height: 3vh;
+  border-radius: 100vw;
+
+  color: rgb(var(--light-olive));
+  border: 0.5vh solid rgb(var(--light-olive));
+
+  transition: all 0.1s ease;
 }
 
 .pdc-buttons {
@@ -260,7 +293,6 @@
 .pdc-pincode {
   width: 12vw;
   height: 9vh;
-
 }
 
 .pdc-pincode-header {
@@ -270,7 +302,7 @@
   color: rgb(var(--dark-olive));
 }
 
-.pdc-pincode-text-box{
+.pdc-pincode-text-box {
   width: 90%;
   font-size: 0.875vw;
   color: rgb(var(--light-olive));
@@ -289,17 +321,15 @@
   font-weight: 500;
 }
 
-.pdc-est-del-text-box{
+.pdc-est-del-text-box {
   width: 100%;
   font-size: 0.8vw;
   color: rgb(var(--light-olive));
 }
 
 .pdc-full-address {
-
   width: 100%;
   height: 10vh;
-
 }
 
 .pdc-address-header {
@@ -309,7 +339,7 @@
   color: rgb(var(--dark-olive));
 }
 
-.pdc-address-text-box{
+.pdc-address-text-box {
   width: 100%;
   font-size: 0.875vw;
   color: rgb(var(--light-olive));
@@ -318,41 +348,38 @@
   justify-content: space-between;
 }
 
-.pdc-offers{
+.pdc-offers {
   padding-top: 3vh;
   padding-bottom: 2vh;
 }
 
-.pdc-offers-header{
+.pdc-offers-header {
   font-size: 1.25vw;
   font-weight: 600;
   color: rgb(var(--dark-olive));
 }
 
-.pdc-offer-header{
+.pdc-offer-header {
   padding-top: 2vh;
   font-size: 1vw;
   font-weight: 600;
   color: rgb(var(--dark-olive));
 }
 
-.pdc-offer-points{
+.pdc-offer-points {
   padding-top: 1vh;
   padding-left: 1vw;
   font-size: 0.875vw;
 }
 
-.pdc-details{
-}
-
-.pdc-details-header{
+.pdc-details-header {
   padding-top: 3vh;
   font-size: 1vw;
   font-weight: 600;
   color: rgb(var(--dark-olive));
 }
 
-.pdc-details-text{
+.pdc-details-text {
   font-size: 1vw;
   font-weight: 400;
   color: rgb(var(--off-text));

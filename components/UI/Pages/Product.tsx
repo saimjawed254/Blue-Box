@@ -7,6 +7,8 @@ import Image from "next/image";
 import { lightenHexColor } from "../ProductsSideBar";
 import { Product } from "@/src/db/schema/products";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const poppins = Poppins({
   subsets: ["latin"],
@@ -18,10 +20,66 @@ type ProductPageProps = {
 };
 
 export default function ProductPage({ product }: ProductPageProps) {
+  let category = "";
+  if (product.category === "CARGO") {
+    category = "cargo";
+  } else if (product.category === "LADIES' SUIT") {
+    category = "suit";
+  }
+
+  const router = useRouter();
   const [similarProductData, setSimilarProductData] = useState<Product[]>();
   const [productCodeData, setProductCodeData] = useState<Product[]>();
+  const [sizeColorMap, setSizeColorMap] = useState<Record<string, string[]>>(
+    {}
+  );
+  const [uniqueColors, setUniqueColors] = useState<string[]>([]);
+  const [currentSizeColors, setCurrentSizeColors] = useState<string[]>([]);
+
+  const handleColorClick = (isActive: boolean, color: string) => {
+    if (isActive) {
+      productCodeData?.map((data) => {
+        if (data.size === product.size && data.color === color) {
+          router.push(`/product/${category}?id=${data.product_id}`);
+        }
+      });
+    } else {
+      productCodeData?.map((data) => {
+        if (data.size !== product.size && data.color === color) {
+          router.push(`/product/${category}?id=${data.product_id}`);
+        }
+      });
+    }
+  };
 
   useEffect(() => {
+    const buildSizeColorMap = (variants: Product[] | undefined) => {
+      const sizeColorMap: Record<string, Set<string>> = {};
+      if (!variants) {
+        return;
+      }
+      for (const variant of variants) {
+        const { size, color } = variant;
+
+        if (!sizeColorMap[size]) {
+          sizeColorMap[size] = new Set();
+        }
+
+        sizeColorMap[size].add(color);
+      }
+
+      // Convert all Sets to arrays
+      const result: Record<string, string[]> = {};
+      for (const size in sizeColorMap) {
+        result[size] = Array.from(sizeColorMap[size]);
+      }
+      setSizeColorMap(result);
+      console.log(result)
+      setCurrentSizeColors(result[product.size]);
+      const allColors = Object.values(result).flat();
+      setUniqueColors(Array.from(new Set(allColors)));
+    };
+
     const fetchProductsByProductCode = async () => {
       try {
         const res = await fetch(
@@ -32,8 +90,9 @@ export default function ProductPage({ product }: ProductPageProps) {
 
         const data = await res.json();
         setProductCodeData(data);
-        console.log(data);
-        return data; // assumed to be an array of products
+        buildSizeColorMap(data);
+
+        return data;
       } catch (err) {
         console.error("Error fetching by product_code:", err);
         return [];
@@ -178,28 +237,70 @@ export default function ProductPage({ product }: ProductPageProps) {
             <div className="pdc-sizes">
               <div className="pdc-sizes-header">AVAILABLE SIZES</div>
               <div className="pdc-sizes-box">
-                {productCodeData?.map((codeProduct) => (
-                  <div key={codeProduct.product_id} className="pdc-size">
-                    {codeProduct.size}
-                    <div className="pdc-qty">Qty: {codeProduct.quantity}</div>
-                  </div>
-                ))}
+                <div key={product.product_id} className="pdc-size-current">
+                  {product.size}
+                  <div className="pdc-qty">Qty: {product.quantity}</div>
+                </div>
+                {productCodeData?.map((codeProduct) =>
+                  codeProduct.product_id !== product.product_id ? (
+                    <Link
+                      href={`${category}?id=${codeProduct.product_id}`}
+                      key={codeProduct.product_id}
+                      className="pdc-size"
+                    >
+                      {codeProduct.size}
+                      <div className="pdc-qty">Qty: {codeProduct.quantity}</div>
+                    </Link>
+                  ) : (
+                    <div key={codeProduct.product_id}></div>
+                  )
+                )}
               </div>
             </div>
             <div className="pdc-colors">
               <div className="pdc-colors-header">AVAILABLE COLORS</div>
               <div className="pdc-colors-box">
-                {/* color will also become like tags an array for each size */}
-                {productCodeData?.map((codeProduct)=>(
-                  <div
-                  key={codeProduct.product_id}
+                <div
                   style={{
-                    background: `${codeProduct.color}`,
-                    border: `0.5vh solid ${lightenHexColor(`${codeProduct.color}`, 30)}`,
+                    background: `${product.color}`,
+                    border: `0.5vh solid ${lightenHexColor(
+                      `${product.color}`,
+                      30
+                    )}`,
                   }}
-                  className="pdc-color"
+                  className="pdc-color-current"
                 ></div>
-                ))}
+                {uniqueColors.map((color) => {
+                  const isActive = currentSizeColors.includes(color);
+                  const isCurrent = product.color === color;
+                  return color !== product.color ? (
+                    <div
+                      onClick={() => handleColorClick(isActive, color)}
+                      key={color}
+                      style={{
+                        background: color,
+                        border: `0.5vh solid ${lightenHexColor(color, 30)}`,
+                        opacity: isActive ? 1 : 0.3,
+                      }}
+                      className={isCurrent ? "pdc-color-current" : "pdc-color"}
+                    />
+                  ) : (
+                    <div key={color}></div>
+                  );
+                })}
+                {/* {productCodeData?.map((codeProduct) => (
+                  <div
+                    key={codeProduct.product_id}
+                    style={{
+                      background: `${codeProduct.color}`,
+                      border: `0.5vh solid ${lightenHexColor(
+                        `${codeProduct.color}`,
+                        30
+                      )}`,
+                    }}
+                    className="pdc-color"
+                  ></div>
+                ))} */}
               </div>
             </div>
             <div className="pdc-buttons">
@@ -434,15 +535,11 @@ export default function ProductPage({ product }: ProductPageProps) {
               </div>
               <div className="pdc-details-description">
                 <div className="pdc-details-header">Description</div>
-                <div className="pdc-details-text">
-                  {product.description}
-                </div>
+                <div className="pdc-details-text">{product.description}</div>
               </div>
               <div className="pdc-details-size">
                 <div className="pdc-details-header">Size & Dimensions</div>
-                <div className="pdc-details-text">
-                  {product.dimensions}
-                </div>
+                <div className="pdc-details-text">{product.dimensions}</div>
               </div>
               <div className="pdc-details-material">
                 <div className="pdc-details-header">Material</div>
