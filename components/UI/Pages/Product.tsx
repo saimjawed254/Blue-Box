@@ -6,9 +6,10 @@ import "./Product.css";
 import Image from "next/image";
 import { lightenHexColor } from "../ProductsSideBar";
 import { Product } from "@/src/db/schema/products";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 export const poppins = Poppins({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function ProductPage({ product }: ProductPageProps) {
     category = "suit";
   }
 
+  const { isLoaded, isSignedIn, user } = useUser();
   const router = useRouter();
   const [similarProductData, setSimilarProductData] = useState<Product[]>();
   const [productCodeData, setProductCodeData] = useState<Product[]>();
@@ -35,6 +37,8 @@ export default function ProductPage({ product }: ProductPageProps) {
   );
   const [uniqueColors, setUniqueColors] = useState<string[]>([]);
   const [currentSizeColors, setCurrentSizeColors] = useState<string[]>([]);
+  const [isAdding, setIsAdding] = useState(true);
+  const wishlistIconRef = useRef<HTMLDivElement>(null);
 
   const handleColorClick = (isActive: boolean, color: string) => {
     if (isActive) {
@@ -52,7 +56,111 @@ export default function ProductPage({ product }: ProductPageProps) {
     }
   };
 
+  const handleAddToCart = async () => {
+    if (!isSignedIn) {
+      router.push("/sign-in");
+      return;
+    }
+    const payload = {
+      user_id: user.id,
+      product_id: product.product_id,
+      size: product.size,
+      color: product.color,
+      quantity: 1,
+    };
+    try {
+      const response = await fetch("/api/add-to-cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Add to cart failed:", data.error || response.statusText);
+        return { success: false, error: data.error || "Failed to add item" };
+      }
+
+      return { success: true, message: data.message };
+    } catch (err) {
+      console.error("Add to cart error:", err);
+      return { success: false, error: "Something went wrong" };
+    }
+  };
+
+  const handleAddToWishlist = async () => {
+    if (!isSignedIn) {
+      router.push("/sign-in");
+      return;
+    }
+    const body = {
+      clerk_id: user.id,
+      product_id: product.product_id,
+      color: product.color,
+      size: product.size,
+    };
+
+    if (isAdding) {
+      wishlistIconRef.current?.classList.add("pdc-wishlist-button-pink");
+      setIsAdding(!isAdding);
+      try {
+        const res = await fetch("/api/wishlist", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        const data = await res.json();
+        console.log("Wishlist", data);
+
+        if (!res.ok) throw new Error(data.error || "Failed to add to wishlist");
+        return data;
+      } catch (err) {
+        console.log("Add to wishlist error:", err);
+        throw err;
+      }
+    } else {
+      wishlistIconRef.current?.classList.remove("pdc-wishlist-button-pink");
+      setIsAdding(!isAdding);
+      try {
+        const res = await fetch("/api/wishlist", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+
+        const data = await res.json();
+        console.log("Wishlist", data);
+
+        if (!res.ok)
+          throw new Error(data.error || "Failed to delete from wishlist");
+        return data;
+      } catch (err) {
+        console.log("Remove from wishlist error:", err);
+        throw err;
+      }
+    }
+  };
+
   useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
+    const fetchIsWishlist = async () => {
+      try {
+        const res = await fetch(
+          `/api/wishlist?clerk_id=${user?.id}&product_id=${product.product_id}`
+        );
+        const data = await res.json();
+        if (data.length > 0) {
+          wishlistIconRef.current?.classList.add("pdc-wishlist-button-pink");
+          setIsAdding(!isAdding);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
     const buildSizeColorMap = (variants: Product[] | undefined) => {
       const sizeColorMap: Record<string, Set<string>> = {};
       if (!variants) {
@@ -74,7 +182,7 @@ export default function ProductPage({ product }: ProductPageProps) {
         result[size] = Array.from(sizeColorMap[size]);
       }
       setSizeColorMap(result);
-      console.log(result)
+      console.log(result);
       setCurrentSizeColors(result[product.size]);
       const allColors = Object.values(result).flat();
       setUniqueColors(Array.from(new Set(allColors)));
@@ -119,10 +227,10 @@ export default function ProductPage({ product }: ProductPageProps) {
         return [];
       }
     };
-
+    fetchIsWishlist();
     fetchProductsByTags();
     fetchProductsByProductCode();
-  }, []);
+  }, [user?.id]);
   return (
     <>
       <section className={`product-page ${poppins.className}`}>
@@ -339,7 +447,10 @@ export default function ProductPage({ product }: ProductPageProps) {
                   &nbsp;&nbsp;AI VIRTUAL TRY ON
                 </div>
                 <div className="pdc-3buttons">
-                  <div className="pdc-cart-button center">
+                  <div
+                    onClick={handleAddToCart}
+                    className="pdc-cart-button center"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="30"
@@ -370,7 +481,7 @@ export default function ProductPage({ product }: ProductPageProps) {
                     </svg>
                     &nbsp;&nbsp;ADD TO CART
                   </div>
-                  <div className="pdc-buy-button center">
+                  <Link href={"/checkout"} className="pdc-buy-button center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="30"
@@ -384,20 +495,39 @@ export default function ProductPage({ product }: ProductPageProps) {
                       />
                     </svg>
                     &nbsp;&nbsp;BUY NOW
-                  </div>
-                  <div className="pdc-wishlist-button center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="35"
-                      height="35"
-                      viewBox="0 0 35 35"
-                      fill="none"
-                    >
-                      <path
-                        d="M17.5001 8.02094L16.7126 8.77927C16.8146 8.88512 16.9369 8.96932 17.0722 9.02683C17.2075 9.08434 17.3531 9.11399 17.5001 9.11399C17.6471 9.11399 17.7926 9.08434 17.9279 9.02683C18.0632 8.96932 18.1856 8.88512 18.2876 8.77927L17.5001 8.02094ZM10.2099 23.9459C9.98555 23.7614 9.69711 23.6736 9.40804 23.7018C9.11896 23.73 8.85291 23.8718 8.66842 24.0961C8.48392 24.3205 8.3961 24.6089 8.42427 24.898C8.45244 25.1871 8.59429 25.4531 8.81862 25.6376L10.2099 23.9459ZM3.4155 19.5578C3.48444 19.6838 3.57753 19.795 3.68945 19.8851C3.80137 19.9751 3.92993 20.0422 4.06778 20.0826C4.20564 20.1229 4.3501 20.1357 4.4929 20.1203C4.63571 20.1048 4.77407 20.0613 4.90008 19.9924C5.0261 19.9235 5.1373 19.8304 5.22734 19.7184C5.31737 19.6065 5.38449 19.478 5.42484 19.3401C5.4652 19.2023 5.478 19.0578 5.46253 18.915C5.44706 18.7722 5.40361 18.6338 5.33467 18.5078L3.4155 19.5578ZM4.0105 13.3249C4.0105 10.1895 5.78237 7.55864 8.20175 6.45177C10.5526 5.37698 13.7113 5.66135 16.7126 8.77927L18.2876 7.26406C14.7292 3.56427 10.5934 2.95323 7.29175 4.4626C4.063 5.93989 1.823 9.36989 1.823 13.3249H4.0105ZM12.3915 28.4376C13.1397 29.0268 13.9417 29.6539 14.754 30.1293C15.5663 30.6047 16.4938 30.9897 17.5001 30.9897V28.8022C17.048 28.8022 16.5172 28.6272 15.858 28.2407C15.1974 27.8557 14.5134 27.3249 13.7463 26.7197L12.3915 28.4376ZM22.6086 28.4376C24.6882 26.797 27.3482 24.9186 29.4336 22.5693C31.5584 20.1776 33.1772 17.2128 33.1772 13.3249H30.9897C30.9897 16.5303 29.6772 18.9993 27.7988 21.1168C25.8811 23.2751 23.4647 24.977 21.2538 26.7197L22.6086 28.4376ZM33.1772 13.3249C33.1772 9.36989 30.9386 5.93989 27.7084 4.4626C24.4067 2.95323 20.2738 3.56427 16.7126 7.2626L18.2876 8.77927C21.2888 5.66281 24.4476 5.37698 26.7984 6.45177C29.2178 7.55864 30.9897 10.188 30.9897 13.3249H33.1772ZM21.2538 26.7197C20.4867 27.3249 19.8028 27.8557 19.1422 28.2407C18.4815 28.6257 17.9522 28.8022 17.5001 28.8022V30.9897C18.5063 30.9897 19.4338 30.6032 20.2461 30.1293C21.0599 29.6539 21.8605 29.0268 22.6086 28.4376L21.2538 26.7197ZM13.7463 26.7197C12.5855 25.8053 11.4057 24.9303 10.2099 23.9459L8.81862 25.6376C10.029 26.6336 11.3095 27.5845 12.3915 28.4376L13.7463 26.7197ZM5.33467 18.5093C4.45605 16.9233 4.00006 15.138 4.0105 13.3249H1.823C1.823 15.7136 2.4355 17.7655 3.4155 19.5578L5.33467 18.5093Z"
-                        fill="#FF0037"
-                      />
-                    </svg>
+                  </Link>
+                  <div
+                    onClick={handleAddToWishlist}
+                    ref={wishlistIconRef}
+                    className="pdc-wishlist-button center"
+                  >
+                    {!isAdding ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="35"
+                        height="35"
+                        viewBox="0 0 35 35"
+                        fill="none"
+                      >
+                        <path
+                          d="M17.5001 8.02094L16.7126 8.77927C16.8146 8.88512 16.9369 8.96932 17.0722 9.02683C17.2075 9.08434 17.3531 9.11399 17.5001 9.11399C17.6471 9.11399 17.7926 9.08434 17.9279 9.02683C18.0632 8.96932 18.1856 8.88512 18.2876 8.77927L17.5001 8.02094ZM10.2099 23.9459C9.98555 23.7614 9.69711 23.6736 9.40804 23.7018C9.11896 23.73 8.85291 23.8718 8.66842 24.0961C8.48392 24.3205 8.3961 24.6089 8.42427 24.898C8.45244 25.1871 8.59429 25.4531 8.81862 25.6376L10.2099 23.9459ZM3.4155 19.5578C3.48444 19.6838 3.57753 19.795 3.68945 19.8851C3.80137 19.9751 3.92993 20.0422 4.06778 20.0826C4.20564 20.1229 4.3501 20.1357 4.4929 20.1203C4.63571 20.1048 4.77407 20.0613 4.90008 19.9924C5.0261 19.9235 5.1373 19.8304 5.22734 19.7184C5.31737 19.6065 5.38449 19.478 5.42484 19.3401C5.4652 19.2023 5.478 19.0578 5.46253 18.915C5.44706 18.7722 5.40361 18.6338 5.33467 18.5078L3.4155 19.5578ZM4.0105 13.3249C4.0105 10.1895 5.78237 7.55864 8.20175 6.45177C10.5526 5.37698 13.7113 5.66135 16.7126 8.77927L18.2876 7.26406C14.7292 3.56427 10.5934 2.95323 7.29175 4.4626C4.063 5.93989 1.823 9.36989 1.823 13.3249H4.0105ZM12.3915 28.4376C13.1397 29.0268 13.9417 29.6539 14.754 30.1293C15.5663 30.6047 16.4938 30.9897 17.5001 30.9897V28.8022C17.048 28.8022 16.5172 28.6272 15.858 28.2407C15.1974 27.8557 14.5134 27.3249 13.7463 26.7197L12.3915 28.4376ZM22.6086 28.4376C24.6882 26.797 27.3482 24.9186 29.4336 22.5693C31.5584 20.1776 33.1772 17.2128 33.1772 13.3249H30.9897C30.9897 16.5303 29.6772 18.9993 27.7988 21.1168C25.8811 23.2751 23.4647 24.977 21.2538 26.7197L22.6086 28.4376ZM33.1772 13.3249C33.1772 9.36989 30.9386 5.93989 27.7084 4.4626C24.4067 2.95323 20.2738 3.56427 16.7126 7.2626L18.2876 8.77927C21.2888 5.66281 24.4476 5.37698 26.7984 6.45177C29.2178 7.55864 30.9897 10.188 30.9897 13.3249H33.1772ZM21.2538 26.7197C20.4867 27.3249 19.8028 27.8557 19.1422 28.2407C18.4815 28.6257 17.9522 28.8022 17.5001 28.8022V30.9897C18.5063 30.9897 19.4338 30.6032 20.2461 30.1293C21.0599 29.6539 21.8605 29.0268 22.6086 28.4376L21.2538 26.7197ZM13.7463 26.7197C12.5855 25.8053 11.4057 24.9303 10.2099 23.9459L8.81862 25.6376C10.029 26.6336 11.3095 27.5845 12.3915 28.4376L13.7463 26.7197ZM5.33467 18.5093C4.45605 16.9233 4.00006 15.138 4.0105 13.3249H1.823C1.823 15.7136 2.4355 17.7655 3.4155 19.5578L5.33467 18.5093Z"
+                          fill="#FFFFFF"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="35"
+                        height="35"
+                        viewBox="0 0 35 35"
+                        fill="none"
+                      >
+                        <path
+                          d="M17.5001 8.02094L16.7126 8.77927C16.8146 8.88512 16.9369 8.96932 17.0722 9.02683C17.2075 9.08434 17.3531 9.11399 17.5001 9.11399C17.6471 9.11399 17.7926 9.08434 17.9279 9.02683C18.0632 8.96932 18.1856 8.88512 18.2876 8.77927L17.5001 8.02094ZM10.2099 23.9459C9.98555 23.7614 9.69711 23.6736 9.40804 23.7018C9.11896 23.73 8.85291 23.8718 8.66842 24.0961C8.48392 24.3205 8.3961 24.6089 8.42427 24.898C8.45244 25.1871 8.59429 25.4531 8.81862 25.6376L10.2099 23.9459ZM3.4155 19.5578C3.48444 19.6838 3.57753 19.795 3.68945 19.8851C3.80137 19.9751 3.92993 20.0422 4.06778 20.0826C4.20564 20.1229 4.3501 20.1357 4.4929 20.1203C4.63571 20.1048 4.77407 20.0613 4.90008 19.9924C5.0261 19.9235 5.1373 19.8304 5.22734 19.7184C5.31737 19.6065 5.38449 19.478 5.42484 19.3401C5.4652 19.2023 5.478 19.0578 5.46253 18.915C5.44706 18.7722 5.40361 18.6338 5.33467 18.5078L3.4155 19.5578ZM4.0105 13.3249C4.0105 10.1895 5.78237 7.55864 8.20175 6.45177C10.5526 5.37698 13.7113 5.66135 16.7126 8.77927L18.2876 7.26406C14.7292 3.56427 10.5934 2.95323 7.29175 4.4626C4.063 5.93989 1.823 9.36989 1.823 13.3249H4.0105ZM12.3915 28.4376C13.1397 29.0268 13.9417 29.6539 14.754 30.1293C15.5663 30.6047 16.4938 30.9897 17.5001 30.9897V28.8022C17.048 28.8022 16.5172 28.6272 15.858 28.2407C15.1974 27.8557 14.5134 27.3249 13.7463 26.7197L12.3915 28.4376ZM22.6086 28.4376C24.6882 26.797 27.3482 24.9186 29.4336 22.5693C31.5584 20.1776 33.1772 17.2128 33.1772 13.3249H30.9897C30.9897 16.5303 29.6772 18.9993 27.7988 21.1168C25.8811 23.2751 23.4647 24.977 21.2538 26.7197L22.6086 28.4376ZM33.1772 13.3249C33.1772 9.36989 30.9386 5.93989 27.7084 4.4626C24.4067 2.95323 20.2738 3.56427 16.7126 7.2626L18.2876 8.77927C21.2888 5.66281 24.4476 5.37698 26.7984 6.45177C29.2178 7.55864 30.9897 10.188 30.9897 13.3249H33.1772ZM21.2538 26.7197C20.4867 27.3249 19.8028 27.8557 19.1422 28.2407C18.4815 28.6257 17.9522 28.8022 17.5001 28.8022V30.9897C18.5063 30.9897 19.4338 30.6032 20.2461 30.1293C21.0599 29.6539 21.8605 29.0268 22.6086 28.4376L21.2538 26.7197ZM13.7463 26.7197C12.5855 25.8053 11.4057 24.9303 10.2099 23.9459L8.81862 25.6376C10.029 26.6336 11.3095 27.5845 12.3915 28.4376L13.7463 26.7197ZM5.33467 18.5093C4.45605 16.9233 4.00006 15.138 4.0105 13.3249H1.823C1.823 15.7136 2.4355 17.7655 3.4155 19.5578L5.33467 18.5093Z"
+                          fill="#FF0037"
+                        />
+                      </svg>
+                    )}
                   </div>
                 </div>
               </div>

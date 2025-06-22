@@ -35,6 +35,7 @@ export async function POST(req: Request) {
   try {
     const { userId } = await auth();
     const body = await req.json();
+    console.log(body)
     const { clerk_id, product_id, color, size } = body;
 
     if (!userId || userId != clerk_id) {

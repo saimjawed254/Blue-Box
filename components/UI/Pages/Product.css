@@ -156,8 +156,8 @@
   background-color: rgb(var(--dark-olive));
 }
 
-.pdc-size-current{
-    position: relative;
+.pdc-size-current {
+  position: relative;
   margin: 1vh;
   width: 3.5vw;
   aspect-ratio: 1/1;
@@ -166,7 +166,7 @@
   color: rgb(var(--light-olive));
   border: 0.5vh solid rgb(var(--light-olive));
   background-color: rgb(var(--dark-olive));
-  
+
   font-size: 1.25vw;
   display: flex;
   align-items: center;
@@ -280,6 +280,11 @@
   aspect-ratio: 1/1;
   border: 0.5vh solid rgb(var(--pink));
   border-radius: 0.5vh;
+}
+
+.pdc-wishlist-button-pink {
+  background-color: rgb(var(--pink));
+  color: rgb(var(--pure-white));
 }
 
 .pdc-address {
