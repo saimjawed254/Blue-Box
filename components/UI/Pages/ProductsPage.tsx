@@ -36,12 +36,26 @@ export default function ProductsPage({
   }
   const [products, setProducts] = useState(productsData);
   const [sortButtonActive, setSortButtonActive] = useState(false);
+  const [selectedSort, setSelectedSort] = useState<string>("price_low_to_high");
+
+  const [availableSorts, setAvailableSorts] = useState<string[]>([
+    "price_high_to_low",
+    "best_sellers",
+    "newest_arrivals",
+  ]);
+  const [filters, setFilters] = useState<{
+    brands?: string[];
+    priceRange?: [number, number];
+    colors?: string[];
+    discounts?: string;
+  }>({});
   function vwToPx(e: number) {
     return (window.innerWidth * e) / 100;
   }
   function vhToPx(e: number) {
     return (window.innerHeight * e) / 100;
   }
+
   useEffect(() => {
     const totalHeight = document.documentElement.scrollHeight;
     console.log("Total scrollable page height:", totalHeight, vhToPx(90));
@@ -126,6 +140,8 @@ export default function ProductsPage({
     colors?: string[];
     discounts?: string;
   }) => {
+    setFilters(filters);
+
     try {
       const res = await fetch("/api/products/filters", {
         method: "POST",
@@ -141,10 +157,68 @@ export default function ProductsPage({
 
       const data = await res.json();
       setProducts(data.products);
+      // setSelectedSort("price_low_to_high");
       console.log("Hello", data);
     } catch (err) {
       console.error("Error applying filters:", err);
       // Optionally show a toast or error UI
+    }
+  };
+
+  const handleSortChange = (newSort: string) => {
+    setAvailableSorts((prev) => {
+      return [selectedSort, ...prev.filter((opt) => opt !== newSort)];
+    });
+
+    setSelectedSort(newSort);
+
+    // Optional: trigger API refetch or navigation
+    fetchProductsBySort(newSort);
+    console.log(newSort);
+  };
+
+  const fetchProductsBySort = async (sort: string) => {
+    const body = {
+      ...filters,
+      sort,
+      category: slug[1],
+      page: 1,
+      limit: 20,
+    };
+    try {
+      const res = await fetch("/api/products/filters", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch Sorted products");
+      }
+
+      const data = await res.json();
+      setProducts(data.products);
+      console.log("Hello", data);
+    } catch (err) {
+      console.error("Error applying filters:", err);
+      // Optionally show a toast or error UI
+    }
+  };
+
+  const formatSortOption = (opt: string) => {
+    switch (opt) {
+      case "price_low_to_high":
+        return "Price: Low to High";
+      case "price_high_to_low":
+        return "Price: High to Low";
+      case "best_sellers":
+        return "Best Sellers";
+      case "newest_arrivals":
+        return "Newest Arrivals";
+      default:
+        return "";
     }
   };
 
@@ -346,6 +420,7 @@ export default function ProductsPage({
               >
                 <div className="pp-header-button-sort">
                   <div
+                    className="pp-header-sort-options"
                     style={{
                       cursor: "pointer",
                       padding: "1.5vh 1.5vh",
@@ -355,8 +430,9 @@ export default function ProductsPage({
                       userSelect: "none",
                     }}
                   >
-                    <span style={{fontWeight:"600"}}>Price:</span>
-                    <span>Low to High</span>
+                    <span>{formatSortOption(selectedSort)}</span>
+                    {/* <span style={{ fontWeight: "600" }}>Price:</span>
+                    <span>Low to High</span> */}
                     <span
                       style={{
                         transform: sortButtonActive
@@ -375,10 +451,30 @@ export default function ProductsPage({
                       maxHeight: sortButtonActive ? "15vh" : "0vh",
                       overflow: "hidden",
                       transition: "all 0.3s ease",
-                      padding: "0vh 0vh 0.5vh 0vh"
+                      padding: "0vh 0vh 0.5vh 0vh",
                     }}
                   >
-                    <div
+                    {availableSorts.map((option, index) => (
+                      <div
+                        key={index}
+                        onClick={() => handleSortChange(option)}
+                        className="pp-header-sort-options"
+                        style={{
+                          cursor: "pointer",
+                          padding: "0vh 1.5vh 1.5vh 1.5vh",
+                          display: "flex",
+                          justifyContent: "flex-start",
+                          alignItems: "center",
+                          userSelect: "none",
+                        }}
+                      >
+                        <span>{formatSortOption(option)}</span>
+                        {/* <span>High to Low</span> */}
+                        <span>&nbsp;&nbsp;</span>
+                      </div>
+                    ))}
+
+                    {/* <div
                       style={{
                         cursor: "pointer",
                         padding: "0vh 1.5vh 1.5vh 1.5vh",
@@ -388,8 +484,8 @@ export default function ProductsPage({
                         userSelect: "none",
                       }}
                     >
-                      <span style={{fontWeight:"600"}}>Price:</span>
-                      <span>Low to High</span>
+                      <span style={{ fontWeight: "600" }}>Best Sellers</span>
+                      <span>First</span>
                       <span>&nbsp;&nbsp;</span>
                     </div>
                     <div
@@ -402,24 +498,10 @@ export default function ProductsPage({
                         userSelect: "none",
                       }}
                     >
-                      <span style={{fontWeight:"600"}}>Price:</span>
-                      <span>Low to High</span>
+                      <span style={{ fontWeight: "600" }}>Newest </span>
+                      <span>First</span>
                       <span>&nbsp;&nbsp;</span>
-                    </div>
-                    <div
-                      style={{
-                        cursor: "pointer",
-                        padding: "0vh 1.5vh 1.5vh 1.5vh",
-                        display: "flex",
-                        justifyContent: "space-around",
-                        alignItems: "center",
-                        userSelect: "none",
-                      }}
-                    >
-                      <span style={{fontWeight:"600"}}>Price:</span>
-                      <span>Low to High</span>
-                      <span>&nbsp;&nbsp;</span>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

@@ -128,7 +128,6 @@
   color: rgb(var(--dark-olive));
 }
 
-
 .pp-header-button-sort {
   width: 11vw;
   font-size: 0.875vw;
@@ -137,6 +136,12 @@
   border-radius: 2vw;
   color: rgb(var(--pure-black));
   overflow: hidden;
+  font-weight: 600;
+}
+
+.pp-header-sort-options:hover{
+  /* color: rgb(var(--dark-olive)); */
+  font-weight: 400;
 }
 
 .pp-cards {
