@@ -67,6 +67,9 @@ canvas {
   backdrop-filter: blur(0.5vw);
 }
 
+.done{
+  opacity: 0.3;
+}
 .rounded-corners {
   border-radius: 100vw;
 }

@@ -312,6 +312,8 @@
   font-size: 0.875vw;
   color: rgb(var(--light-olive));
   border-bottom: 0.1vw solid rgb(var(--light-olive));
+  display: flex;
+  justify-content: space-between;
 }
 
 .pdc-estimated-delivery {
@@ -329,7 +331,7 @@
 .pdc-est-del-text-box {
   width: 100%;
   font-size: 0.8vw;
-  color: rgb(var(--light-olive));
+  color: rgb(var(--off-text));
 }
 
 .pdc-full-address {
@@ -351,6 +353,12 @@
   border-bottom: 0.1vw solid rgb(var(--light-olive));
   display: flex;
   justify-content: space-between;
+}
+
+.pdc-address-input-field {
+  width: 60%;
+  border: none;
+  font-size: 0.875vw;
 }
 
 .pdc-offers {

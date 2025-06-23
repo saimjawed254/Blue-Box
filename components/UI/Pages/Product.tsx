@@ -39,6 +39,129 @@ export default function ProductPage({ product }: ProductPageProps) {
   const [currentSizeColors, setCurrentSizeColors] = useState<string[]>([]);
   const [isAdding, setIsAdding] = useState(true);
   const wishlistIconRef = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(
+    null
+  );
+  const [address, setAddress] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    const shareData = {
+      title: "Check this out!",
+      text: "Here’s something interesting!",
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+        console.log("Shared successfully");
+      } catch (err) {
+        console.error("Share failed:", err);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error("Clipboard copy failed:", err);
+      }
+    }
+  };
+
+  const handleSavePincode = async () => {
+    if (loading) {
+      return;
+    }
+    if (!pincode.trim()) {
+      alert("Pincode cannot be empty");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/address/save-pincode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pincode }),
+      });
+
+      const data = await res.json();
+      console.log(data.message);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = async () => {
+    if (loading) {
+      return;
+    }
+    if (!address.trim()) {
+      alert("Address cannot be empty");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/address/save-address", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ address }),
+      });
+
+      const data = await res.json();
+      console.log(data.message);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGetLocation = () => {
+    if (loading) {
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        setCoords({ lat, lon });
+        console.log(lat, lon);
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
+          );
+          const data = await res.json();
+          setAddress(data.display_name || "Address not found");
+          console.log(data);
+        } catch (error) {
+          console.error(error);
+          setAddress("Failed to fetch address");
+        } finally {
+          setLoading(false);
+        }
+      },
+      (error) => {
+        console.error(error);
+        alert("Failed to get location: " + error.message);
+        setLoading(false);
+      }
+    );
+  };
 
   const handleColorClick = (isActive: boolean, color: string) => {
     if (isActive) {
@@ -297,7 +420,14 @@ export default function ProductPage({ product }: ProductPageProps) {
           <div className="pd-content">
             <div className="pdc-company">
               {product.brand}
-              <span className="pdc-share-button center">
+              <span
+                onClick={handleShare}
+                className={
+                  copied
+                    ? "pdc-share-button done center"
+                    : "pdc-share-button center"
+                }
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="40"
@@ -350,7 +480,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                   <div className="pdc-qty">Qty: {product.quantity}</div>
                 </div>
                 {productCodeData?.map((codeProduct) =>
-                  codeProduct.product_id !== product.product_id ? (
+                  codeProduct.product_id !== product.product_id &&
+                  codeProduct.size !== product.size ? (
                     <Link
                       href={`${category}?id=${codeProduct.product_id}`}
                       key={codeProduct.product_id}
@@ -535,7 +666,26 @@ export default function ProductPage({ product }: ProductPageProps) {
             <div className="pdc-address">
               <div className="pdc-pincode">
                 <div className="pdc-pincode-header">DELIVERY PINCODE</div>
-                <div className="pdc-pincode-text-box">Enter pincode</div>
+                <div className="pdc-pincode-text-box">
+                  <input
+                    type="text"
+                    value={pincode}
+                    onChange={(e) => setPincode(e.target.value)}
+                    placeholder="Enter pincode"
+                    className={`pdc-address-input-field ${poppins.className}`}
+                  />
+                  <span
+                    onClick={handleSavePincode}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      color: "rgb(var(--orange))",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {loading ? "Saving..." : "Add"}
+                  </span>
+                </div>
               </div>
               <div className="pdc-estimated-delivery">
                 <div className="pdc-est-del-header">
@@ -556,28 +706,62 @@ export default function ProductPage({ product }: ProductPageProps) {
               <div className="pdc-full-address">
                 <div className="pdc-address-header">ADDRESS</div>
                 <div className="pdc-address-text-box">
-                  Enter full delivery address
-                  <span
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      color: "rgb(var(--orange))",
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="25"
-                      height="25"
-                      viewBox="0 0 25 25"
-                      fill="none"
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="Enter full delivery address"
+                    className={`pdc-address-input-field ${poppins.className}`}
+                  />
+                  {address.trim() === "" ? (
+                    <span
+                      onClick={handleGetLocation}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        color: "rgb(var(--orange))",
+                        cursor: "pointer",
+                      }}
                     >
-                      <path
-                        d="M11.4583 2.0835V4.23975C9.6249 4.47224 7.92083 5.30755 6.61407 6.61431C5.30731 7.92108 4.47199 9.62514 4.2395 11.4585H2.08325V13.5418H4.2395C4.47199 15.3752 5.30731 17.0793 6.61407 18.386C7.92083 19.6928 9.6249 20.5281 11.4583 20.7606V22.9168H13.5416V20.7606C15.3749 20.5281 17.079 19.6928 18.3858 18.386C19.6925 17.0793 20.5278 15.3752 20.7603 13.5418H22.9166V11.4585H20.7603C20.5278 9.62514 19.6925 7.92108 18.3858 6.61431C17.079 5.30755 15.3749 4.47224 13.5416 4.23975V2.0835M11.4583 6.3335V8.3335H13.5416V6.34391C16.1458 6.771 18.2291 8.85433 18.6666 11.4585H16.6666V13.5418H18.6562C18.2291 16.146 16.1458 18.2293 13.5416 18.6668V16.6668H11.4583V18.6564C8.85409 18.2293 6.77075 16.146 6.33325 13.5418H8.33325V11.4585H6.34367C6.77075 8.85433 8.85409 6.771 11.4583 6.3335ZM12.4999 11.4585C12.2237 11.4585 11.9587 11.5682 11.7633 11.7636C11.568 11.9589 11.4583 12.2239 11.4583 12.5002C11.4583 12.7764 11.568 13.0414 11.7633 13.2367C11.9587 13.4321 12.2237 13.5418 12.4999 13.5418C12.7762 13.5418 13.0411 13.4321 13.2365 13.2367C13.4318 13.0414 13.5416 12.7764 13.5416 12.5002C13.5416 12.2239 13.4318 11.9589 13.2365 11.7636C13.0411 11.5682 12.7762 11.4585 12.4999 11.4585Z"
-                        fill="#F95700"
-                      />
-                    </svg>
-                    Detect my location
-                  </span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
+                        <path
+                          d="M11.4583 2.0835V4.23975C9.6249 4.47224 7.92083 5.30755 6.61407 6.61431C5.30731 7.92108 4.47199 9.62514 4.2395 11.4585H2.08325V13.5418H4.2395C4.47199 15.3752 5.30731 17.0793 6.61407 18.386C7.92083 19.6928 9.6249 20.5281 11.4583 20.7606V22.9168H13.5416V20.7606C15.3749 20.5281 17.079 19.6928 18.3858 18.386C19.6925 17.0793 20.5278 15.3752 20.7603 13.5418H22.9166V11.4585H20.7603C20.5278 9.62514 19.6925 7.92108 18.3858 6.61431C17.079 5.30755 15.3749 4.47224 13.5416 4.23975V2.0835M11.4583 6.3335V8.3335H13.5416V6.34391C16.1458 6.771 18.2291 8.85433 18.6666 11.4585H16.6666V13.5418H18.6562C18.2291 16.146 16.1458 18.2293 13.5416 18.6668V16.6668H11.4583V18.6564C8.85409 18.2293 6.77075 16.146 6.33325 13.5418H8.33325V11.4585H6.34367C6.77075 8.85433 8.85409 6.771 11.4583 6.3335ZM12.4999 11.4585C12.2237 11.4585 11.9587 11.5682 11.7633 11.7636C11.568 11.9589 11.4583 12.2239 11.4583 12.5002C11.4583 12.7764 11.568 13.0414 11.7633 13.2367C11.9587 13.4321 12.2237 13.5418 12.4999 13.5418C12.7762 13.5418 13.0411 13.4321 13.2365 13.2367C13.4318 13.0414 13.5416 12.7764 13.5416 12.5002C13.5416 12.2239 13.4318 11.9589 13.2365 11.7636C13.0411 11.5682 12.7762 11.4585 12.4999 11.4585Z"
+                          fill="#F95700"
+                        />
+                      </svg>
+                      {loading ? "Locating..." : "Detect My Location"}
+                    </span>
+                  ) : (
+                    <span
+                      onClick={handleSave}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        color: "rgb(var(--orange))",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="25"
+                        height="25"
+                        viewBox="0 0 25 25"
+                        fill="none"
+                      >
+                        <path
+                          d="M11.4583 2.0835V4.23975C9.6249 4.47224 7.92083 5.30755 6.61407 6.61431C5.30731 7.92108 4.47199 9.62514 4.2395 11.4585H2.08325V13.5418H4.2395C4.47199 15.3752 5.30731 17.0793 6.61407 18.386C7.92083 19.6928 9.6249 20.5281 11.4583 20.7606V22.9168H13.5416V20.7606C15.3749 20.5281 17.079 19.6928 18.3858 18.386C19.6925 17.0793 20.5278 15.3752 20.7603 13.5418H22.9166V11.4585H20.7603C20.5278 9.62514 19.6925 7.92108 18.3858 6.61431C17.079 5.30755 15.3749 4.47224 13.5416 4.23975V2.0835M11.4583 6.3335V8.3335H13.5416V6.34391C16.1458 6.771 18.2291 8.85433 18.6666 11.4585H16.6666V13.5418H18.6562C18.2291 16.146 16.1458 18.2293 13.5416 18.6668V16.6668H11.4583V18.6564C8.85409 18.2293 6.77075 16.146 6.33325 13.5418H8.33325V11.4585H6.34367C6.77075 8.85433 8.85409 6.771 11.4583 6.3335ZM12.4999 11.4585C12.2237 11.4585 11.9587 11.5682 11.7633 11.7636C11.568 11.9589 11.4583 12.2239 11.4583 12.5002C11.4583 12.7764 11.568 13.0414 11.7633 13.2367C11.9587 13.4321 12.2237 13.5418 12.4999 13.5418C12.7762 13.5418 13.0411 13.4321 13.2365 13.2367C13.4318 13.0414 13.5416 12.7764 13.5416 12.5002C13.5416 12.2239 13.4318 11.9589 13.2365 11.7636C13.0411 11.5682 12.7762 11.4585 12.4999 11.4585Z"
+                          fill="#F95700"
+                        />
+                      </svg>
+                      {loading ? "Submitting..." : "Submit Address"}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
