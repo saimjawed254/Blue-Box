@@ -1,0 +1,11 @@
+.cursor {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  flex-shrink: 0;
+  aspect-ratio: 1/1;
+  mix-blend-mode: difference;
+  z-index: 10;
+}

@@ -3,8 +3,9 @@
   --pure-white: 255, 255, 255;
   --off-black: 37, 37, 37;
   --pure-black: 0, 0, 0;
-  --blue: 0, 216, 249;
-  --orange: 249, 87, 0;
+  --blue: 0, 166, 255;
+  --yellow: 255, 251, 0;
+  --orange: 255, 89, 0;
   --light-olive: 179, 178, 158;
   --dark-olive: 63, 63, 55;
   --green: 119, 204, 0;
@@ -67,7 +68,7 @@ canvas {
   backdrop-filter: blur(0.5vw);
 }
 
-.done{
+.done {
   opacity: 0.3;
 }
 .rounded-corners {

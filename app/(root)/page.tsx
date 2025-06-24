@@ -30,6 +30,7 @@ import NACardDown from "@/components/UI/Cards/NACardDown";
 import { useUser } from "@clerk/nextjs";
 import { Product } from "@/src/db/schema/products";
 import Link from "next/link";
+import Landing from "@/components/UI/Pages/Landing";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
@@ -351,8 +352,9 @@ export default function Home() {
   });
   return (
     <>
+      <Landing/>
       {/* -------------------------Hero-------------------------- */}
-      <section className={`hero ${ibm_plex_mono.className}`}>
+      {/* <section className={`hero ${ibm_plex_mono.className}`}>
         <div className="hero-ll">
           <div className="hero-ll-head">
             BEYOND FASHION <br />
@@ -524,7 +526,7 @@ export default function Home() {
         <div className={`hero-name center ${cinzel_decorative.className}`}>
           BLUE BOX
         </div>
-      </section>
+      </section> */}
 
       {/* -------------------------Why Choose Us-------------------------- */}
 

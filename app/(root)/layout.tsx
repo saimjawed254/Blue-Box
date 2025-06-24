@@ -1,6 +1,7 @@
 "use client";
 
 import GradientBG from "@/components/BG/Background";
+import Cursor from "@/components/BG/cursor";
 import ShaderWrapper from "@/components/BG/RippleWrapper";
 import MenuButton from "@/components/UI/Buttons/MenuButton";
 import { RootState } from "@/store";
@@ -13,8 +14,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {shadersVisible && <ShaderWrapper visible={shadersVisible} />}
-      <GradientBG />
+      <Cursor />
+      {/* {shadersVisible && <ShaderWrapper visible={shadersVisible} />} */}
+      {/* <GradientBG /> */}
       {children}
       <MenuButton />
     </>
