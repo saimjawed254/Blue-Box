@@ -2,12 +2,128 @@
 import { Bruno_Ace, IBM_Plex_Mono, Poppins } from "next/font/google";
 import "./Landing.css";
 import Image from "next/image";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 const bruno_ace = Bruno_Ace({ weight: ["400"] });
 const ibm_plex_mono = IBM_Plex_Mono({ weight: ["400"] });
 const poppins = Poppins({ weight: ["300", "400", "600"] });
 
 export default function Landing() {
+  useGSAP(() => {
+  const leftSlideshowItems = document.querySelectorAll(".left-cargo-slideshow-item");
+  const rightSlideshowItems = document.querySelectorAll(".right-suits-slideshow-item");
+
+  leftSlideshowItems.forEach((item, index) => {
+    if (index !== 0) {
+      gsap.set(item, {
+        yPercent: 100,
+      });
+      gsap.set(item.querySelector("img"), {
+        yPercent: -100,
+      });
+    }
+  });
+
+    rightSlideshowItems.forEach((item, index) => {
+    if (index !== 0) {
+      gsap.set(item, {
+        yPercent: -100,
+      });
+      gsap.set(item.querySelector("img"), {
+        yPercent: 100,
+      });
+    }
+  });
+
+  const tlLeft = gsap.timeline({ repeat: -1, defaults: { ease: "power2.inOut", duration: 1.2 } });
+  const tlRight = gsap.timeline({ repeat: -1, defaults: { ease: "power2.inOut", duration: 1.2 } });
+
+  leftSlideshowItems.forEach((item, index) => {
+    if (index !== leftSlideshowItems.length - 1) {
+      tlLeft.to(item, {
+        yPercent: -100,
+      })
+        .to(
+          item.querySelector("img"),
+          {
+            yPercent: 100,
+          },
+          "<"
+        )
+        .to(
+          leftSlideshowItems[index + 1],
+          {
+            yPercent: 0,
+          },
+          "<"
+        )
+        .to(
+          leftSlideshowItems[index + 1].querySelector("img"),
+          {
+            yPercent: 0,
+          },
+          "<"
+        );
+    }
+  });
+
+    rightSlideshowItems.forEach((item, index) => {
+    if (index !== rightSlideshowItems.length - 1) {
+      tlRight.to(item, {
+        yPercent: 100,
+      })
+        .to(
+          item.querySelector("img"),
+          {
+            yPercent: -100,
+          },
+          "<"
+        )
+        .to(
+          rightSlideshowItems[index + 1],
+          {
+            yPercent: 0,
+          },
+          "<"
+        )
+        .to(
+          rightSlideshowItems[index + 1].querySelector("img"),
+          {
+            yPercent: 0,
+          },
+          "<"
+        );
+    }
+  });
+  // Reset the last item back to top after full cycle
+  // const lastIndex = items.length - 1;
+  // tl.to(items[lastIndex], {
+  //   yPercent: -100,
+  // })
+  //   .to(
+  //     items[lastIndex].querySelector("img"),
+  //     {
+  //       yPercent: 100,
+  //     },
+  //     "<"
+  //   )
+  //   .to(
+  //     items[0],
+  //     {
+  //       yPercent: 0,
+  //     },
+  //     "<"
+  //   )
+  //   .to(
+  //     items[0].querySelector("img"),
+  //     {
+  //       yPercent: 0,
+  //     },
+  //     "<"
+  //   );
+});
+
   return (
     <>
       <section className="landing">
@@ -95,7 +211,7 @@ export default function Landing() {
           <div
             style={{
               fontSize: "1.25vw",
-              color:"rgb(var(--yellow))",
+              color: "rgb(var(--yellow))",
             }}
             className={`left-cargo-header ${bruno_ace.className}`}
           >
@@ -127,7 +243,7 @@ export default function Landing() {
           <div
             style={{
               fontSize: "1.25vw",
-              color:"rgb(var(--yellow))",
+              color: "rgb(var(--yellow))",
             }}
             className={`left-cargo-header ${bruno_ace.className}`}
           >
@@ -157,7 +273,22 @@ export default function Landing() {
         </section>
         <section className="landing-left">
           <section className="left-cargo-box center">
-            <section className="left-cargo-box-image"></section>
+            <section className="left-cargo-box-image">
+              <div className="left-cargo-slideshow-container">
+                <div className="left-cargo-slideshow-item">
+                    <img src="https://picsum.photos/id/1015/1000/600" alt="Image 1" />
+                </div>
+                <div className="left-cargo-slideshowitem">
+                    <img src="https://picsum.photos/id/1016/1000/600" alt="Image 2" />
+                </div>
+                <div className="left-cargo-slideshow-item">
+                    <img src="https://picsum.photos/id/1012/1000/600" alt="Image 3" />
+                </div>
+                <div className="left-cargo-slideshow-item">
+                    <img src="https://picsum.photos/id/1015/1000/600" alt="Image 1" />
+                </div>
+              </div>
+            </section>
             <section className="left-cargo-box-buttons">
               <div className="left-cargo-box-buttons-row1 center">
                 <div className="left-cargo-box-buttons-row1-button1"></div>
@@ -278,7 +409,22 @@ export default function Landing() {
         </section>
         <section className="landing-right">
           <section className="right-suits-box center">
-            <section className="right-suits-box-image"></section>
+            <section className="right-suits-box-image">
+              <div className="right-suits-slideshow-container">
+                <div className="right-suits-slideshow-item">
+                    <img src="https://picsum.photos/id/1/1000/600" alt="Image 1" />
+                </div>
+                <div className="right-suits-slideshow-item">
+                    <img src="https://picsum.photos/id/3/1000/600" alt="Image 2" />
+                </div>
+                <div className="right-suits-slideshow-item">
+                    <img src="https://picsum.photos/id/2/1000/600" alt="Image 3" />
+                </div>
+                <div className="right-suits-slideshow-item">
+                    <img src="https://picsum.photos/id/1/1000/600" alt="Image 1" />
+                </div>
+              </div>
+            </section>
             <section className="right-suits-box-buttons">
               <div className="right-suits-box-buttons-row1 center">
                 <div className="right-suits-box-buttons-row1-button1"></div>

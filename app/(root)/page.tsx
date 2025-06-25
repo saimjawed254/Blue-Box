@@ -31,6 +31,7 @@ import { useUser } from "@clerk/nextjs";
 import { Product } from "@/src/db/schema/products";
 import Link from "next/link";
 import Landing from "@/components/UI/Pages/Landing";
+import Home from "@/components/UI/Pages/Home";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
@@ -48,7 +49,7 @@ export const cinzel_decorative = Cinzel_Decorative({
 });
 export const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 
-export default function Home() {
+export default function Page() {
   const { user } = useUser();
   const alreadyInserted = useRef(false);
   console.log(user, alreadyInserted);
@@ -352,7 +353,7 @@ export default function Home() {
   });
   return (
     <>
-      <Landing/>
+      <Home/>
       {/* -------------------------Hero-------------------------- */}
       {/* <section className={`hero ${ibm_plex_mono.className}`}>
         <div className="hero-ll">

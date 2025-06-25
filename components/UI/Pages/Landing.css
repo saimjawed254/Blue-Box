@@ -74,7 +74,7 @@
 .left-cargo-box {
   position: relative;
   grid-row: 6 / span 25;
-  grid-column: 2 / span 20;
+  grid-column: 2 / span 19;
   background: rgb(var(--pure-black));
   border-radius: 2.5vw;
   flex-direction: column;
@@ -83,10 +83,34 @@
 .left-cargo-box-image {
   width: 90%;
   height: 55%;
-  border-radius: 2.5vw;
+  border-radius: 2vw;
   background: url("/mark-adriane-1533MrY5liQ-unsplash.jpg");
   background-size: cover;
   background-position: 50% 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.left-cargo-slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.left-cargo-slideshow-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.left-cargo-slideshow-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .left-cargo-box-buttons {
@@ -233,7 +257,7 @@
 
 .right-suits-box {
   grid-row: 14 / span 25;
-  grid-column: 20 / span 20;
+  grid-column: 21 / span 19;
   background: rgb(var(--pure-black));
   border-radius: 2.5vw;
   flex-direction: column;
@@ -249,6 +273,29 @@
   background: url("/pexels-jos-penaran-927928177-27240488.jpg");
   background-size: cover;
   background-position: 50% 50%;
+  overflow: hidden;
+}
+
+.right-suits-slideshow-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.right-suits-slideshow-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.right-suits-slideshow-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .right-suits-box-buttons {
@@ -334,7 +381,7 @@
 
 .right-suits-heading {
   grid-row: 6 / span 7;
-  grid-column: 20 / span 20;
+  grid-column: 21 / span 19;
   background: rgba(var(--pure-white), 0.1);
   border-radius: 2.5vw;
   display: flex;

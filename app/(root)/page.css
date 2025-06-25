@@ -333,7 +333,9 @@
   z-index: 1;
 
   border-radius: 1vh;
-  background: rgb(var(--light-olive));
+  background: url("/pexels-jos-penaran-927928177-27240488.jpg");
+  background-size: cover;
+  background-position: 50% 50%;
   /* transition: all 0.3s ease; */
 }
 

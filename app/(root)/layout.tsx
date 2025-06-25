@@ -14,11 +14,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <Cursor />
+      {/* <Cursor /> */}
       {/* {shadersVisible && <ShaderWrapper visible={shadersVisible} />} */}
       {/* <GradientBG /> */}
       {children}
-      <MenuButton />
+      {/* <MenuButton /> */}
     </>
   );
 }
