@@ -1,5 +1,6 @@
 :root {
   --off-white: 240, 241, 250;
+  --mid-white: 217, 217, 217;
   --pure-white: 255, 255, 255;
   --off-black: 37, 37, 37;
   --pure-black: 0, 0, 0;
@@ -24,6 +25,7 @@ body {
   box-sizing: border-box;
   overscroll-behavior: auto;
   position: relative;
+  background: rgb(var(--off-white));
 }
 
 * {

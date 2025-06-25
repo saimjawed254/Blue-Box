@@ -3,107 +3,147 @@ nav {
   width: 100vw;
   height: 12.5vh;
   position: fixed;
-  top: 0;
+  bottom: 0;
   background: transparent;
-  grid-template-columns: repeat(40, 1fr);
   display: grid;
+  grid-template-columns: repeat(40, 1fr);
   align-items: center;
+}
+
+.nav-logo {
+  grid-column: 2 / span 4;
+  height: 10vh;
+  border-radius: 1vw;
+  /* background-color: rgb(var(--pure-white)); */
+  font-size: 1vw;
+  color: rgb(var(--pure-black));
+  padding: 0 1vh 0 1vh;
+  mix-blend-mode: difference;
 }
 
 .navigate {
-  grid-column: 3 / span 15;
-  background-color: rgb(var(--pure-black));
-  height: 60%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 0.875vw;
-  color: rgb(var(--yellow));
+  grid-column: 13 / span 16;
+  height: 10vh;
+  border-radius: 1vw;
+  background-color: rgb(var(--pure-white));
+  font-size: 1vw;
+  justify-content: space-between;
+  padding: 0 1vh 0 1vh;
 }
 
 .nav-home {
-  background-color: rgb(var(--yellow));
-  width: 15%;
   height: 80%;
-  color: rgb(var(--pure-black));
+  width: auto;
+  border-radius: 0.625vw;
 }
 
 .nav-na {
-  /* background-color: rgb(var(--light-olive)); */
-  width: 28%;
   height: 80%;
-}
-
-.nav-mc {
-  /* background-color: rgb(var(--light-olive)); */
-  width: 25%;
-  height: 80%;
+  width: auto;
+  border-radius: 0.625vw;
 }
 
 .nav-ls {
-  /* background-color: rgb(var(--light-olive)); */
-  width: 30%;
   height: 80%;
+  width: auto;
+  border-radius: 0.625vw;
 }
 
-.nav-search {
-  grid-column: 21 / span 11;
-  border: 0.5vh solid rgb(var(--pure-black));
-  height: 60%;
-
-  background-color: rgb(var(--yellow));
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-
-  font-size: 0.875vw;
-  color: rgba(var(--pure-black), 1);
-
-  /* filter: invert(1); */
+.nav-mc {
+  height: 80%;
+  width: auto;
+  border-radius: 0.625vw;
 }
 
-.nav-credentials {
-  grid-column: 33 / span 6;
-  background-color: rgb(var(--pure-black));
-  height: 60%;
+.nav-ai-search-icon {
+  height: 80%;
+  padding: 0 1vw 0 1vw;
+  width: auto;
+  border-radius: 0.625vw;
+}
+
+.nav-cart {
+  height: 80%;
+  padding: 0 1.5vw 0 1.5vw;
+  width: auto;
+  background: rgb(var(--yellow));
+  border-radius: 0.625vw;
+}
+
+.nav-link {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 1vw;
+  height: 80%;
+  border-radius: 0.625vw;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s ease-in;
+}
 
+.nav-link .dot-fill {
+  position: absolute;
+  left: 0.8vw;
+  width: 0.5vw;
+  height: 0.5vw;
+  background: rgb(var(--off-text));
+  border-radius: 50%;
+  z-index: 0;
+  transition: all 0.5s ease-in;
+}
+
+.dot-fill {
+  visibility: hidden;
+}
+
+.nav-link .nav-label {
+  position: relative;
+  z-index: 1;
+  color: black;
+  transition: color 0.1s ease;
+}
+
+.nav-link:hover .dot-fill {
+  width: 250%;
+  height: 500%;
+  left: 0;
+  top: 0;
+  border-radius: 0;
+  visibility: visible;
+}
+
+.nav-link:hover .nav-label {
+  color: rgb(var(--pure-white));
+}
+
+.nav-credentials {
+  grid-column: 35 / span 5;
+  height: 10vh;
+  border-radius: 1vw;
+  background-color: rgb(var(--pure-white));
   font-size: 1vw;
-  color: rgb(var(--off-white));
-  position: relative;
+  justify-content: space-between;
+  padding: 0 1vh 0 1vh;
 }
 
-.nav-c-signin {
-  color: rgb(var(--pure-black));
+.nav-cred-account {
+  height: 80%;
+  width: auto;
+}
+
+.nav-cred-user-image {
+  height: 80%;
+  aspect-ratio: 1/1;
   background-color: rgb(var(--yellow));
-  width: 48%;
-  height: 85%;
-  position: relative;
+  border-radius: 0.625vw;
 }
 
-.nav-c-user-image{
-  position: relative;
-  width: 40%;
+.nav-cred-arrow {
+  height: 80%;
   aspect-ratio: 1/1;
-  overflow: hidden;
-}
-
-.nav-c-cart-icon{
-  position: relative;
-  left: 10%;
-  width: 40%;
-  aspect-ratio: 1/1;
-  overflow: hidden;
-  color: rgb(var(--pure-black));
-}
-
-
-.nav-c-logo {
-  color: rgb(var(--yellow));
-  /* background-color: rgb(var(--light-olive)); */
-  width: 48%;
-  height: 85%;
+  background-color: rgb(var(--yellow));
+  border-radius: 0.625vw;
 }

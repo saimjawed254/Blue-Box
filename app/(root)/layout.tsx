@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       {/* <Cursor /> */}
-      {/* {shadersVisible && <ShaderWrapper visible={shadersVisible} />} */}
+      {shadersVisible && <ShaderWrapper visible={shadersVisible} />}
       {/* <GradientBG /> */}
       {children}
       {/* <MenuButton /> */}

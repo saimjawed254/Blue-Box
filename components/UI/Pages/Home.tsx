@@ -66,7 +66,7 @@ export default function Home() {
       preserveWhitespace: true,
     });
 
-    const tl = gsap.timeline({ repeat: -1 });
+    const tl = gsap.timeline();
 
     tl.to({}, { duration: 2 })
       .from(split1.lines[0], {
