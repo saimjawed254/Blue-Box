@@ -11,7 +11,7 @@
 .products-page-sidebar {
   position: relative;
   width: 16.5%;
-  background-color: rgb(var(--light-olive));
+  background-color: rgb(var(--pure-white));
 }
 
 .products-content {
@@ -22,18 +22,18 @@
 .pp-top-buffer {
   width: 100%;
   height: 12.5vh;
-  border-bottom: 0.1vw solid rgb(var(--light-olive));
+  border-bottom: 0.1vw solid rgb(var(--pure-white));
 }
 
 .pp-header {
   width: 100%;
   height: 15vh;
-  border-bottom: 0.1vw solid rgb(var(--light-olive));
+  border-bottom: 0.1vw solid rgb(var(--pure-white));
   display: grid;
   grid-template-rows: repeat(10, 1fr);
   grid-template-columns: repeat(40, 1fr);
   font-size: 1vw;
-  color: rgb(var(--light-olive));
+  color: rgb(var(--pure-black));
 }
 
 .pp-header-marquee1 {
@@ -76,7 +76,7 @@
 }
 
 .pphp-category {
-  color: rgb(var(--dark-olive));
+  color: rgb(var(--pure-black));
   font-weight: 600;
 }
 
@@ -85,55 +85,55 @@
 }
 
 .pp-header-button {
-  grid-row: 5 / span 5;
+  grid-row: 4 / span 6;
   grid-column: 31 / span 8;
-  background-color: rgb(var(--pure-black));
-  color: rgb(var(--light-olive));
-  border-radius: 100vw;
+  background-color: rgb(var(--pure-white));
+  color: rgb(var(--off-text));
+  border-radius: 1vw;
   z-index: 10;
   position: relative;
 }
 
 .pp-header-button-text {
   position: absolute;
-  top: 2vh;
+  top: 3vh;
   left: 0.7vh;
 }
 
 .pp-header-button-cover {
   position: absolute;
-  top: 0.2vh;
-  right: 0.2vh;
+  top: 0.5vh;
+  right: 0.5vh;
   width: 11vw;
-  height: 7vh;
+  height: 8vh;
   font-size: 1.25vw;
   justify-content: center;
-  border: 0.5vh solid rgb(var(--pure-black));
-  background-color: rgb(var(--light-olive));
-  border-radius: 2vw;
-  color: rgb(var(--dark-olive));
+  border: 0.5vh solid rgb(var(--pure-white));
+  background-color: rgb(var(--yellow));
+  border-radius: 1vw;
+  color: rgb(var(--pure-black));
   overflow: hidden;
 }
 .pp-header-button-cover-active {
   position: absolute;
-  top: 0.2vh;
-  right: 0.2vh;
+  top: 0.5vh;
+  right: 0.5vh;
   width: 11vw;
   height: 7vh;
   font-size: 1.25vw;
   justify-content: center;
-  border: 0.5vh solid rgb(var(--pure-black));
-  background-color: rgb(var(--light-olive));
-  border-radius: 2vw;
-  color: rgb(var(--dark-olive));
+  border: 0.5vh solid rgb(var(--pure-white));
+  background-color: rgb(var(--yellow));
+  border-radius: 1vw;
+  color: rgb(var(--pure-black));
 }
 
 .pp-header-button-sort {
   width: 11vw;
   font-size: 0.875vw;
   justify-content: center;
-  background-color: rgb(var(--light-olive));
-  border-radius: 2vw;
+  background-color: rgb(var(--yellow));
+  border-radius: 1vw;
   color: rgb(var(--pure-black));
   overflow: hidden;
   font-weight: 600;

@@ -423,7 +423,7 @@ export default function ProductsPage({
                     className="pp-header-sort-options"
                     style={{
                       cursor: "pointer",
-                      padding: "1.5vh 1.5vh",
+                      padding: "2.25vh 1.5vh 1.5vh 1.5vh",
                       display: "flex",
                       justifyContent: "space-around",
                       alignItems: "center",
@@ -461,7 +461,7 @@ export default function ProductsPage({
                         className="pp-header-sort-options"
                         style={{
                           cursor: "pointer",
-                          padding: "0vh 1.5vh 1.5vh 1.5vh",
+                          padding: "0vh 1.5vh 1.5vh 2.25vh",
                           display: "flex",
                           justifyContent: "flex-start",
                           alignItems: "center",

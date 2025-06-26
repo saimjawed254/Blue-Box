@@ -1,13 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const uiSlice=createSlice({
-    name: "ui",
-    initialState: {shadersVisible: true},
-    reducers: {
-        showShader: (state)=>{ state.shadersVisible = true;},
-        hideShader: (state)=>{ state.shadersVisible = false;},
-    }
-})
+interface UIState {
+  shadersVisible: boolean;
+  shaderOwner: "none" | "landing" | "home" | "na";
+}
 
-export const {showShader,hideShader} = uiSlice.actions;
+const initialState: UIState = {
+  shadersVisible: true,
+  shaderOwner: "landing",
+};
+
+const uiSlice = createSlice({
+  name: "ui",
+  initialState,
+  reducers: {
+    showShader: (state) => {
+      state.shadersVisible = true;
+    },
+    hideShader: (state) => {
+      state.shadersVisible = false;
+    },
+    setShaderOwner: (state, action: PayloadAction<"none" | "landing" | "home" | "na">) => {
+      state.shaderOwner = action.payload;
+    },
+  },
+});
+
+export const { showShader, hideShader, setShaderOwner } = uiSlice.actions;
 export default uiSlice.reducer;

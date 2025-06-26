@@ -1,0 +1,116 @@
+.why-choose-us {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+
+  display: grid;
+  grid-template-rows: repeat(40, 1fr);
+  grid-template-columns: repeat(80, 1fr);
+  z-index: 2;
+}
+
+.wcu-left-text-box {
+  grid-row: 2 / span 12;
+  grid-column: 2 / span 30;
+  font-size: 2.5vw;
+  line-height: 100%;
+}
+
+.wcu-left-ai-text-box {
+  grid-row: 16 / span 15;
+  grid-column: 2 / span 25;
+  flex-direction: column;
+}
+
+.wcu-left-ai-try-on {
+  font-size: 1vw;
+  font-weight: 500;
+}
+
+.wcu-left-ai-try-on-text {
+  padding-top: 1vh;
+  font-size: 0.875vw;
+  font-weight: 300;
+  line-height: 100%;
+  color: rgb(var(--off-text));
+}
+
+.wcu-left-ai-search {
+  font-size: 1vw;
+  font-weight: 500;
+}
+
+.wcu-left-ai-search-text {
+  padding-top: 1vh;
+  font-size: 0.875vw;
+  font-weight: 300;
+  line-height: 100%;
+  color: rgb(var(--off-text));
+}
+
+.wcu-right-text-box {
+  grid-row: 24 / span 12;
+  grid-column: 51 / span 22;
+  font-size: 1.75vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.wcu-marquee {
+  position: relative;
+  grid-row: 1 / span 40;
+  grid-column: 75 / span 6;
+  text-wrap-mode: nowrap;
+  writing-mode: sideways-lr;
+  overflow: hidden;
+}
+
+.wcu-marquee-text {
+  width: 100%;
+  height: auto;
+  font-size: 6.5vw;
+  writing-mode: vertical-lr;
+}
+
+.wcu-button-explore {
+  position: relative;
+  grid-row: 20 / span 10;
+  grid-column: 59 / span 10;
+}
+
+.wcu-button {
+  width: 100%;
+  aspect-ratio: 1/1;
+
+  border-radius: 100vw;
+  background-color: rgb(var(--pure-black));
+
+  padding: 1vw;
+}
+
+.wcu-button-text {
+  width: 100%;
+  height: 100%;
+  color: rgb(var(--pure-white));
+  font-size: 1.25vw;
+  border-radius: 100vw;
+  border: 4px solid rgb(var(--pure-white));
+}
+
+.wcu-image-portrait {
+  position: relative;
+  grid-row: 13 / span 23;
+  grid-column: 55 / span 18;
+  background-color: black;
+  overflow: hidden;
+}
+
+.wcu-image-landscape {
+  position: relative;
+  grid-row: 2 / span 20;
+  grid-column: 43 / span 30;
+  background-color: black;
+  overflow: hidden;
+}

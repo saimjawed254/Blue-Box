@@ -2,7 +2,7 @@
     width: 25vw;
     height: 25vw;
 
-    background-color: rgb(var(--light-olive));
+    background-color: rgb(var(--off-white));
     z-index: 1;
 }
 
@@ -10,7 +10,7 @@
     width: 90%;
     height: 90%;
 
-    border: 0.1vw solid rgb(var(--pure-white));
+    /* border: 4px solid rgb(var(--pure-black)); */
 
     padding: 1vw;
     position: relative;
@@ -19,6 +19,7 @@
 .faq-question{
     text-align: left;
     font-size: 1.5vw;
+    color: rgb(var(--pure-black));
 }
 
 .faq-answer{
@@ -26,7 +27,8 @@
     text-align: left;
     font-size: 1vw;
 
-    color: rgb(var(--dark-olive));
+    color: rgb(var(--pure-black));
+    font-weight: 300;
 }
 
 .faq-floral{

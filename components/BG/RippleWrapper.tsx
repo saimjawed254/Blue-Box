@@ -1,70 +1,36 @@
 "use client";
 
 import dynamic from "next/dynamic";
-// import { ReactNode, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+
 const RippleSimulation = dynamic(() => import("@/components/BG/ripple"), {
   ssr: false,
   loading: () => null,
 });
 
-type RipplWrapperProps = {
-  visible:boolean,
+type ShaderWrapperProps = {
+  visible: boolean;
+  owner: "landing" | "home" | "wcu" | "na"; // add more if needed
 };
 
-export default function ShaderWrapper({visible}:RipplWrapperProps) {
+export default function ShaderWrapper({ visible, owner }: ShaderWrapperProps) {
+  const currentOwner = useSelector((state: RootState) => state.ui.shaderOwner);
 
-  // const [offset,setOffset] = useState(0)
-  //     const onMouseMove = (e : any) => {
-  //     const x = e.clientX / window.innerWidth;
-  //     const y = (1.0 - e.clientY / window.innerHeight);
-      
-  //     const scrollY=window.scrollY;
-  //     if (window.scrollY>window.innerHeight){
-  //       setOffset(offset+((window.innerHeight)/100))
-  //       console.log(offset)
-  //     }
-  //     console.log(scrollY)
-  //   };
-
-  //   window.addEventListener("scroll", onMouseMove);
+  if (!visible || currentOwner !== owner) return null;
 
   return (
-    <>
-      <div
-        style={{
-          position: "fixed",
-          top: "0vh",
-          left: "0vw",
-          width: "100vw",
-          height: "200vh",
-          zIndex: 1,
-        }}
-      >
-        <RippleSimulation visible={visible} offset={0.0}/>
-      </div>
-      {/* <div
-        style={{
-          position: "absolute",
-          top: "950vh",
-          width: "100vw",
-          height: "50vh",
-          overflow: "hidden",
-        }}
-      >
-        <RippleSimulation offset={4.75} />
-      </div> */}
-      {/* <div
-        style={{
-          position: "absolute",
-          top: "400vh",
-          width: "100vw",
-          height: "185vh",
-          overflow: "hidden"
-        }}
-      >
-        <RippleSimulation offset={2.0} />
-      </div>
-       */}
-    </>
+    <div
+      style={{
+        position: "fixed",
+        top: "0vh",
+        left: "0vw",
+        width: "100vw",
+        height: "200vh",
+        zIndex: 1,
+      }}
+    >
+      <RippleSimulation visible={visible} offset={0.0} />
+    </div>
   );
 }

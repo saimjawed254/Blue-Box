@@ -1,24 +1,61 @@
 .review-card {
-  width: 20vw;
   height: 20vh;
-
+  aspect-ratio: 3/2;
   flex-shrink: 0;
-
-  padding: 1vh;
-
   position: relative;
-
-  transform: scale(0.8);
 }
 
 .review-card-view-box {
   position: absolute;
-  top: -5%;
-  left: -2.5%;
-  width: 90%;
-  height: 110%;
+  width: 100%;
+  height: 100%;
 
-  border-radius: 1vw;
+  background: rgb(var(--pure-black),0.4);
+  backdrop-filter: blur(4px);
+}
+
+.review-content{
+  width: 90%;
+  height: 90%;
+  position: relative;
+}
+.review-text{
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+  color: rgb(var(--off-white));
+  font-weight: 300;
+}
+
+.review-rating{
+    position: absolute;
+  bottom: 2vh;
+  left: 0;
+}
+
+.review-date{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+    color: rgb(var(--pure-white));
+  font-weight: 300;
+}
+
+.review-username{
+  color: rgb(var(--pure-white));
+  font-size: 1vw;
+  font-weight: 300;
+    position: absolute;
+  bottom: 2vh;
+  right: 0vh;
+}
+
+.review-location{
+  color: rgb(var(--pure-white));
+  font-weight: 300;
+  position: absolute;
+  bottom: 0vh;
+  right: 0vh;
 }
 
 .review-ratings-star {
@@ -37,7 +74,7 @@
   color: rgb(var(--off-text));
 }
 
-.review-text {
+/* .review-text {
   width: 80%;
   height: 60%;
 
@@ -50,7 +87,7 @@
 
   position: absolute;
   top: 15%;
-}
+} */
 
 .review-customer-image {
   width: 2vw;

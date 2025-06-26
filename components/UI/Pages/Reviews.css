@@ -1,0 +1,98 @@
+.reviews {
+  width: 100%;
+  height: 100vh;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(80, 1fr);
+  grid-template-rows: repeat(40, 1fr);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.reviews-header {
+  grid-row: 18 / span 5;
+  grid-column: 30 / span 22;
+  font-size: 2.5vw;
+  text-align: center;
+  line-height: 100%;
+}
+
+.reviews-card1 {
+  grid-row: 3 / span 6;
+  grid-column: 12 / span 9;
+  position: relative;
+}
+
+.reviews-card2 {
+  grid-row: 10 / span 10;
+  grid-column: 1 / span 15;
+  position: relative;
+}
+
+.reviews-card3 {
+  grid-row: 27 / span 10;
+  grid-column: 12 / span 15;
+  position: relative;
+}
+
+.reviews-card4 {
+  grid-row: 23 / span 4;
+  grid-column: 27 / span 6;
+  position: relative;
+}
+
+.reviews-card5 {
+  grid-row: 28 / span 4;
+  grid-column: 47 / span 6;
+  position: relative;
+}
+
+.reviews-card6 {
+  grid-row: 32 / span 8;
+  grid-column: 53 / span 12;
+  position: relative;
+}
+
+.reviews-card7 {
+  grid-row: 12 / span 10;
+  grid-column: 63 / span 15;
+  position: relative;
+}
+
+.reviews-card8 {
+  grid-row: 28 / span 4;
+  grid-column: 75 / span 6;
+  position: relative;
+}
+
+.reviews-card9 {
+  grid-row: 3 / span 4;
+  grid-column: 72 / span 6;
+  position: relative;
+}
+
+.reviews-card10 {
+  grid-row: 6 / span 6;
+  grid-column: 54 / span 9;
+  position: relative;
+}
+
+.reviews-card11 {
+  grid-row: 2 / span 8;
+  grid-column: 33 / span 12;
+  position: relative;
+}
+
+.reviews-card12 {
+  grid-row: 10 / span 4;
+  grid-column: 27 / span 6;
+  position: relative;
+}
+
+.r-cards{
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

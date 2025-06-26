@@ -1,0 +1,15 @@
+.square-button {
+  width: 11vw;
+  height: 10vh;
+  font-size: 1.25vw;
+  justify-content: center;
+  background-color: rgb(var(--pure-white));
+  border-radius: 1vw;
+  color: rgb(var(--pure-black));
+}
+
+.square-button-inner{
+    width: 90%;
+    height: 80%;
+    overflow: hidden;
+}

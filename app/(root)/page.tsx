@@ -24,7 +24,7 @@ import FAQCard from "@/components/UI/Cards/FAQCard";
 import ShaderWrapper from "@/components/BG/RippleWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { hideShader, showShader } from "@/store/slices/uiSlice";
+import { hideShader, setShaderOwner, showShader } from "@/store/slices/uiSlice";
 import NACardUp from "@/components/UI/Cards/NACardUp";
 import NACardDown from "@/components/UI/Cards/NACardDown";
 import { useUser } from "@clerk/nextjs";
@@ -32,6 +32,9 @@ import { Product } from "@/src/db/schema/products";
 import Link from "next/link";
 import Landing from "@/components/UI/Pages/Landing";
 import Home from "@/components/UI/Pages/Home";
+import WhyChooseUs from "@/components/UI/Pages/WhyChooseUs";
+import Reviews from "@/components/UI/Pages/Reviews";
+import SquareButton from "@/components/UI/Buttons/SquareButton";
 
 export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
@@ -64,7 +67,10 @@ export default function Page() {
   const [leftBar, setLeftBar] = useState("/Rem.png");
   const [rightBar, setRightBar] = useState("/Rem.png");
   const [svgSize, setSvgSize] = useState(0);
+
   const dispatch = useDispatch();
+
+  const shaderOwner = useSelector((state: RootState) => state.ui.shaderOwner);
 
   const shadersVisible = useSelector(
     (state: RootState) => state.ui.shadersVisible
@@ -152,12 +158,6 @@ export default function Page() {
     fetchBestsellersSuits();
     fetchNewestArrivalsCargos();
     fetchNewestArrivalsSuits();
-
-    if (typeof window !== "undefined") {
-      // const locomotiveScroll = new LocomotiveScroll();
-
-      setSvgSize(window.innerWidth * 0.02);
-    }
   }, [user]);
 
   useGSAP(() => {
@@ -170,6 +170,7 @@ export default function Page() {
       return (window.innerHeight * e) / 100;
     }
     window.addEventListener("scroll", () => {
+      console.log(window.scrollY);
       const container = document.querySelector(
         ".na-container"
       ) as HTMLElement | null;
@@ -177,25 +178,35 @@ export default function Page() {
         ".newest-arrivals"
       ) as HTMLElement | null;
 
-      if (window.scrollY > vhToPx(385)) {
+      if (window.scrollY > vhToPx(500)) {
         if (container && naPage) {
           container.style.visibility = "visible";
           naPage.style.visibility = "hidden";
         }
       }
-      if (window.scrollY < vhToPx(385)) {
+      if (window.scrollY < vhToPx(500)) {
         if (container && naPage) {
           container.style.visibility = "hidden";
           naPage.style.visibility = "visible";
         }
       }
 
-      if (window.scrollY > vhToPx(385) && window.scrollY < vhToPx(2385)) {
-        dispatch(hideShader());
+      if (scrollY > vhToPx(400) && scrollY < vhToPx(2400)) {
+        // dispatch(hideShader());
+        dispatch(setShaderOwner("na"));
       }
-      if (window.scrollY > vhToPx(2385) || window.scrollY < vhToPx(385)) {
+
+      if (scrollY <= vhToPx(400) || scrollY >= vhToPx(2400)) {
         dispatch(showShader());
+        dispatch(setShaderOwner("landing")); // or 'home', etc., based on who should own
       }
+
+      // if (window.scrollY > vhToPx(385) && window.scrollY < vhToPx(2385)) {
+      //   dispatch(hideShader());
+      // }
+      // if (window.scrollY > vhToPx(2385) || window.scrollY < vhToPx(385)) {
+      //   dispatch(showShader());
+      // }
     });
 
     const tl1 = gsap.timeline({
@@ -205,20 +216,39 @@ export default function Page() {
         pinSpacing: false,
         start: "center center",
         end: `+=${vhToPx(200)}`,
-        scrub: 1,
+        scrub: true,
       },
       defaults: { ease: "power2.out" },
     });
 
     tl1
       .from(".newest-arrivals", {
-        scale: 0.6,
-        borderRadius: `${vwToPx(10)}`,
+        scale: 0.1,
+        borderRadius: `${vwToPx(50)}`,
+        duration: 1,
       })
       .to(
         ".newest-arrivals",
         {
-          background: "black",
+          borderRadius: 0,
+          duration: 1,
+        },
+        "<"
+      )
+      .from(
+        ".na-black-overlay",
+        {
+          borderRadius: `${vwToPx(50)}`,
+          duration: 1,
+        },
+        "<"
+      )
+      .to(
+        ".na-black-overlay",
+        {
+          opacity: 1,
+          borderRadius: 0,
+          duration: 1,
         },
         "<"
       );
@@ -260,12 +290,12 @@ export default function Page() {
       ease: "linear",
     });
 
-    gsap.to(".rr-card", {
-      xPercent: -100,
-      repeat: -1,
-      duration: 5,
-      ease: "linear",
-    });
+    // gsap.to(".rr-card", {
+    //   xPercent: -100,
+    //   repeat: -1,
+    //   duration: 5,
+    //   ease: "linear",
+    // });
 
     ScrollTrigger.create({
       trigger: ".na-marquee",
@@ -333,10 +363,12 @@ export default function Page() {
       pin: true,
       pinSpacing: false,
       scrub: 1,
-      start: `${vhToPx(2750)}`,
-      end: `${vhToPx(2957)}`,
+      start: `${vhToPx(2865)}`,
+      end: `${vhToPx(3070)}`,
       invalidateOnRefresh: true,
     });
+
+    ScrollTrigger.refresh();
 
     // ----------------Horizontal Scroll--------------------//
 
@@ -353,8 +385,10 @@ export default function Page() {
   });
   return (
     <>
-      <Home/>
+      {/* <ShaderWrapper visible={true} /> */}
+
       {/* -------------------------Hero-------------------------- */}
+      <Home />
       {/* <section className={`hero ${ibm_plex_mono.className}`}>
         <div className="hero-ll">
           <div className="hero-ll-head">
@@ -531,100 +565,7 @@ export default function Page() {
 
       {/* -------------------------Why Choose Us-------------------------- */}
 
-      <section className={`why-choose-us ${poppins.className}`}>
-        <div className="wcu-header center">Why choose Us?</div>
-        <div className="wcu-tags center blur gradient-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={svgSize}
-            height={svgSize}
-            viewBox="0 0 33 34"
-            fill="none"
-          >
-            <path
-              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
-              fill="black"
-            />
-          </svg>
-          &nbsp;Best Price
-        </div>
-        <div className="wcu-tags center blur gradient-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={svgSize}
-            height={svgSize}
-            viewBox="0 0 33 34"
-            fill="none"
-          >
-            <path
-              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
-              fill="black"
-            />
-          </svg>
-          &nbsp;Handpicked Products
-        </div>
-        <div className="wcu-tags center blur gradient-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={svgSize}
-            height={svgSize}
-            viewBox="0 0 33 34"
-            fill="none"
-          >
-            <path
-              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
-              fill="black"
-            />
-          </svg>
-          &nbsp;All India Delivery
-        </div>
-        <div className="wcu-tags center blur gradient-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={svgSize}
-            height={svgSize}
-            viewBox="0 0 33 34"
-            fill="none"
-          >
-            <path
-              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
-              fill="black"
-            />
-          </svg>
-          &nbsp;COD available in Patna
-        </div>
-        <div className="wcu-tags center blur gradient-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={svgSize}
-            height={svgSize}
-            viewBox="0 0 33 34"
-            fill="none"
-          >
-            <path
-              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
-              fill="black"
-            />
-          </svg>
-          &nbsp;Free Delivery across Patna
-        </div>
-        <div className="wcu-tags center blur gradient-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={svgSize + "px"}
-            height={svgSize + "px"}
-            viewBox="0 0 33 34"
-            fill="none"
-          >
-            <path
-              d="M12.5334 6.1356L15.9285 13.6048L23.3976 16.9998L15.9285 20.3949L12.5334 27.864L9.13834 20.3949L1.66919 16.9998L9.13834 13.6048L12.5334 6.1356ZM12.5334 12.6949L11.1754 15.6418L8.22846 16.9998L11.1754 18.3578L12.5334 21.3048L13.8914 18.3578L16.8383 16.9998L13.8914 15.6418L12.5334 12.6949ZM26.1137 12.9257L24.4026 9.20474L20.6816 7.49363L24.4026 5.7961L26.1137 2.06152L27.8112 5.7961L31.5458 7.49363L27.8112 9.20474L26.1137 12.9257ZM26.1137 31.9381L24.4026 28.2171L20.6816 26.506L24.4026 24.8085L26.1137 21.0739L27.8112 24.8085L31.5458 26.506L27.8112 28.2171L26.1137 31.9381Z"
-              fill="black"
-            />
-          </svg>
-          &nbsp;Virtual TryOn
-        </div>
-      </section>
-
+      <WhyChooseUs />
       {/* -------------------------Newest Arrivals-------------------------- */}
 
       <section className="na">
@@ -634,14 +575,21 @@ export default function Page() {
           <section className="na-marq">Newest Arrivals&nbsp;</section>
         </div>
 
-        <section className="newest-arrivals"></section>
+        <section className="newest-arrivals">
+          <div className="na-black-overlay"></div>
+        </section>
       </section>
       <section className="na-buffer"></section>
 
       <section className="na-container">
-        <div style={{ zIndex: -1 }}>
-          {" "}
-          {!shadersVisible && <ShaderWrapper visible={!shadersVisible} />}
+        <div
+          style={{
+            zIndex: -1,
+          }}
+        >
+          {shaderOwner === "na" && (
+            <ShaderWrapper visible={shadersVisible} owner="na" />
+          )}
         </div>
         <div className="na-panel-1 na-panels">
           <div className={`nap1-vertical-text ${poppins.className}`}>
@@ -652,7 +600,7 @@ export default function Page() {
           <div className="nap1-button-1 center">
             <PrimaryButton
               link={"/products/newest-arrivals"}
-              borderColor={"#B3B29E"}
+              borderColor={"rgb(var(--bronze))"}
               fillColor={"#000000"}
             />
           </div>
@@ -683,7 +631,7 @@ export default function Page() {
           <div className="nap1-button-2 center">
             <PrimaryButton
               link="/products/newest-arrivals"
-              borderColor={"#B3B29E"}
+              borderColor={"rgb(var(--bronze))"}
               fillColor={"#000000"}
             />
           </div>
@@ -700,7 +648,9 @@ export default function Page() {
             return (
               <Link
                 href={
-                  product?.product_id ? `/product/suit?id=${product.product_id}` : `/products/newest-arrivals`
+                  product?.product_id
+                    ? `/product/suit?id=${product.product_id}`
+                    : `/products/newest-arrivals`
                 }
                 className="nap1-product-image1"
               >
@@ -941,7 +891,7 @@ export default function Page() {
             <div className="nap3-end-button center">
               <PrimaryButton
                 link={`products/newest-arrivals`}
-                borderColor="#B3B29E"
+                borderColor="rgb(var(--bronze))"
                 fillColor="#000000"
               />
             </div>
@@ -955,73 +905,7 @@ export default function Page() {
       </section>
 
       {/* -------------------------Ratings and Reviews-------------------------- */}
-
-      <section className="ratings-reviews">
-        <div className={`rr-header-left ${bruno_ace.className}`}>
-          Growing Trust
-        </div>
-        <div className={`rr-header-right ${bruno_ace.className}`}>
-          Building Connections
-        </div>
-        <div className="rr-reviews-line1">
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-        </div>
-        <div className="rr-reviews-line2">
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-        </div>
-        <div className="rr-reviews-line3">
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-          <div className="rr-card">
-            <ReviewCard />
-          </div>
-        </div>
-      </section>
-
+      <Reviews />
       {/* -------------------------Best Sellers-------------------------- */}
 
       <section className="best-sellers">
@@ -1052,14 +936,14 @@ export default function Page() {
                 >
                   <path
                     d="M30.9354 30.7835L38.4562 38.2335L34.925 41.7272L27.4042 34.2793C27.0874 33.9644 26.7116 33.7151 26.2984 33.5457C25.8851 33.3762 25.4425 33.29 24.9958 33.2918C24.0792 33.2918 23.2333 33.6397 22.5875 34.2793L15.0667 41.7293L11.5375 38.2335L19.0583 30.7835H30.9354ZM32.1896 28.6377L42.4604 31.3585L43.75 26.5793L33.4792 23.8564C33.0475 23.744 32.6424 23.547 32.2873 23.2771C31.9322 23.0071 31.6342 22.6694 31.4104 22.2835C31.186 21.9005 31.0404 21.4765 30.9821 21.0365C30.9238 20.5965 30.954 20.1492 31.0708 19.721L33.8208 9.55016L28.9958 8.271L26.2458 18.446L32.1833 28.6293L32.1896 28.6377ZM17.8104 28.6377L7.53958 31.3585L6.25 26.5793L16.5208 23.8564C16.9525 23.744 17.3576 23.547 17.7127 23.2771C18.0678 23.0071 18.3658 22.6694 18.5896 22.2835C18.814 21.9005 18.9596 21.4765 19.0179 21.0365C19.0762 20.5965 19.046 20.1492 18.9292 19.721L16.1792 9.55016L21.0042 8.271L23.7542 18.446L17.8167 28.6293L17.8104 28.6377Z"
-                    fill="#3F3F37"
+                    fill="black"
                   />
                 </svg>
               </div>
               &nbsp;Cargo Best Sellers
             </div>
             <div className="bsdch-button-show-all">
-              <PrimaryButton link={`products/best-sellers/cargos`} borderColor={"#3F3F37"} fillColor={"#B3B29E"} />
+              <SquareButton link={`products/best-sellers/cargos`} />
             </div>
             <div className="bsdch-button-left center">
               <svg
@@ -1073,7 +957,7 @@ export default function Page() {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
-                  fill="#B3B29E"
+                  fill="black"
                 />
               </svg>
             </div>
@@ -1089,7 +973,7 @@ export default function Page() {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
-                  fill="#B3B29E"
+                  fill="black"
                 />
               </svg>
             </div>
@@ -1112,14 +996,14 @@ export default function Page() {
                 >
                   <path
                     d="M30.9354 30.7835L38.4562 38.2335L34.925 41.7272L27.4042 34.2793C27.0874 33.9644 26.7116 33.7151 26.2984 33.5457C25.8851 33.3762 25.4425 33.29 24.9958 33.2918C24.0792 33.2918 23.2333 33.6397 22.5875 34.2793L15.0667 41.7293L11.5375 38.2335L19.0583 30.7835H30.9354ZM32.1896 28.6377L42.4604 31.3585L43.75 26.5793L33.4792 23.8564C33.0475 23.744 32.6424 23.547 32.2873 23.2771C31.9322 23.0071 31.6342 22.6694 31.4104 22.2835C31.186 21.9005 31.0404 21.4765 30.9821 21.0365C30.9238 20.5965 30.954 20.1492 31.0708 19.721L33.8208 9.55016L28.9958 8.271L26.2458 18.446L32.1833 28.6293L32.1896 28.6377ZM17.8104 28.6377L7.53958 31.3585L6.25 26.5793L16.5208 23.8564C16.9525 23.744 17.3576 23.547 17.7127 23.2771C18.0678 23.0071 18.3658 22.6694 18.5896 22.2835C18.814 21.9005 18.9596 21.4765 19.0179 21.0365C19.0762 20.5965 19.046 20.1492 18.9292 19.721L16.1792 9.55016L21.0042 8.271L23.7542 18.446L17.8167 28.6293L17.8104 28.6377Z"
-                    fill="#3F3F37"
+                    fill="black"
                   />
                 </svg>
               </div>
               &nbsp;Suits Best Sellers
             </div>
             <div className="bsdsh-button-show-all">
-              <PrimaryButton link={`products/best-sellers/suits`} borderColor={"#3F3F37"} fillColor={"#B3B29E"} />
+              <SquareButton link={`products/best-sellers/suits`} />
             </div>
             <div className="bsdsh-button-left center">
               <svg
@@ -1133,7 +1017,7 @@ export default function Page() {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
-                  fill="#B3B29E"
+                  fill="black"
                 />
               </svg>
             </div>
@@ -1149,7 +1033,7 @@ export default function Page() {
                   fillRule="evenodd"
                   clipRule="evenodd"
                   d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
-                  fill="#B3B29E"
+                  fill="black"
                 />
               </svg>
             </div>

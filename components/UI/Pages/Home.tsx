@@ -4,16 +4,18 @@ import "./Home.css";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
-import { SplitText } from "gsap/all";
+import { ScrollTrigger, SplitText } from "gsap/all";
 import { useEffect } from "react";
+import { tr } from "zod/v4/locales";
 
 const bruno_ace = Bruno_Ace({ weight: ["400"] });
 const ibm_plex_mono = IBM_Plex_Mono({ weight: ["400"] });
 
-gsap.registerPlugin(SplitText);
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
 export default function Home() {
   const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+  const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -30,7 +32,7 @@ export default function Home() {
           box.style.transform = `translate(${x * movementFactor}px, ${
             y * movementFactor
           }px)`;
-          box.style.cursor=`pointer`
+          box.style.cursor = `pointer`;
         });
 
         box.addEventListener("mouseleave", () => {
@@ -41,10 +43,69 @@ export default function Home() {
   }, []);
 
   useGSAP(() => {
+    const imgBoxes = document.querySelectorAll(".home-img");
+    const container = document.querySelector(".home");
+
+    let centerX = window.innerWidth / 2;
+    let centerY = window.innerHeight / 2;
+
+    if (container) {
+      const containerRect = container.getBoundingClientRect();
+      centerX = containerRect.left + containerRect.width / 2;
+      centerY = containerRect.top + containerRect.height / 2;
+    }
+
+    const tlMove = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".home",
+        start: "top top",
+        end: `bottom top`,
+        scrub: true,
+        pin: true,
+      },
+    });
+
+    imgBoxes.forEach((box, index) => {
+      const boxRect = box.getBoundingClientRect();
+      const boxCenterX = boxRect.left + boxRect.width / 2;
+      const boxCenterY = boxRect.top + boxRect.height / 2;
+
+      // Direction vector from center to box
+      const dx = boxCenterX - centerX;
+      const dy = boxCenterY - centerY;
+
+      // Normalize and scale movement
+      const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+
+      const rawFactor = 1 / distance;
+      const movementScale = gsap.utils.clamp(0.8, 4, rawFactor * 2000); // more explosive
+
+      const x = (dx / distance) * 250 * movementScale;
+      const y = (dy / distance) * 250 * movementScale;
+      const scale = 1 + movementScale * 0.5;
+      tlMove.to(
+        box,
+        {
+          x,
+          y,
+          scale,
+          // opacity: 0.3,
+          ease: "power2.out",
+        },
+        0
+      );
+    });
+
+    // tlMove.to(".home", {
+    //   opacity: 0,
+    // });
+
+
     const splitText1 = document.querySelector(".home-center-heading-wrapper1");
     const splitText2 = document.querySelector(".home-center-heading-wrapper2");
     const splitText3 = document.querySelector(".home-center-heading-wrapper3");
     const splitText4 = document.querySelector(".home-center-text");
+
     const split1 = SplitText.create(splitText1, {
       type: "lines",
       mask: "lines",
@@ -687,6 +748,7 @@ export default function Home() {
           .to({}, { duration: 2 });
       }
     });
+    ScrollTrigger.refresh();
   });
   return (
     <>
