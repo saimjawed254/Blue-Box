@@ -749,15 +749,16 @@
 }
 
 .bsdc-cards {
-  grid-row: 9 / span 22;
+  grid-row: 9 / span 25;
   grid-column: 1 / span 36;
 
   display: flex;
+  align-items: center;
   flex-direction: row;
   flex-wrap: nowrap;
 
   overflow-x: scroll;
-
+  overflow-y: visible;
   border-bottom: 0.1vw solid rgb(var(--off-white));
 }
 
@@ -832,10 +833,11 @@
 }
 
 .bsds-cards {
-  grid-row: 40 / span 22;
+  grid-row: 40 / span 25;
   grid-column: 1 / span 36;
 
   display: flex;
+  align-items: center;
   flex-direction: row;
   flex-wrap: nowrap;
 

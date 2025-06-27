@@ -92,22 +92,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <>
-      <div className="product-card">
-        <div className="svg-product-card">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="83"
-            height="79"
-            viewBox="0 0 83 79"
-            fill="none"
-          >
-            <path
-              d="M82.5293 0.000312805L0.176353 0.000457764V78.9053L82.5293 0.000312805Z"
-              fill="#f0f1fa"
-              fillOpacity="0.4"
-            />
-          </svg>
-        </div>
+      <div className="product-card center">
         <Link
           href={`/product/cargo?id=${product.product_id}`}
           className="product-image"

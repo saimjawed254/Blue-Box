@@ -1,28 +1,27 @@
 .product-card {
   width: 20vw;
-  height: 55vh;
+  height: 60vh;
   flex-shrink: 0;
 
-  border-right: 0.1vh solid rgb(var(--off-white));
-  border-bottom: 0.1vh solid rgb(var(--off-white));
-
+  border: 4px solid rgb(var(--off-white));
+  border-radius: 1vw;
+  background-color: rgb(var(--pure-white));
   position: relative;
+  transition: all 0.3s ease;
 }
 
-.svg-product-card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 5%;
-  height: 5%;
-  z-index: 1;
+.product-card:hover{
+  transform: scale(1.05);
+  z-index: 2;
 }
 
 .product-image {
   position: absolute;
-  top: 0;
-  width: 100%;
+  top: 2.5vh;
   height: 35vh;
+  aspect-ratio: 1/1;
+  border-radius: 1vw;
+  overflow: hidden;
 }
 
 .product-info {
