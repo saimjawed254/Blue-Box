@@ -22,7 +22,7 @@ export default function Navbar() {
   const { isLoaded, isSignedIn, user } = useUser();
   console.log(user);
 
-  const AUTH_ROUTES = ["/log-in", "/sign-in"];
+  const AUTH_ROUTES = ["/log-in", "/sign-in", "/mobile-blocked"];
   const hideNavbar = AUTH_ROUTES.includes(pathname);
 
   if (hideNavbar) {

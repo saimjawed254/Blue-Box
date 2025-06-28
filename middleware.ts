@@ -1,12 +1,28 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-export default clerkMiddleware();
+const isPublicRoute = createRouteMatcher([
+  '/', // add other public routes if needed
+]);
+
+export default clerkMiddleware((auth, req) => {
+  const ua = req.headers.get('user-agent') || '';
+
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(ua);
+
+  // You can restrict only public-facing routes or all routes
+  if (isMobile) {
+    console.log('Blocking mobile user → redirecting');
+    return NextResponse.redirect(new URL('/mobile-blocked', req.url));
+  }
+
+  // Let Clerk handle the rest (auth, sessions, etc.)
+  return NextResponse.next();
+});
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
+    '/((?!_next|.*\\..*|mobile-blocked).*)', // ❗ excludes static + the block page
     '/(api|trpc)(.*)',
     '/',
   ],

@@ -10,7 +10,7 @@ export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
 export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
 export const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
 
-const AUTH_ROUTES = ["/log-in", "/sign-in"];
+const AUTH_ROUTES = ["/log-in", "/sign-in", "/mobile-blocked"];
 
 export default function Footer() {
   const pathname = usePathname()

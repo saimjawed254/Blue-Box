@@ -675,7 +675,7 @@ export default function Page() {
       {
         // rotationX: -100,
         // transformOrigin: `50% 50% -${vwToPx(2)}px`,
-        y: vwToPx(2),
+        y: vwToPx(2.5),
         duration: 1,
         ease: "linear",
       },
