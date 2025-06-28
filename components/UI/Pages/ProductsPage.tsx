@@ -37,6 +37,7 @@ export default function ProductsPage({
   const [products, setProducts] = useState(productsData);
   const [sortButtonActive, setSortButtonActive] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>("price_low_to_high");
+  const [svgSize,setSvgSize]=useState(1);
 
   const [availableSorts, setAvailableSorts] = useState<string[]>([
     "price_high_to_low",
@@ -64,6 +65,10 @@ export default function ProductsPage({
       const sidebar = document.querySelector(
         ".products-sidebar"
       ) as HTMLElement;
+          const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(2.4));
+
       const footer = document.querySelector(".footer");
       const products = document.querySelector(".products") as HTMLElement;
       const sidebarBg = document.querySelector(
@@ -240,8 +245,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -256,8 +261,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -272,8 +277,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -288,8 +293,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -304,8 +309,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -322,8 +327,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -338,8 +343,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -354,8 +359,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -370,8 +375,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -386,8 +391,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >

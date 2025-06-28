@@ -4,21 +4,27 @@ import Link from "next/link";
 import "./Footer.css";
 import { Poppins, Orbitron, Bruno_Ace, IBM_Plex_Mono } from "next/font/google";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
 const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
-const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
+const ibm_plex_mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400"] });
 
 const AUTH_ROUTES = ["/log-in", "/sign-in", "/mobile-blocked"];
 
 export default function Footer() {
-  const pathname = usePathname()
-  const hideFooter = AUTH_ROUTES.includes(pathname)
-
-  if(hideFooter){
+  const pathname = usePathname();
+  const hideFooter = AUTH_ROUTES.includes(pathname);
+  const [svgSize,setSvgSize]=useState(1);
+  if (hideFooter) {
     return null;
   }
+  useEffect(() => {
+    const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(2.4));
+  }, []);
 
   return (
     <>
@@ -35,9 +41,9 @@ export default function Footer() {
             <div className="footer-top-link-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="45"
-                height="45"
-                viewBox="0 0 45 45"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
+                viewBox="0 0 50 50"
                 fill="none"
               >
                 <path
@@ -51,8 +57,8 @@ export default function Footer() {
             <div className="footer-top-socials-icons">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
                 viewBox="0 0 50 50"
                 fill="none"
               >
@@ -63,8 +69,8 @@ export default function Footer() {
               </svg>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
                 viewBox="0 0 50 50"
                 fill="none"
               >
@@ -75,8 +81,8 @@ export default function Footer() {
               </svg>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
                 viewBox="0 0 50 50"
                 fill="none"
               >
@@ -87,8 +93,8 @@ export default function Footer() {
               </svg>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
                 viewBox="0 0 50 50"
                 fill="none"
               >
@@ -136,8 +142,8 @@ export default function Footer() {
               <div className="flt-contacts-whatsapp">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="39"
-                  height="39"
+                  width={`${svgSize/1.25}`}
+                  height={`${svgSize/1.25}`}
                   viewBox="0 0 39 39"
                   fill="none"
                 >
@@ -151,8 +157,8 @@ export default function Footer() {
               <div className="flt-contacts-mail">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="44"
-                  height="44"
+                  width={`${svgSize/1.25}`}
+                  height={`${svgSize/1.25}`}
                   viewBox="0 0 44 44"
                   fill="none"
                 >
@@ -216,8 +222,8 @@ export default function Footer() {
           <div className="footer-right-backToTop">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="25"
+              width={`${svgSize}`}
+              height={`${svgSize}`}
               viewBox="0 0 50 25"
               fill="none"
             >
@@ -231,8 +237,8 @@ export default function Footer() {
           <div className="footer-right-location">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
+              width={`${svgSize/2}`}
+              height={`${svgSize/2}`}
               viewBox="0 0 25 25"
               fill="none"
             >

@@ -9,9 +9,13 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
 
 export default function ReviewCard() {
   const [isClient, setIsClient] = useState(false);
+  const [svgSize,setSvgSize]=useState(1);
 
   useEffect(() => {
     // Mark hydration complete
+        const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(2.4));
     setIsClient(true);
   }, []);
 
@@ -50,8 +54,8 @@ export default function ReviewCard() {
           <div className="review-rating">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
+              width={`${svgSize/2}`}
+              height={`${svgSize/2}`}
               viewBox="0 0 32 32"
               fill="none"
             >
@@ -63,8 +67,8 @@ export default function ReviewCard() {
             &nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
+              width={`${svgSize/2}`}
+              height={`${svgSize/2}`}
               viewBox="0 0 32 32"
               fill="none"
             >
@@ -76,8 +80,8 @@ export default function ReviewCard() {
             &nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
+              width={`${svgSize/2}`}
+              height={`${svgSize/2}`}
               viewBox="0 0 32 32"
               fill="none"
             >
@@ -89,8 +93,8 @@ export default function ReviewCard() {
             &nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
+              width={`${svgSize/2}`}
+              height={`${svgSize/2}`}
               viewBox="0 0 32 32"
               fill="none"
             >

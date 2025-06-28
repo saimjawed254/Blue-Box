@@ -2,10 +2,16 @@
 
 import Link from "next/link";
 import "./Navbar.css";
-import { Bruno_Ace, Cinzel_Decorative, IBM_Plex_Mono, Poppins } from "next/font/google";
+import {
+  Bruno_Ace,
+  Cinzel_Decorative,
+  IBM_Plex_Mono,
+  Poppins,
+} from "next/font/google";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const cinzel = Cinzel_Decorative({
   subsets: ["latin"],
@@ -28,6 +34,13 @@ export default function Navbar() {
   if (hideNavbar) {
     return null;
   }
+  const [svgSize, setSvgSize] = useState(1);
+
+  useEffect(() => {
+    const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(2.4));
+  }, []);
 
   return (
     <>
@@ -56,8 +69,8 @@ export default function Navbar() {
           <div className="nav-ai-search-icon center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="35"
-              height="35"
+              width={`${svgSize/1.25}`}
+              height={`${svgSize/1.25}`}
               viewBox="0 0 27 30"
               fill="none"
             >
@@ -105,8 +118,8 @@ export default function Navbar() {
               <Link href="/sign-in" className="nav-cred-arrow center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="50"
-                  height="50"
+                  width={`${svgSize}`}
+                  height={`${svgSize}`}
                   viewBox="0 0 50 50"
                   fill="none"
                 >

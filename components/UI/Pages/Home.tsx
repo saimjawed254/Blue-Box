@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { ScrollTrigger, SplitText } from "gsap/all";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { tr } from "zod/v4/locales";
 
 const bruno_ace = Bruno_Ace({subsets:["latin"], weight: ["400"] });
@@ -16,6 +16,7 @@ gsap.registerPlugin(SplitText, ScrollTrigger);
 export default function Home() {
   const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
   const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+  const [svgSize,setSvgSize]=useState(1);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -48,6 +49,9 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window !== undefined) {
+    const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(10.8));
       const boxes = document.querySelectorAll(
         ".home-img"
       ) as NodeListOf<HTMLDivElement>;
@@ -2067,8 +2071,8 @@ export default function Home() {
               position: "absolute",
             }}
             xmlns="http://www.w3.org/2000/svg"
-            width="220"
-            height="220"
+            width={`${svgSize}`}
+            height={`${svgSize}`}
             viewBox="0 0 220 220"
             fill="none"
           >
@@ -2082,8 +2086,8 @@ export default function Home() {
               position: "absolute",
             }}
             xmlns="http://www.w3.org/2000/svg"
-            width="250"
-            height="250"
+            width={`${svgSize*1.136}`}
+            height={`${svgSize*1.136}`}
             viewBox="0 0 279 279"
             fill="none"
           >
@@ -2101,8 +2105,8 @@ export default function Home() {
               position: "absolute",
             }}
             xmlns="http://www.w3.org/2000/svg"
-            width="280"
-            height="280"
+            width={`${svgSize*1.27}`}
+            height={`${svgSize*1.27}`}
             viewBox="0 0 280 280"
             fill="none"
           >
@@ -2119,8 +2123,8 @@ export default function Home() {
         <div className="home-center-spiral center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="60"
-            height="157"
+            width={`${svgSize/3.67}`}
+            height={`${svgSize/1.4}`}
             viewBox="0 0 60 157"
             fill="none"
           >
@@ -2207,8 +2211,8 @@ export default function Home() {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/6.285}`}
+                  height={`${svgSize/6.285}`}
                   viewBox="0 0 37 23"
                   fill="none"
                 >

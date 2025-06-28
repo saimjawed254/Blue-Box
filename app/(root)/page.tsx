@@ -2,14 +2,13 @@
 
 import Image from "next/image";
 import "./page.css";
-import { useLenis } from "@/components/lenis/useLenis"; 
+import { useLenis } from "@/components/lenis/useLenis";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { Children, useEffect, useRef, useState } from "react";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
-import LocomotiveScroll from "locomotive-scroll";
 import {
   Orbitron,
   Poppins,
@@ -68,9 +67,13 @@ export default function Page() {
   const [leftBar, setLeftBar] = useState("/Rem.png");
   const [rightBar, setRightBar] = useState("/Rem.png");
   const [svgSize, setSvgSize] = useState(0);
-  const [shadersVisible,setShadersVisible]=useState(true)
+  const [shadersVisible, setShadersVisible] = useState(true);
 
   useEffect(() => {
+    const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(2.4));
+
     if (user && !alreadyInserted.current) {
       console.log(user.primaryEmailAddress);
       alreadyInserted.current = true;
@@ -185,11 +188,11 @@ export default function Page() {
       }
 
       if (scrollY > vhToPx(400) && scrollY < vhToPx(2400)) {
-        setShadersVisible(false)
+        setShadersVisible(false);
       }
 
       if (scrollY <= vhToPx(400) || scrollY >= vhToPx(2400)) {
-        setShadersVisible(true)
+        setShadersVisible(true);
       }
 
       // if (window.scrollY > vhToPx(385) && window.scrollY < vhToPx(2385)) {
@@ -687,14 +690,10 @@ export default function Page() {
     ScrollTrigger.refresh();
   });
 
-  useLenis()
+  useLenis();
   return (
     <>
-      <div>
-        {shadersVisible && (
-          <ShaderWrapper/>
-        )}
-      </div>
+      <div>{shadersVisible && <ShaderWrapper />}</div>
       {/* -------------------------Hero-------------------------- */}
       <Home />
       {/* <section className={`hero ${ibm_plex_mono.className}`}>
@@ -895,9 +894,7 @@ export default function Page() {
             zIndex: -1,
           }}
         >
-          {!shadersVisible && (
-            <ShaderWrapper />
-          )}
+          {!shadersVisible && <ShaderWrapper />}
         </div>
         <div className="na-panel-1 na-panels">
           <div className={`nap1-vertical-text ${poppins.className}`}>
@@ -1280,9 +1277,9 @@ export default function Page() {
               <div className="svg-floral">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="50"
-                  height="50"
-                  viewBox="0 0 50 50"
+                  width={`${svgSize}`}
+                  height={`${svgSize}`}
+                  viewBox={`0 0 50 50`}
                   fill="none"
                 >
                   <path
@@ -1299,33 +1296,23 @@ export default function Page() {
             <div className="bsdch-button-left center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
-                viewBox="0 0 55 50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
+                viewBox="0 0 50 50"
                 fill="none"
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
-                  fill="black"
-                />
+                <path d="M18 14L34 25L18 36V14Z" fill="black" />
               </svg>
             </div>
             <div className="bsdch-button-right center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
-                viewBox="0 0 55 50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
+                viewBox="0 0 50 50"
                 fill="none"
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
-                  fill="black"
-                />
+                <path d="M18 14L34 25L18 36V14Z" fill="black" />
               </svg>
             </div>
           </div>
@@ -1340,9 +1327,9 @@ export default function Page() {
               <div className="svg-floral">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="50"
-                  height="50"
-                  viewBox="0 0 50 50"
+                  width={`${svgSize}`}
+                  height={`${svgSize}`}
+                  viewBox={`0 0 50 50`}
                   fill="none"
                 >
                   <path
@@ -1359,33 +1346,23 @@ export default function Page() {
             <div className="bsdsh-button-left center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
-                viewBox="0 0 55 50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
+                viewBox="0 0 50 50"
                 fill="none"
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
-                  fill="black"
-                />
+                <path d="M18 14L34 25L18 36V14Z" fill="black" />
               </svg>
             </div>
             <div className="bsdsh-button-right center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
-                viewBox="0 0 55 50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
+                viewBox="0 0 50 50"
                 fill="none"
               >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M16.5417 27.2084C15.9565 26.6224 15.6278 25.8282 15.6278 25C15.6278 24.1719 15.9565 23.3776 16.5417 22.7917L28.3251 11.0042C28.9113 10.4182 29.7063 10.0892 30.5352 10.0894C30.9456 10.0895 31.352 10.1704 31.7311 10.3275C32.1102 10.4847 32.4547 10.715 32.7449 11.0052C33.035 11.2955 33.2651 11.6401 33.4221 12.0193C33.5791 12.3985 33.6598 12.8049 33.6597 13.2154C33.6596 13.6258 33.5787 14.0321 33.4215 14.4113C33.2644 14.7904 33.0341 15.1349 32.7438 15.425L23.1709 25L32.7459 34.575C33.0445 34.8632 33.2827 35.2079 33.4467 35.5891C33.6106 35.9703 33.697 36.3803 33.7008 36.7952C33.7046 37.2101 33.6258 37.6217 33.4688 38.0058C33.3119 38.3899 33.08 38.7389 32.7867 39.0325C32.4934 39.326 32.1446 39.5582 31.7607 39.7156C31.3767 39.8729 30.9652 39.9521 30.5503 39.9487C30.1354 39.9453 29.7253 39.8593 29.3439 39.6957C28.9626 39.5321 28.6176 39.2942 28.3292 38.9959L16.5376 27.2084H16.5417Z"
-                  fill="black"
-                />
+                <path d="M18 14L34 25L18 36V14Z" fill="black" />
               </svg>
             </div>
           </div>

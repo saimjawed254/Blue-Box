@@ -1,5 +1,8 @@
+"use client";
+
 import { Poppins } from "next/font/google";
 import "./FAQCard.css";
+import { useEffect, useState } from "react";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
 
@@ -7,6 +10,13 @@ type FAQCardProps = {
   visibility: "visible" | "hidden";
 };
 export default function FAQCard({ visibility }: FAQCardProps) {
+    const [svgSize,setSvgSize]=useState(1);
+    
+  useEffect(() => {
+      const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+      const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+      setSvgSize(vwToPx(2.4));
+    }, []);
   return (
     <>
       <div
@@ -26,8 +36,8 @@ export default function FAQCard({ visibility }: FAQCardProps) {
             <div className="faq-related-icons center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
                 viewBox="0 0 50 50"
                 fill="none"
               >
@@ -38,8 +48,8 @@ export default function FAQCard({ visibility }: FAQCardProps) {
               </svg>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
                 viewBox="0 0 50 50"
                 fill="none"
               >
@@ -53,8 +63,8 @@ export default function FAQCard({ visibility }: FAQCardProps) {
               </svg>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="42"
-                height="40"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
                 viewBox="0 0 42 40"
                 fill="none"
               >
@@ -67,8 +77,8 @@ export default function FAQCard({ visibility }: FAQCardProps) {
             <div className="faq-floral">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="50"
-                height="50"
+                width={`${svgSize}`}
+                height={`${svgSize}`}
                 viewBox="0 0 50 50"
                 fill="none"
               >

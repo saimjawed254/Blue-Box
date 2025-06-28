@@ -21,9 +21,9 @@ export default function WhyChooseUs() {
   const [svgSize, setSvgSize] = useState(20);
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // const locomotiveScroll = new LocomotiveScroll();
-
-      setSvgSize(window.innerWidth * 0.02);
+    const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(2.4));
     }
   }, []);
 
@@ -112,7 +112,7 @@ export default function WhyChooseUs() {
             Handpicked Products &nbsp;&nbsp;&nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="77"
+              width={`${svgSize*1.6}`}
               height="2"
               viewBox="0 0 77 2"
               fill="none"
@@ -125,7 +125,7 @@ export default function WhyChooseUs() {
             COD available within Patna &nbsp;&nbsp;&nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="77"
+              width={`${svgSize*1.6}`}
               height="2"
               viewBox="0 0 77 2"
               fill="none"
@@ -137,7 +137,7 @@ export default function WhyChooseUs() {
             Free Delivery across Patna &nbsp;&nbsp;&nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="77"
+              width={`${svgSize*1.6}`}
               height="2"
               viewBox="0 0 77 2"
               fill="none"
@@ -149,7 +149,7 @@ export default function WhyChooseUs() {
             All India delivery &nbsp;&nbsp;&nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="77"
+              width={`${svgSize*1.6}`}
               height="2"
               viewBox="0 0 77 2"
               fill="none"

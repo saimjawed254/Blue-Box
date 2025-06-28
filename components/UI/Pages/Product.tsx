@@ -46,6 +46,7 @@ export default function ProductPage({ product }: ProductPageProps) {
   const [pincode, setPincode] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [svgSize,setSvgSize]=useState(1);
 
   const handleShare = async () => {
     const shareData = {
@@ -270,6 +271,9 @@ export default function ProductPage({ product }: ProductPageProps) {
     if (!isLoaded) {
       return;
     }
+        const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(2.4));
     const fetchIsWishlist = async () => {
       try {
         const res = await fetch(
@@ -430,8 +434,8 @@ export default function ProductPage({ product }: ProductPageProps) {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="40"
-                  height="40"
+                  width={`${svgSize/1.25}`}
+                  height={`${svgSize/1.25}`}
                   viewBox="0 0 40 40"
                   fill="none"
                 >
@@ -565,8 +569,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                 <div className="pdc-ai-button">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="33"
-                    height="34"
+                    width={`${svgSize/1.25}`}
+                    height={`${svgSize/1.25}`}
                     viewBox="0 0 33 34"
                     fill="none"
                   >
@@ -584,8 +588,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="30"
-                      height="30"
+                      width={`${svgSize/1.5}`}
+                      height={`${svgSize/1.5}`}
                       viewBox="0 0 30 30"
                       fill="none"
                     >
@@ -615,8 +619,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                   <Link href={"/checkout"} className="pdc-buy-button center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="30"
-                      height="30"
+                      width={`${svgSize/1.5}`}
+                      height={`${svgSize/1.5}`}
                       viewBox="0 0 30 30"
                       fill="none"
                     >
@@ -635,8 +639,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                     {!isAdding ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="35"
-                        height="35"
+                        width={`${svgSize/1.5}`}
+                        height={`${svgSize/1.5}`}
                         viewBox="0 0 35 35"
                         fill="none"
                       >
@@ -648,8 +652,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                     ) : (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="35"
-                        height="35"
+                        width={`${svgSize/1.5}`}
+                        height={`${svgSize/1.5}`}
                         viewBox="0 0 35 35"
                         fill="none"
                       >
@@ -725,8 +729,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="25"
+                        width={`${svgSize/2}`}
+                        height={`${svgSize/2}`}
                         viewBox="0 0 25 25"
                         fill="none"
                       >
@@ -749,8 +753,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="25"
+                        width={`${svgSize/2}`}
+                        height={`${svgSize/2}`}
                         viewBox="0 0 25 25"
                         fill="none"
                       >
@@ -770,8 +774,8 @@ export default function ProductPage({ product }: ProductPageProps) {
                 BEST OFFERS
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
+                  width={`${svgSize/1.5}`}
+                  height={`${svgSize/1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >

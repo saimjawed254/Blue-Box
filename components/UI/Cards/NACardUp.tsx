@@ -5,6 +5,7 @@ import "./NACardUp.css";
 import Image from "next/image";
 import { Product } from "@/src/db/schema/products";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -17,14 +18,21 @@ type NACardProps = {
 };
 
 export default function NACardUp({ product }: NACardProps) {
+    const [svgSize,setSvgSize]=useState(1);
+    
+  useEffect(() => {
+      const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+      const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+      setSvgSize(vwToPx(2.4));
+    }, []);
   return (
     <>
       <div className="na-card-up">
         <div className="na-card-up-svg center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
+            width={`${svgSize/1.25}`}
+            height={`${svgSize/1.25}`}
             viewBox="0 0 32 32"
             fill="none"
           >

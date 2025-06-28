@@ -803,26 +803,27 @@
 
 .bsdch-button-left {
   position: absolute;
-  right: 9vw;
+  right: 8vw;
 
-  width: 6vh;
-  height: 6vh;
-  border-radius: 50%;
+  height: 10vh;
+  aspect-ratio: 1/1;
+  border-radius: 1vw;
 
+  border: 1vh solid rgb(var(--pure-white));
   background-color: rgb(var(--yellow));
+  transform: rotate(180deg);
+  overflow: hidden;
 }
 
 .bsdch-button-right {
   position: absolute;
-  right: 5vw;
+  right: 2.5vw;
+  height: 10vh;
+  aspect-ratio: 1/1;
+  border-radius: 1vw;
 
-  width: 6vh;
-  height: 6vh;
-  border-radius: 50%;
-
+  border: 1vh solid rgb(var(--pure-white));
   background-color: rgb(var(--yellow));
-
-  transform: rotate(180deg);
 }
 
 .svg-floral {
@@ -871,26 +872,29 @@
 
 .bsdsh-button-left {
   position: absolute;
-  right: 9vw;
+  right: 8vw;
 
-  width: 6vh;
-  height: 6vh;
-  border-radius: 50%;
+  height: 10vh;
+  aspect-ratio: 1/1;
+  border-radius: 1vw;
 
+  border: 1vh solid rgb(var(--pure-white));
   background-color: rgb(var(--yellow));
+  transform: rotate(180deg);
+  overflow: hidden;
 }
 
 .bsdsh-button-right {
   position: absolute;
-  right: 5vw;
+  right: 2.5vw;
 
-  width: 6vh;
-  height: 6vh;
-  border-radius: 50%;
+  height: 10vh;
+  aspect-ratio: 1/1;
+  border-radius: 1vw;
 
+  border: 1vh solid rgb(var(--pure-white));
   background-color: rgb(var(--yellow));
-
-  transform: rotate(180deg);
+  overflow: hidden;
 }
 
 /* ---------------------------------Ratings and Reviews page-------------------------------- */

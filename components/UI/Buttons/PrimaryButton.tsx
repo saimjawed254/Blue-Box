@@ -3,6 +3,7 @@
 import { IBM_Plex_Mono, Poppins } from "next/font/google";
 import "./PrimaryButton.css";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
 const ibm_plex_mono = IBM_Plex_Mono({
@@ -21,6 +22,14 @@ export default function PrimaryButton({
   borderColor,
   fillColor,
 }: PrimaryButtonProps) {
+    const [svgSize,setSvgSize]=useState(1);
+  
+    useEffect(() => {
+      const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+      const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+      setSvgSize(vwToPx(2.4));
+    }, []);
+  
   return (
     <>
       <Link href={link}
@@ -33,8 +42,8 @@ export default function PrimaryButton({
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="35"
-          height="35"
+          width={`${svgSize/1.25}`}
+          height={`${svgSize/1.25}`}
           viewBox="0 0 33 34"
           fill="none"
         >

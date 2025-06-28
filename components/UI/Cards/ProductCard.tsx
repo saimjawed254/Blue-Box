@@ -18,6 +18,8 @@ type ProductCardProps = {
 export default function ProductCard({ product }: ProductCardProps) {
   const { user, isSignedIn, isLoaded } = useUser();
   const [isAdding, setIsAdding] = useState(true);
+  const [svgSize,setSvgSize]=useState(1);
+
   const router = useRouter();
   const wishlistIconRef = useRef<HTMLDivElement>(null);
 
@@ -28,6 +30,9 @@ export default function ProductCard({ product }: ProductCardProps) {
     if (!isLoaded) {
       return;
     }
+        const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+    setSvgSize(vwToPx(2.4));
     const fetchIsWishlist = async () => {
       try {
         const res = await fetch(
@@ -145,8 +150,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="35"
-                height="35"
+                width={`${svgSize/1.25}`}
+                height={`${svgSize/1.25}`}
                 viewBox="0 0 28 25"
                 fill="none"
               >
