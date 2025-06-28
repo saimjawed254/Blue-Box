@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 const validTopLevel = ["best-sellers", "newest-arrivals", "cargos", "suits"];
 
-type ProductsPageProps = {
+type PageProps = {
   params: { slug?: string[] };
   searchParams: { [key: string]: string | string[] | undefined };
 };
@@ -12,7 +12,7 @@ type ProductsPageProps = {
 export default async function Page({
   params,
   searchParams,
-}: ProductsPageProps) {
+}: PageProps) {
   const slugParts = params.slug || [];
 
   if (slugParts.length > 2) {
