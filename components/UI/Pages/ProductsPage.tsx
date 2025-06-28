@@ -17,7 +17,7 @@ type ProductsPageProps = {
   productsData: Product[];
 };
 
-export const poppins = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "300", "200", "100"],
 });

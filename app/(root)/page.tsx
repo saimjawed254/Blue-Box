@@ -36,21 +36,21 @@ import WhyChooseUs from "@/components/UI/Pages/WhyChooseUs";
 import Reviews from "@/components/UI/Pages/Reviews";
 import SquareButton from "@/components/UI/Buttons/SquareButton";
 
-export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
-export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
-export const poppins = Poppins({
+const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
+const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "300", "200", "100"],
 });
-export const ibm_plex_mono = IBM_Plex_Mono({
+const ibm_plex_mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400"],
 });
-export const cinzel_decorative = Cinzel_Decorative({
+const cinzel_decorative = Cinzel_Decorative({
   subsets: ["latin"],
   weight: ["400"],
 });
-export const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
+const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 
 export default function Page() {
   const { user } = useUser();

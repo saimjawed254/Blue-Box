@@ -5,7 +5,7 @@ import "./ReviewCard.css";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
-export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
 
 export default function ReviewCard() {
   const [isClient, setIsClient] = useState(false);

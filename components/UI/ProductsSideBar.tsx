@@ -19,7 +19,7 @@ type ProductsSidebarProps = {
   onApplyFilters: (filters: ProductFilters) => void;
 };
 
-export const poppins = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["600", "400", "200"],
 });

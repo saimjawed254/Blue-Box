@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 
-export const cinzel = Cinzel_Decorative({
+const cinzel = Cinzel_Decorative({
   subsets: ["latin"],
   weight: ["400"],
 });

@@ -5,8 +5,8 @@ import "./signUpForm.css";
 import { Cinzel_Decorative, Poppins } from "next/font/google";
 import Link from "next/link";
 
-export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500"] });
-export const cinzel = Cinzel_Decorative({
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500"] });
+const cinzel = Cinzel_Decorative({
   subsets: ["latin"],
   weight: ["400"],
 });

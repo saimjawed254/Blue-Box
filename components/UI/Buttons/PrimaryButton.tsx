@@ -4,8 +4,8 @@ import { IBM_Plex_Mono, Poppins } from "next/font/google";
 import "./PrimaryButton.css";
 import Link from "next/link";
 
-export const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
-export const ibm_plex_mono = IBM_Plex_Mono({
+const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
+const ibm_plex_mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400"],
 });

@@ -1,7 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./FAQCard.css";
 
-export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
 
 type FAQCardProps = {
   visibility: "visible" | "hidden";

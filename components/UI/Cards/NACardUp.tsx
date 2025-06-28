@@ -6,11 +6,11 @@ import Image from "next/image";
 import { Product } from "@/src/db/schema/products";
 import Link from "next/link";
 
-export const poppins = Poppins({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "200", "100"],
 });
-export const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
+const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 
 type NACardProps = {
   product: Product;

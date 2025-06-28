@@ -5,10 +5,10 @@ import "./Footer.css";
 import { Poppins, Orbitron, Bruno_Ace, IBM_Plex_Mono } from "next/font/google";
 import { usePathname } from "next/navigation";
 
-export const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
-export const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
-export const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
-export const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
+const orbitron = Orbitron({ subsets: ["latin"], weight: ["400"] });
+const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
+const ibm_plex_mono = IBM_Plex_Mono({ subsets:["latin"], weight:["400"]})
 
 const AUTH_ROUTES = ["/log-in", "/sign-in", "/mobile-blocked"];
 

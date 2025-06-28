@@ -5,8 +5,8 @@ import "./MenuButton.css";
 import { useState } from "react";
 import { useClerk } from "@clerk/nextjs";
 
-export const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
-export const ibm_plex_mono = IBM_Plex_Mono({
+const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
+const ibm_plex_mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400"],
 });
