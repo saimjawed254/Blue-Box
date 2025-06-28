@@ -8,9 +8,9 @@ import gsap from "gsap";
 import Image from "next/image";
 import { ScrollTrigger } from "gsap/all";
 
-const poppins = Poppins({ weight: ["300", "400", "500"] });
-const bruno_ace = Bruno_Ace({ weight: ["400"] });
-const italiana = Italiana({ weight: ["400"] });
+const poppins = Poppins({subsets:["latin"], weight: ["300", "400", "500"] });
+const bruno_ace = Bruno_Ace({subsets:["latin"], weight: ["400"] });
+const italiana = Italiana({subsets:["latin"], weight: ["400"] });
 
 gsap.registerPlugin(ScrollTrigger);
 

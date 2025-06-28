@@ -9,7 +9,7 @@ import { SplitText } from "gsap/SplitText";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ReviewCard from "../Cards/ReviewCard";
 
-const poppins = Poppins({ weight: ["400"], subsets: ["latin"] });
+const poppins = Poppins({subsets:["latin"], weight: ["400"] });
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 

@@ -5,9 +5,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-const bruno_ace = Bruno_Ace({ weight: ["400"] });
-const ibm_plex_mono = IBM_Plex_Mono({ weight: ["400"] });
-const poppins = Poppins({ weight: ["300", "400", "600"] });
+const bruno_ace = Bruno_Ace({subsets:["latin"], weight: ["400"] });
+const ibm_plex_mono = IBM_Plex_Mono({subsets:["latin"], weight: ["400"] });
+const poppins = Poppins({subsets:["latin"], weight: ["300", "400", "600"] });
 
 export default function Landing() {
   useGSAP(() => {

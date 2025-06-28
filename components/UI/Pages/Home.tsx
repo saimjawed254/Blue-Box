@@ -8,8 +8,8 @@ import { ScrollTrigger, SplitText } from "gsap/all";
 import { useEffect, useRef } from "react";
 import { tr } from "zod/v4/locales";
 
-const bruno_ace = Bruno_Ace({ weight: ["400"] });
-const ibm_plex_mono = IBM_Plex_Mono({ weight: ["400"] });
+const bruno_ace = Bruno_Ace({subsets:["latin"], weight: ["400"] });
+const ibm_plex_mono = IBM_Plex_Mono({subsets:["latin"], weight: ["400"] });
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
