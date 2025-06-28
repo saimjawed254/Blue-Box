@@ -8,7 +8,7 @@ export default async function Page({
   params,
   searchParams,
 }: {
-  params: { slug?: string[] };
+  params: { slug: string[] };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const slugParts = params.slug || [];
