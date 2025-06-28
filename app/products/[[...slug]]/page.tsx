@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 const validTopLevel = ["best-sellers", "newest-arrivals", "cargos", "suits"];
 
 type PageProps = {
-  params: { slug?: string[] };
+  params: { slug: string[] };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 

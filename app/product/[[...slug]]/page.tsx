@@ -5,7 +5,7 @@ import ProductPage from "@/components/UI/Pages/Product";
 const validTopLevel = ["cargo", "suit"];
 
 type PageProps = {
-  params: { slug?: string[] };
+  params: { slug: string[] };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
