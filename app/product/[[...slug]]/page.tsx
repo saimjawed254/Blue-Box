@@ -1,6 +1,5 @@
 import "./page.css";
 import { notFound } from "next/navigation";
-import * as React from "react";
 import ProductPage from "@/components/UI/Pages/Product";
 
 const validTopLevel = ["cargo", "suit"];
@@ -12,9 +11,9 @@ export default async function Page({
   params: { slug?: string[] };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { slug } = await params;
-  const slugParts = slug || [];
-  if (slugParts && slugParts.length > 2) {
+  const slugParts = params.slug || [];
+
+  if (slugParts.length > 2) {
     notFound();
   }
 
@@ -22,26 +21,25 @@ export default async function Page({
   if (!validTopLevel.includes(topLevel)) {
     notFound();
   }
-  console.log(slugParts);
 
-  const query = await searchParams;
-  const product_id = query.id || null;
-
-  console.log(query);
-  let product;
-  try {
-    const res = await fetch(`http://localhost:3000/api/product/${product_id}`);
-    if (!res?.ok) throw new Error("API failed");
-    product = await res.json();
-    console.log(product);
-  } catch (err) {
-    console.error(err);
-    notFound(); // fallback on error
+  const product_id = searchParams.id;
+  if (!product_id || typeof product_id !== "string") {
+    notFound();
   }
 
-  return (
-    <>
-      <ProductPage product={product} />
-    </>
-  );
+  let product;
+  try {
+    const res = await fetch(`http://localhost:3000/api/product/${product_id}`, {
+      cache: "no-store", // optional, disables ISR caching
+    });
+
+    if (!res.ok) throw new Error("API failed");
+
+    product = await res.json();
+  } catch (err) {
+    console.error(err);
+    notFound();
+  }
+
+  return <ProductPage product={product} />;
 }

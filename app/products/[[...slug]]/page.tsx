@@ -1,7 +1,6 @@
 import ProductsPage from "@/components/UI/Pages/ProductsPage";
 import "./page.css";
 import { notFound } from "next/navigation";
-import ProductsSidebar from "@/components/UI/ProductsSideBar";
 
 const validTopLevel = ["best-sellers", "newest-arrivals", "cargos", "suits"];
 
@@ -12,12 +11,9 @@ export default async function Page({
   params: { slug?: string[] };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { slug } = await params;
-  const slugParts = slug || [];
+  const slugParts = params.slug || [];
 
-  // const slugParts = slug || [];
-
-  if (slugParts && slugParts.length > 2) {
+  if (slugParts.length > 2) {
     notFound();
   }
 
@@ -25,42 +21,41 @@ export default async function Page({
   if (!validTopLevel.includes(topLevel)) {
     notFound();
   }
-  console.log(slugParts);
 
-  const search_params = await searchParams;
-  const page = parseInt((search_params?.page as string) ?? "1");
-  const limit = parseInt((search_params?.limit as string) ?? "20");
-  console.log(page, limit);
+  const page = parseInt((searchParams?.page as string) ?? "1", 10);
+  const limit = parseInt((searchParams?.limit as string) ?? "20", 10);
 
-  let data = [];
-  try {
-    let res;
-    if (slugParts.length === 1) {
-      res = await fetch(
-        `http://localhost:3000/api/products/${slugParts[0]}?page=${page}&limit=${limit}`
-      );
-    } else if (slugParts.length === 2) {
-      if (slugParts[1] === "cargos") {
-        res = await fetch(
-          `http://localhost:3000/api/products/${slugParts[0]}?category=CARGO&page=${page}&limit=${limit}`
-        );
-      } else if (slugParts[1] === "suits") {
-        res = await fetch(
-          `http://localhost:3000/api/products/${slugParts[0]}?category=LADIES' SUIT&page=${page}&limit=${limit}`
-        );
-      }
+  let apiURL = `http://localhost:3000/api/products/${topLevel}?page=${page}&limit=${limit}`;
+
+  if (slugParts.length === 2) {
+    const category = slugParts[1] === "cargos"
+      ? "CARGO"
+      : slugParts[1] === "suits"
+      ? "LADIES' SUIT"
+      : null;
+
+    if (!category) {
+      notFound();
     }
 
-    if (!res?.ok) throw new Error("API failed");
-    data = await res.json();
+    apiURL += `&category=${encodeURIComponent(category)}`;
+  }
+
+  let result;
+  try {
+    const res = await fetch(apiURL, { cache: "no-store" });
+    if (!res.ok) throw new Error("API failed");
+    result = await res.json();
   } catch (err) {
     console.error(err);
-    notFound(); // fallback on error
+    notFound();
   }
 
   return (
-    <>
-      <ProductsPage slug={slugParts} total={data.total} productsData={data.data} />
-    </>
+    <ProductsPage
+      slug={slugParts}
+      total={result.total}
+      productsData={result.data}
+    />
   );
 }
