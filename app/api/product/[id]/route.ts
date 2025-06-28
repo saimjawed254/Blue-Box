@@ -1,20 +1,20 @@
 import { db } from "@/src/db";
 import { products } from "@/src/db/schema/products";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest) {
   try {
-    const product=await params
-    const productId = product.id;
+    const id = req.nextUrl.pathname.split("/").pop();
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing ID" }, { status: 400 });
+    }
 
     const result = await db
       .select()
       .from(products)
-      .where(eq(products.product_id, productId));
+      .where(eq(products.product_id, id));
 
     if (!result || result.length === 0) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
