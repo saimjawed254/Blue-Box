@@ -29,7 +29,7 @@ export default async function Page({ params, searchParams }: Props) {
   console.log(query);
   let product;
   try {
-    const res = await fetch(`http://localhost:3000/api/product/${product_id}`);
+    const res = await fetch(`https://blueboxxx.vercel.app/api/product/${product_id}`);
     if (!res?.ok) throw new Error("API failed");
     product = await res.json();
     console.log(product);
