@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import "./page.css";
+import { useLenis } from "@/components/lenis/useLenis"; 
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -685,9 +686,10 @@ export default function Page() {
 
     ScrollTrigger.refresh();
   });
+
+  useLenis()
   return (
     <>
-
       <div>
         {shadersVisible && (
           <ShaderWrapper/>

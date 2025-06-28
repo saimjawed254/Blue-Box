@@ -9,7 +9,7 @@ export default function RippleSimulation() {
   useEffect(() => {
     if (!mountRef.current) return;
 
-    const simRes = window.innerHeight;
+    const simRes = 1024;
     const width = window.innerWidth;
     const height = window.innerHeight * 2.0;
     const offset=0.0;
