@@ -36,6 +36,7 @@ export default function NACardUp({ product }: NACardProps) {
         </div>
         <Link href={product ? `product/cargo?id=${product.product_id}` : '/products/newest-arrivals'}  className="na-card-up-image">
           <Image
+          className="na-card-img"
             src={product?.image_urls[0] || "/Rem.png"}
             alt=""
             layout="fill"

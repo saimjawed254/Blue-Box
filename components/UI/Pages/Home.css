@@ -139,3 +139,25 @@
   grid-row: 16 / span 7;
   grid-column: 28 / span 3;
 }
+
+.home-bottom-text{
+  position: relative;
+    grid-row: 31 / span 5;
+  grid-column: 27 / span 20;
+}
+
+.home-bottom-text-line1{
+  position: relative;
+  width: 50%;
+  height: 70%;
+  display: flex;
+  align-items:end;
+  justify-content: space-between;
+}
+
+.home-bottom-text-line2{
+  position: relative;
+  width: 100%;
+  height: 30%;
+  font-size: 1.25vw;
+}

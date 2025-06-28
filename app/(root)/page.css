@@ -303,16 +303,24 @@
 
 .nap1-vertical-text {
   grid-row: 7 / span 15;
-  grid-column: 3 / span 3;
-  padding-left: 1vh;
+  grid-column: 3 / span 5;
+  padding-top: 1vh;
 
   writing-mode: vertical-lr;
-
+  
   font-size: 1.75vw;
   line-height: 100%;
 
   position: relative;
   z-index: 2;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.nap1-vertical-text .n1vt {
+  display: block;
+  white-space: nowrap; 
+  overflow: hidden;
 }
 
 .nap1-button-1 {
@@ -454,7 +462,7 @@
 
 .nap2-left-bar-image {
   grid-row: 8 / span 25;
-  grid-column: 4 / span 15;
+  grid-column: 7 / span 15;
   z-index: 1;
   overflow: hidden;
   position: relative;
@@ -477,7 +485,7 @@
 
 .nap2-right-bar-image {
   grid-row: 8 / span 25;
-  grid-column: 43 / span 15;
+  grid-column: 41 / span 15;
   z-index: 1;
   overflow: hidden;
   position: relative;

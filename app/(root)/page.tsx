@@ -67,15 +67,7 @@ export default function Page() {
   const [leftBar, setLeftBar] = useState("/Rem.png");
   const [rightBar, setRightBar] = useState("/Rem.png");
   const [svgSize, setSvgSize] = useState(0);
-
-  const dispatch = useDispatch();
-
-  const shaderOwner = useSelector((state: RootState) => state.ui.shaderOwner);
-
-  const shadersVisible = useSelector(
-    (state: RootState) => state.ui.shadersVisible
-  );
-  console.log("shadersVisible : ", shadersVisible);
+  const [shadersVisible,setShadersVisible]=useState(true)
 
   useEffect(() => {
     if (user && !alreadyInserted.current) {
@@ -192,13 +184,11 @@ export default function Page() {
       }
 
       if (scrollY > vhToPx(400) && scrollY < vhToPx(2400)) {
-        // dispatch(hideShader());
-        dispatch(setShaderOwner("na"));
+        setShadersVisible(false)
       }
 
       if (scrollY <= vhToPx(400) || scrollY >= vhToPx(2400)) {
-        dispatch(showShader());
-        dispatch(setShaderOwner("landing")); // or 'home', etc., based on who should own
+        setShadersVisible(true)
       }
 
       // if (window.scrollY > vhToPx(385) && window.scrollY < vhToPx(2385)) {
@@ -354,39 +344,355 @@ export default function Page() {
       },
     });
 
-    tl.to(items, {
-      x: `-${vwToPx(500)}`,
+    tl.to(
+      items,
+      {
+        x: `-${vwToPx(500)}`,
+        duration: vhToPx(2000),
+      },
+      0
+    );
+
+    tl.to(
+      ".nap1-product-image1",
+      {
+        x: vwToPx(60),
+        rotation: 360,
+        transformOrigin: "center center",
+        duration: vhToPx(600),
+        ease: "power2.inOut",
+      },
+      vhToPx(100)
+    );
+
+    gsap.set(".nap1-img2", {
+      scale: 1.5,
+      transformOrigin: "90% 0%",
     });
 
-    ScrollTrigger.create({
-      trigger: ".faqs-header",
-      pin: true,
-      pinSpacing: false,
-      scrub: 1,
-      start: `${vhToPx(2865)}`,
-      end: `${vhToPx(3070)}`,
-      invalidateOnRefresh: true,
+    tl.to(
+      ".nap1-product-image2",
+      {
+        x: vwToPx(50),
+        ease: "power2.inOut",
+        duration: vhToPx(600),
+      },
+      vhToPx(100)
+    );
+
+    tl.to(
+      ".nap1-img2",
+      {
+        x: vwToPx(10),
+        scale: 1,
+        ease: "power2.inOut",
+        duration: vhToPx(1000),
+      },
+      vhToPx(100)
+    );
+
+    tl.to(
+      ".nap1-product-image3",
+      {
+        x: -vwToPx(60),
+        rotation: -360,
+        transformOrigin: "center center",
+        duration: vhToPx(600),
+        ease: "power2.inOut",
+      },
+      vhToPx(100)
+    );
+
+    gsap.set(".nap2-lb-img1", {
+      scale: 1.5,
+      transformOrigin: "90% 0%",
     });
+
+    tl.to(
+      ".nap2-lb-img1",
+      {
+        x: vwToPx(10),
+        ease: "power2.inOut",
+        duration: vhToPx(600),
+      },
+      vhToPx(500)
+    );
+
+    // gsap.set(".nap2-lb-img2", {
+    //   scale: 1.5,
+    //   transformOrigin: "100% 0%",
+    // });
+
+    // tl.to(
+    //   ".nap2-lb-img2",
+    //   {
+    //     x: -vwToPx(5),
+    //     ease: "power2.inOut",
+    //     duration: vhToPx(525),
+    //   },
+    //   vhToPx(500)
+    // );
+
+    tl.from(
+      ".nap2-left-bar-image",
+      {
+        x: -vwToPx(15),
+        ease: "power2.inOut",
+        duration: vhToPx(525),
+      },
+      vhToPx(525)
+    );
+
+    gsap.set(".nap2-rb-img1", {
+      scale: 1.5,
+      transformOrigin: "100% 0%",
+    });
+
+    tl.to(
+      ".nap2-rb-img1",
+      {
+        x: vwToPx(10),
+        ease: "power2.inOut",
+        duration: vhToPx(550),
+      },
+      vhToPx(725)
+    );
+
+    // gsap.set(".nap2-rb-img2", {
+    //   scale: 1.5,
+    //   transformOrigin: "100% 0%",
+    // });
+
+    // tl.to(
+    //   ".nap2-rb-img2",
+    //   {
+    //     x: -vwToPx(10),
+    //     ease: "power2.inOut",
+    //     duration: vhToPx(550),
+    //   },
+    //   vhToPx(700)
+    // );
+
+    tl.to(
+      ".nap2-right-bar-image",
+      {
+        x: vwToPx(15),
+        ease: "power2.inOut",
+        duration: vhToPx(550),
+      },
+      vhToPx(700)
+    );
+
+    gsap.set(".na-card-img", {
+      scale: 1.5,
+    });
+
+    const images = gsap.utils.toArray<HTMLElement>(".na-card-img");
+
+    images.forEach((img, i) => {
+      let position;
+
+      switch (i) {
+        case 0:
+          position = vhToPx(950);
+          break;
+        case 1:
+          position = vhToPx(1025);
+          break;
+        case 2:
+          position = vhToPx(1100);
+          break;
+        case 3:
+          position = vhToPx(1175);
+          break;
+        case 4:
+          position = vhToPx(1250);
+          break;
+        case 5:
+          position = vhToPx(1325);
+          break;
+        default:
+          position = vhToPx(2000 + (i - 6) * 400); // fallback for rest
+          break;
+      }
+
+      tl.to(
+        img,
+        {
+          x: vwToPx(5),
+          ease: "linear",
+          duration: () => vhToPx(150 + i * 75),
+        },
+        position
+      );
+    });
+
+    gsap.set(".na-card-img-up", {
+      scale: 1.5,
+    });
+
+    const imagesup = gsap.utils.toArray<HTMLElement>(".na-card-img-up");
+
+    imagesup.forEach((img, i) => {
+      let position;
+
+      switch (i) {
+        case 0:
+          position = vhToPx(987.5);
+          break;
+        case 1:
+          position = vhToPx(1062.5);
+          break;
+        case 2:
+          position = vhToPx(1137.5);
+          break;
+        case 3:
+          position = vhToPx(1212.5);
+          break;
+        case 4:
+          position = vhToPx(1287.5);
+          break;
+        case 5:
+          position = vhToPx(1362.5);
+          break;
+        default:
+          position = vhToPx(2000 + (i - 6) * 400); // fallback for rest
+          break;
+      }
+
+      tl.to(
+        img,
+        {
+          x: vwToPx(5),
+          ease: "linear",
+          duration: () => vhToPx(150 + i * 75),
+        },
+        position
+      );
+    });
+
+    gsap.utils.toArray<HTMLElement>(".n1vt").forEach((line, i) => {
+      const masked = SplitText.create(line, {
+        type: "lines",
+        mask: "lines",
+        preserveWhiteSpace: true,
+      });
+
+      gsap.from(masked.lines, {
+        rotationY: -100,
+        transformOrigin: `50% 50% -${vwToPx(10)}px`,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".na-container",
+          start: "top top",
+          toggleActions: "play none none reverse",
+        },
+      });
+    });
+
+    gsap.utils.toArray<HTMLElement>(".n1ht").forEach((line, i) => {
+      const masked = SplitText.create(line, {
+        type: "lines",
+        mask: "lines",
+        preserveWhiteSpace: true,
+      });
+
+      gsap.from(masked.lines, {
+        rotationX: -100,
+        transformOrigin: `50% 50% -${vwToPx(10)}px`,
+        opacity: 0,
+        duration: 1.2,
+        delay: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".na-container",
+          start: "top top",
+          toggleActions: "play none none reverse",
+        },
+      });
+    });
+
+    gsap.utils.toArray<HTMLElement>(".n3bt").forEach((line, i) => {
+      const masked = SplitText.create(line, {
+        type: "lines",
+        mask: "lines",
+        preserveWhiteSpace: true,
+      });
+
+      tl.from(
+        masked.lines,
+        {
+          rotationY: -100,
+          transformOrigin: `50% 50% -${vwToPx(10)}px`,
+          opacity: 0,
+          duration: vhToPx(300),
+          ease: "power3.out",
+        },
+        vhToPx(1700)
+      );
+    });
+
+    const masked = SplitText.create(".nap3-end-top-text", {
+      type: "lines",
+      mask: "lines",
+      preserveWhiteSpace: true,
+    });
+
+    tl.from(
+      masked.lines,
+      {
+        rotationX: 100,
+        transformOrigin: `50% 50% -${vwToPx(10)}px`,
+        opacity: 0,
+        duration: vhToPx(300),
+        ease: "power3.out",
+      },
+      vhToPx(1700)
+    );
+
+    const tlFaq = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".faqs-header",
+        pin: true,
+        pinSpacing: false,
+        scrub: true,
+        start: `${vhToPx(2865)}`,
+        end: `${vhToPx(3070)}`,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    const maskedFaq = SplitText.create(".faqs-text", {
+      type: "lines",
+      mask: "lines",
+      preserveWhiteSpace: true,
+    });
+
+    tlFaq.from(
+      maskedFaq.lines,
+      {
+        // rotationX: -100,
+        // transformOrigin: `50% 50% -${vwToPx(2)}px`,
+        y: vwToPx(2),
+        duration: 1,
+        ease: "linear",
+      },
+      0
+    );
+    tlFaq.to({}, { duration: 4 });
 
     ScrollTrigger.refresh();
-
-    // ----------------Horizontal Scroll--------------------//
-
-    //     gsap.from(".nap1-p2",{
-    //   scale: 1.5,
-    //   scrollTrigger:{
-    //     trigger:".na-panel-1",
-    //     start:"top top",
-    //     end: `+=${vhToPx(200)}`,
-    //     scrub:1,
-    //     invalidateOnRefresh: false,
-    //   }
-    // })
   });
   return (
     <>
-      {/* <ShaderWrapper visible={true} /> */}
 
+      <div>
+        {shadersVisible && (
+          <ShaderWrapper/>
+        )}
+      </div>
       {/* -------------------------Hero-------------------------- */}
       <Home />
       {/* <section className={`hero ${ibm_plex_mono.className}`}>
@@ -587,15 +893,17 @@ export default function Page() {
             zIndex: -1,
           }}
         >
-          {shaderOwner === "na" && (
-            <ShaderWrapper visible={shadersVisible} owner="na" />
+          {!shadersVisible && (
+            <ShaderWrapper />
           )}
         </div>
         <div className="na-panel-1 na-panels">
           <div className={`nap1-vertical-text ${poppins.className}`}>
-            Modern Innovation. <br /> Elegance Meets
-            <br />
-            Timeless
+            <div className="n1vt">Innovation</div>
+            <div className="n1vt">Timeless</div>
+            <div className="n1vt">Elegant</div>
+            <div className="n1vt">Flair</div>
+            <div className="n1vt">AI</div>
           </div>
           <div className="nap1-button-1 center">
             <PrimaryButton
@@ -604,28 +912,34 @@ export default function Page() {
               fillColor={"#000000"}
             />
           </div>
-          <div className="nap1-tertiary-text-up">
+          <div className="nap1-tertiary-text-up n1ht">
             Newest Arrivals – Elevate Your Experience
           </div>
-          <div className={`nap1-tertiary-text-bottom ${italiana.className}`}>
+          <div
+            className={`nap1-tertiary-text-bottom n1ht ${italiana.className}`}
+          >
             Discover the Collection.
           </div>
-          <div className={`nap1-tertiary-text ${poppins.className}`}>
+          <div className={`nap1-tertiary-text n1ht ${poppins.className}`}>
             Each piece in our newest collection embodies craftsmanship,
             refinement, and exclusivity. Indulge in design that speaks of
             effortless sophistication
           </div>
-          <div className="nap1-tagline-secondary center">Latest in Stock.</div>
-          <div className="nap1-tagline-main center">Latest in Fashion.</div>
-          <div className={`nap1-centre-text ${poppins.className}`}>
+          <div className="nap1-tagline-secondary n1ht center">
+            Latest in Stock.
+          </div>
+          <div className="nap1-tagline-main n1ht center">
+            Latest in Fashion.
+          </div>
+          <div className={`nap1-centre-text n1ht ${poppins.className}`}>
             Indulge in the ultimate design experience. Be among the first to
             explore our newest arrivals. Limited availability. Secure yours
             today.
           </div>
-          <div className={`nap1-centre-heading1 ${italiana.className}`}>
+          <div className={`nap1-centre-heading1 n1ht ${italiana.className}`}>
             Shop Now!
           </div>
-          <div className={`nap1-centre-heading2 ${poppins.className}`}>
+          <div className={`nap1-centre-heading2 n1ht ${poppins.className}`}>
             Before it's gone.
           </div>
           <div className="nap1-button-2 center">
@@ -654,7 +968,13 @@ export default function Page() {
                 }
                 className="nap1-product-image1"
               >
-                <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
+                <Image
+                  className="nap1-img1"
+                  src={imageSrc}
+                  alt=""
+                  layout="fill"
+                  objectFit="cover"
+                />
               </Link>
             );
           })()}
@@ -679,6 +999,7 @@ export default function Page() {
                   className="nap1-p2"
                 >
                   <Image
+                    className="nap1-img2"
                     src={imageSrc}
                     alt=""
                     layout="fill"
@@ -713,10 +1034,18 @@ export default function Page() {
           })()}
         </div>
         <div className="na-panel-2 na-panels">
-          <div
-            style={{ background: `url(${leftBar}) cover` }}
-            className="nap2-left-bar"
-          ></div>
+          <div style={{ background: `black cover` }} className="nap2-left-bar">
+            <Image
+              className="nap2-lb-img1"
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+              src={leftBar}
+              alt=""
+              layout="fill"
+            />
+          </div>
           {(() => {
             const cargos = newestArrivalsCargosData ?? [];
             const product = cargos[6];
@@ -735,7 +1064,13 @@ export default function Page() {
                 }
                 className="nap2-left-bar-image"
               >
-                <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
+                <Image
+                  className="nap2-lb-img2"
+                  src={imageSrc}
+                  alt=""
+                  layout="fill"
+                  objectFit="cover"
+                />
               </Link>
             );
           })()}
@@ -839,10 +1174,18 @@ export default function Page() {
               <div className="nap2-cs-brand-name">Sharjah</div>
             </div>
           </div>
-          <div
-            style={{ background: `url(${rightBar}) cover` }}
-            className="nap2-right-bar"
-          ></div>
+          <div style={{ background: `black cover` }} className="nap2-right-bar">
+            <Image
+              className="nap2-rb-img1"
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+              src={rightBar}
+              alt=""
+              layout="fill"
+            />
+          </div>
 
           {(() => {
             const suits = newestArrivalsSuitsData ?? [];
@@ -863,7 +1206,13 @@ export default function Page() {
                 }
                 className="nap2-right-bar-image"
               >
-                <Image src={imageSrc} alt="" layout="fill" objectFit="cover" />
+                <Image
+                  className="nap2-rb-img2"
+                  src={imageSrc}
+                  alt=""
+                  layout="fill"
+                  objectFit="cover"
+                />
               </Link>
             );
           })()}
@@ -895,11 +1244,11 @@ export default function Page() {
                 fillColor="#000000"
               />
             </div>
-            <div className="nap3-end-bottom-text1">You know</div>
-            <div className="nap3-end-bottom-text2">Quality</div>
-            <div className="nap3-end-bottom-text3">when</div>
-            <div className="nap3-end-bottom-text4">you see</div>
-            <div className="nap3-end-bottom-text5">it... Don't wait!</div>
+            <div className="nap3-end-bottom-text1 n3bt">You know</div>
+            <div className="nap3-end-bottom-text2 n3bt">Quality</div>
+            <div className="nap3-end-bottom-text3 n3bt">when</div>
+            <div className="nap3-end-bottom-text4 n3bt">you see</div>
+            <div className="nap3-end-bottom-text5 n3bt">it... Don't wait!</div>
           </div>
         </div>
       </section>

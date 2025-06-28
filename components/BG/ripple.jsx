@@ -3,16 +3,16 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-export default function RippleSimulation({ visible, offset}) {
+export default function RippleSimulation() {
   const mountRef = useRef(null);
 
   useEffect(() => {
-    if (!visible || !mountRef.current) return;
+    if (!mountRef.current) return;
 
     const simRes = window.innerHeight;
     const width = window.innerWidth;
     const height = window.innerHeight * 2.0;
-
+    const offset=0.0;
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(width, height);
     mountRef.current.appendChild(renderer.domElement);
@@ -208,7 +208,7 @@ export default function RippleSimulation({ visible, offset}) {
         renderer.domElement.parentNode.removeChild(renderer.domElement);
       }
     };
-  }, [visible]);
+  },[]);
 
   return (
     <div
@@ -216,7 +216,7 @@ export default function RippleSimulation({ visible, offset}) {
       style={{
         width: '100%',
         height: '100%',
-        display: visible ? 'block' : 'none',
+        display: 'block',
       }}
     />
   );

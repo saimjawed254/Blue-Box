@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { ScrollTrigger, SplitText } from "gsap/all";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { tr } from "zod/v4/locales";
 
 const bruno_ace = Bruno_Ace({ weight: ["400"] });
@@ -16,6 +16,35 @@ gsap.registerPlugin(SplitText, ScrollTrigger);
 export default function Home() {
   const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
   const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleHover = () => {
+    if (containerRef) {
+      const svgs = containerRef.current?.querySelectorAll("svg");
+      if (!svgs) return;
+
+      gsap.fromTo(
+        svgs,
+        {
+          scale: 1,
+          y: 0,
+          filter: "drop-shadow(0 0 0px #808080)",
+        },
+        {
+          scale: 1.1,
+          y: -10,
+          filter: "drop-shadow(0 5px 15px #aaa)",
+          duration: 0.4,
+          ease: "power1.out",
+          yoyo: true,
+          repeat: 1,
+          stagger: 0.05,
+          transformOrigin: "center center",
+        }
+      );
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== undefined) {
@@ -43,6 +72,20 @@ export default function Home() {
   }, []);
 
   useGSAP(() => {
+    const svgs = containerRef.current?.querySelectorAll("svg");
+
+    if (svgs) {
+      svgs.forEach((svg, index) => {
+        gsap.to(svg, {
+          rotate: index === 0 ? 360 : -360,
+          duration: 5 + index * 2,
+          ease: "linear",
+          repeat: -1,
+          transformOrigin: "center center",
+        });
+      });
+    }
+
     const imgBoxes = document.querySelectorAll(".home-img");
     const container = document.querySelector(".home");
 
@@ -100,11 +143,12 @@ export default function Home() {
     //   opacity: 0,
     // });
 
-
     const splitText1 = document.querySelector(".home-center-heading-wrapper1");
     const splitText2 = document.querySelector(".home-center-heading-wrapper2");
     const splitText3 = document.querySelector(".home-center-heading-wrapper3");
     const splitText4 = document.querySelector(".home-center-text");
+    const splitText5 = document.querySelector(".home-bottom-text-line-text");
+    const splitText6 = document.querySelector(".home-bottom-text-line2");
 
     const split1 = SplitText.create(splitText1, {
       type: "lines",
@@ -126,10 +170,20 @@ export default function Home() {
       mask: "lines",
       preserveWhitespace: true,
     });
+    const split5 = SplitText.create(splitText5, {
+      type: "lines",
+      mask: "lines",
+      preserveWhitespace: true,
+    });
+    const split6 = SplitText.create(splitText6, {
+      type: "lines",
+      mask: "lines",
+      preserveWhitespace: true,
+    });
 
     const tl = gsap.timeline();
 
-    tl.to({}, { duration: 2 })
+    tl.to({}, { duration: 1 })
       .from(split1.lines[0], {
         rotationX: -100,
         transformOrigin: `50% 50% -${vwToPx(10)}px`,
@@ -161,13 +215,39 @@ export default function Home() {
         },
         "<"
       )
-      .from(split4.lines[0], {
-        rotationX: -100,
-        transformOrigin: `50% 50% -${vwToPx(10)}px`,
-        opacity: 0,
-        duration: 1.5,
-        ease: "power3.out",
-      });
+      .from(
+        split4.lines[0],
+        {
+          rotationX: -100,
+          transformOrigin: `50% 50% -${vwToPx(10)}px`,
+          opacity: 0,
+          duration: 1.5,
+          ease: "power3.out",
+        },
+        "<"
+      )
+      .from(
+        split5.lines[0],
+        {
+          rotationX: 100,
+          transformOrigin: `50% 50% -${vwToPx(10)}px`,
+          opacity: 0,
+          duration: 1.5,
+          ease: "power3.out",
+        },
+        "<"
+      )
+      .from(
+        split6.lines[0],
+        {
+          rotationX: 100,
+          transformOrigin: `50% 50% -${vwToPx(10)}px`,
+          opacity: 0,
+          duration: 1.5,
+          ease: "power3.out",
+        },
+        "<"
+      );
 
     const Slideshow1Items = document.querySelectorAll(
       ".home-img1-slideshow-item"
@@ -1977,7 +2057,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className={`home-center-ai-feature center ${bruno_ace.className}`}>
+        <div
+          ref={containerRef}
+          onMouseEnter={handleHover}
+          className={`home-center-ai-feature center ${bruno_ace.className}`}
+        >
           <svg
             style={{
               position: "absolute",
@@ -1998,9 +2082,28 @@ export default function Home() {
               position: "absolute",
             }}
             xmlns="http://www.w3.org/2000/svg"
-            width="279"
-            height="279"
+            width="250"
+            height="250"
             viewBox="0 0 279 279"
+            fill="none"
+          >
+            <circle
+              cx="139.5"
+              cy="139.5"
+              r="138"
+              stroke="#808080"
+              strokeWidth="3"
+            />
+          </svg>
+
+          <svg
+            style={{
+              position: "absolute",
+            }}
+            xmlns="http://www.w3.org/2000/svg"
+            width="280"
+            height="280"
+            viewBox="0 0 280 280"
             fill="none"
           >
             <path
@@ -2008,15 +2111,7 @@ export default function Home() {
               fill="#808080"
             />
           </svg>
-          <div
-            style={{
-              position: "absolute",
-              width: "72.5%",
-              aspectRatio: "1/1",
-              border: "3px solid rgb(var(--off-text))",
-              borderRadius: "50%",
-            }}
-          ></div>
+
           <span>
             AI Virtual <br /> Try On
           </span>
@@ -2086,6 +2181,75 @@ export default function Home() {
           <div className="home-center-heading-wrapper3">Bluebox</div>
           <div className={`home-center-text ${ibm_plex_mono.className}`}>
             Elevate your style with our AI Tools
+          </div>
+        </div>
+        <div className={`home-bottom-text ${ibm_plex_mono.className}`}>
+          <div className="home-bottom-text-line1">
+            <div style={{
+              position:"relative",
+              width:"100%",
+              height:"50%",
+            }} className="home-bottom-text-line-text">
+              <span
+                style={{
+                  fontSize: "2vw",
+                  width: "40%",
+                  height: "60%",
+                }}
+              >
+                3417
+              </span>
+              <span
+                style={{
+                  width: "20%",
+                  height: "50%",
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="35"
+                  height="35"
+                  viewBox="0 0 37 23"
+                  fill="none"
+                >
+                  <path
+                    d="M24.75 2.75H34.75V12.75"
+                    stroke="#00A6FF"
+                    strokeWidth="3.57143"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M34.75 2.75L20.625 16.875C20.3913 17.104 20.0772 17.2323 19.75 17.2323C19.4228 17.2323 19.1087 17.104 18.875 16.875L13.125 11.125C12.8913 10.896 12.5772 10.7677 12.25 10.7677C11.9228 10.7677 11.6087 10.896 11.375 11.125L2.25 20.25"
+                    stroke="#00A6FF"
+                    strokeWidth="3.57143"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </div>
+
+            <span
+              style={{
+                position: "relative",
+                width: "50%",
+                height: "100%",
+              }}
+            >
+              <Image
+                style={{
+                  objectFit: "cover",
+                  objectPosition: "center",
+                }}
+                src={"/NicePng_rem-re-zero-png_1645922.png"}
+                alt=""
+                fill
+              />
+            </span>
+          </div>
+          <div className="home-bottom-text-line2">
+            Happy customers and counting...
           </div>
         </div>
       </section>
