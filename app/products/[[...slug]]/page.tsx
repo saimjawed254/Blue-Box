@@ -4,13 +4,15 @@ import { notFound } from "next/navigation";
 
 const validTopLevel = ["best-sellers", "newest-arrivals", "cargos", "suits"];
 
+type ProductsPageProps = {
+  params: { slug?: string[] };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
 export default async function Page({
   params,
   searchParams,
-}: {
-  params: { slug: string[] };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+}: ProductsPageProps) {
   const slugParts = params.slug || [];
 
   if (slugParts.length > 2) {
@@ -28,11 +30,12 @@ export default async function Page({
   let apiURL = `http://localhost:3000/api/products/${topLevel}?page=${page}&limit=${limit}`;
 
   if (slugParts.length === 2) {
-    const category = slugParts[1] === "cargos"
-      ? "CARGO"
-      : slugParts[1] === "suits"
-      ? "LADIES' SUIT"
-      : null;
+    const category =
+      slugParts[1] === "cargos"
+        ? "CARGO"
+        : slugParts[1] === "suits"
+        ? "LADIES' SUIT"
+        : null;
 
     if (!category) {
       notFound();

@@ -4,13 +4,12 @@ import ProductPage from "@/components/UI/Pages/Product";
 
 const validTopLevel = ["cargo", "suit"];
 
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: { slug: string[] };
+type ProductPageProps = {
+  params: { slug?: string[] };
   searchParams: { [key: string]: string | string[] | undefined };
-}) {
+};
+
+export default async function Page({ params, searchParams }: ProductPageProps) {
   const slugParts = params.slug || [];
 
   if (slugParts.length > 2) {
