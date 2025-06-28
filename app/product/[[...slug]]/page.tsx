@@ -10,9 +10,9 @@ type PageProps = {
 };
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const slugParts = params.slug || [];
+  const slugParts = params.slug;
 
-  if (slugParts.length > 2) {
+  if (slugParts.length > 1) {
     notFound();
   }
 
