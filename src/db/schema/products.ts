@@ -5,6 +5,7 @@ import {
   timestamp,
   pgTable,
   varchar,
+  vector,
 } from "drizzle-orm/pg-core";
 
 export const products = pgTable("products", {
@@ -36,6 +37,8 @@ export const products = pgTable("products", {
 
   created_at: timestamp("created_at").defaultNow().notNull(),
   updated_at: timestamp("updated_at").defaultNow().notNull(),
+
+  embedding: vector("embedding", { dimensions: 768 }),
 });
 
 export type Product = typeof products.$inferSelect;

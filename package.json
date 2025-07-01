@@ -10,7 +10,8 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "backfill-embeddings": "ts-node scripts/backfill-embeddings.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.22.0",
@@ -19,19 +20,21 @@
     "@neondatabase/serverless": "^1.0.1",
     "@reduxjs/toolkit": "^2.8.2",
     "@studio-freight/lenis": "^1.0.42",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.1",
     "drizzle-orm": "^0.44.2",
     "gsap": "^3.13.0",
     "locomotive-scroll": "^5.0.0-beta.21",
     "next": "15.3.2",
     "next-redux-wrapper": "^8.1.0",
+    "openai": "^5.8.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.58.1",
     "react-hot-toast": "^2.5.2",
     "react-redux": "^9.2.0",
     "three": "^0.176.0",
-    "tsx": "^4.20.3",
+    "together-ai": "^0.16.0",
+    "ts-node": "^10.9.2",
     "zod": "^3.25.67"
   },
   "devDependencies": {
@@ -39,6 +42,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.31.1",
+    "tsx": "^4.20.3",
     "typescript": "^5"
   }
 }

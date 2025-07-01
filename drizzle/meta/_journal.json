@@ -36,6 +36,27 @@
       "when": 1750358052440,
       "tag": "0004_fluffy_puppet_master",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1751374706369,
+      "tag": "0005_dark_robbie_robertson",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1751375754112,
+      "tag": "0006_perfect_maximus",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1751379125823,
+      "tag": "0007_overjoyed_terror",
+      "breakpoints": true
     }
   ]
 }
