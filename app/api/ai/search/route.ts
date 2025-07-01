@@ -12,6 +12,8 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
+  console.log(query);
+
   if (!query) {
     return NextResponse.json({ error: "Missing query" }, { status: 400 });
   }
@@ -123,26 +125,26 @@ User Query: "${query}"
 
   const semanticResults = await db.execute(
     sql`
-      SELECT
-        product_id,
-        title,
-        description,
-        category,
-        tags,
-        brand,
-        price,
-        discount,
-        image_urls,
-        embedding <#> ${sql`${embeddingLiteral}::vector`} AS similarity
-      FROM products
-      WHERE embedding IS NOT NULL
-      ${parsed.category ? sql`AND category ILIKE ${parsed.category}` : sql``}
-      ORDER BY similarity ASC
-      LIMIT ${20 - filterResults.rows.length};
-    `
+    SELECT
+     *
+    FROM products
+    WHERE embedding IS NOT NULL
+    ${parsed.category ? sql`AND category ILIKE ${parsed.category}` : sql``}
+    ORDER BY embedding <#> ${sql`${embeddingLiteral}::vector`} ASC
+    LIMIT ${20 - filterResults.rows.length};
+  `
   );
 
-  const merged = [...filterResults.rows, ...semanticResults.rows];
+  const seen = new Set();
+  const merged: typeof filterResults.rows = [];
+
+  for (const item of [...filterResults.rows, ...semanticResults.rows]) {
+    if (!seen.has(item.product_id)) {
+      seen.add(item.product_id);
+      merged.push(item);
+    }
+  }
+
   const cleaned = merged.map(
     ({ embedding, similarity, category_boost, price_boost, ...rest }) => rest
   );

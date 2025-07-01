@@ -10,7 +10,7 @@ import {
 } from "next/font/google";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const cinzel = Cinzel_Decorative({
@@ -18,12 +18,14 @@ const cinzel = Cinzel_Decorative({
   weight: ["400"],
 });
 const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["400"] });
 const ibm_plex_mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400"],
 });
 
 export default function Navbar() {
+  const router = useRouter();
   const pathname = usePathname();
   const { isLoaded, isSignedIn, user } = useUser();
   console.log(user);
@@ -35,6 +37,17 @@ export default function Navbar() {
     return null;
   }
   const [svgSize, setSvgSize] = useState(1);
+  const [toggle, setToggle] = useState(true);
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!query.trim()) return;
+
+    router.push(`/products/search?query=${encodeURIComponent(query.trim())}`);
+    setToggle(true)
+  }
 
   useEffect(() => {
     const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
@@ -44,6 +57,52 @@ export default function Navbar() {
 
   return (
     <>
+      <section
+        style={{
+          width: toggle ? `0vw` : `70vw`,
+        }}
+        className="search-layer center"
+      >
+        <div
+          style={{
+            visibility: toggle ? "hidden" : "visible",
+          }}
+          className={`search-layer-heading ${poppins.className}`}
+        >
+          <span
+            className={`${ibm_plex_mono.className}`}
+            style={{
+              fontSize: "2.5vw",
+            }}
+          >
+            Just describe it!
+          </span>
+          <br />
+          Our AI Powered Search will find the most suitable <br /> products for
+          you within seconds
+        </div>
+
+        <form onSubmit={handleSearch} className="search-layer-input center">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for suits, cargos, colors, brands..."
+            className={`${ibm_plex_mono.className}`}
+          />
+          <button
+            type="submit"
+            disabled={loading}
+            className={`${ibm_plex_mono.className}`}
+          >
+            {loading ? "Searching..." : "Search"}
+          </button>
+        </form>
+
+        <div className={`search-layer-text ${poppins.className}`}>
+          Try: “something green in cargo with rough look under 1500”
+        </div>
+      </section>
       <nav className={`${ibm_plex_mono.className}`}>
         <div className={`nav-logo center `}>Bluebox © 2025</div>
         <div className="navigate center">
@@ -66,11 +125,16 @@ export default function Navbar() {
             <span className="dot-fill"></span>
             <span className="nav-label">• Suits</span>
           </Link>
-          <div className="nav-ai-search-icon center">
+          <div
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+            className="nav-ai-search-icon center"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={`${svgSize/1.25}`}
-              height={`${svgSize/1.25}`}
+              width={`${svgSize / 1.25}`}
+              height={`${svgSize / 1.25}`}
               viewBox="0 0 27 30"
               fill="none"
             >
