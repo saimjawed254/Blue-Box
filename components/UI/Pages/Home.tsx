@@ -7,16 +7,22 @@ import Image from "next/image";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import { useEffect, useRef, useState } from "react";
 import { tr } from "zod/v4/locales";
+import { Product } from "@/src/db/schema/products";
 
-const bruno_ace = Bruno_Ace({subsets:["latin"], weight: ["400"] });
-const ibm_plex_mono = IBM_Plex_Mono({subsets:["latin"], weight: ["400"] });
+const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
+const ibm_plex_mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400"] });
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
-export default function Home() {
+type Props = {
+  productsData: Product[];
+};
+
+export default function Home({ productsData }: Props) {
+  console.log(productsData);
   const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
   const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
-  const [svgSize,setSvgSize]=useState(1);
+  const [svgSize, setSvgSize] = useState(1);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -49,9 +55,9 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window !== undefined) {
-    const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
-    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
-    setSvgSize(vwToPx(10.8));
+      const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+      const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+      setSvgSize(vwToPx(10.8));
       const boxes = document.querySelectorAll(
         ".home-img"
       ) as NodeListOf<HTMLDivElement>;
@@ -837,7 +843,65 @@ export default function Home() {
   return (
     <>
       <section className="home">
-        <div
+        {Array.from({ length: 12 }).map((_, index) => {
+          const start = (index * 3) % productsData.length;
+
+          const images = [
+            productsData[start]?.image_urls?.[0],
+            productsData[(start + 1) % productsData.length]?.image_urls?.[0],
+            productsData[(start + 2) % productsData.length]?.image_urls?.[0],
+          ];
+
+          const imageSet = [...images, images[0]];
+
+          return (
+            <div
+              style={{
+                transition: "transform 0.15s ease",
+                willChange: "transform",
+              }}
+              key={index}
+              className={`home-img${index + 1} home-img`}
+            >
+              <div
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: "100%",
+                  overflow: "hidden",
+                }}
+                className={`home-img${index + 1}-slideshow-container`}
+              >
+                {imageSet.map((src, i) => (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      overflow: "hidden",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                    key={i}
+                    className={`home-img${index + 1}-slideshow-item`}
+                  >
+                    <Image
+                      fill
+                      src={src || "/Rem.png"}
+                      alt={`Slideshow ${index + 1} Image ${i + 1}`}
+                      style={{
+                        objectFit: "cover",
+                        objectPosition: "center",
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* <div
           style={{
             transition: "transform 0.15s ease",
             willChange: "transform",
@@ -938,8 +1002,8 @@ export default function Home() {
               />
             </div>
           </div>
-        </div>
-        <div
+        </div> */}
+        {/* <div
           style={{
             transition: "transform 0.15s ease",
             willChange: "transform",
@@ -2060,7 +2124,7 @@ export default function Home() {
               />
             </div>
           </div>
-        </div>
+        </div> */}
         <div
           ref={containerRef}
           onMouseEnter={handleHover}
@@ -2086,8 +2150,8 @@ export default function Home() {
               position: "absolute",
             }}
             xmlns="http://www.w3.org/2000/svg"
-            width={`${svgSize*1.136}`}
-            height={`${svgSize*1.136}`}
+            width={`${svgSize * 1.136}`}
+            height={`${svgSize * 1.136}`}
             viewBox="0 0 279 279"
             fill="none"
           >
@@ -2105,8 +2169,8 @@ export default function Home() {
               position: "absolute",
             }}
             xmlns="http://www.w3.org/2000/svg"
-            width={`${svgSize*1.27}`}
-            height={`${svgSize*1.27}`}
+            width={`${svgSize * 1.27}`}
+            height={`${svgSize * 1.27}`}
             viewBox="0 0 280 280"
             fill="none"
           >
@@ -2123,8 +2187,8 @@ export default function Home() {
         <div className="home-center-spiral center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={`${svgSize/3.67}`}
-            height={`${svgSize/1.4}`}
+            width={`${svgSize / 3.67}`}
+            height={`${svgSize / 1.4}`}
             viewBox="0 0 60 157"
             fill="none"
           >
@@ -2189,11 +2253,14 @@ export default function Home() {
         </div>
         <div className={`home-bottom-text ${ibm_plex_mono.className}`}>
           <div className="home-bottom-text-line1">
-            <div style={{
-              position:"relative",
-              width:"100%",
-              height:"50%",
-            }} className="home-bottom-text-line-text">
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                height: "50%",
+              }}
+              className="home-bottom-text-line-text"
+            >
               <span
                 style={{
                   fontSize: "2vw",
@@ -2211,8 +2278,8 @@ export default function Home() {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/6.285}`}
-                  height={`${svgSize/6.285}`}
+                  width={`${svgSize / 6.285}`}
+                  height={`${svgSize / 6.285}`}
                   viewBox="0 0 37 23"
                   fill="none"
                 >

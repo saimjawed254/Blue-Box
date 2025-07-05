@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import "./ProductsSideBar.css";
 import { useEffect, useState } from "react";
 import { Product } from "@/src/db/schema/products";
+import { useLenis } from "../lenis/useLenis";
 
 export interface ProductFilters {
   brands?: string[];
@@ -151,7 +152,7 @@ export default function ProductsSidebar({
   };
 
   return (
-    <section className={`products-sidebar ${poppins.className}`}>
+    <section className={`products-sidebar ${poppins.className}`} data-lenis-prevent>
       <div className="scrollable-sidebar">
         <div className="psb-top-buffer"></div>
         <div className="psb-info">

@@ -64,10 +64,38 @@ export default function Page() {
     useState<Product[]>();
   const [newestArrivalsSuitsData, setNewestArrivalsSuitsData] =
     useState<Product[]>();
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+
+  const [cargoBrands, setCargoBrands] = useState<string[]>([]);
+  const [suitBrands, setSuitBrands] = useState<string[]>([]);
+
   const [leftBar, setLeftBar] = useState("/Rem.png");
   const [rightBar, setRightBar] = useState("/Rem.png");
   const [svgSize, setSvgSize] = useState(0);
   const [shadersVisible, setShadersVisible] = useState(true);
+
+  const scrollRefCargo = useRef<HTMLDivElement>(null);
+  const scrollRefSuits = useRef<HTMLDivElement>(null);
+
+  const scrollByCargo = (direction: "left" | "right") => {
+    const el = scrollRefCargo.current;
+    if (el) {
+      el.scrollBy({
+        left: direction === "right" ? 450 : -450,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollBySuits = (direction: "left" | "right") => {
+    const el = scrollRefSuits.current;
+    if (el) {
+      el.scrollBy({
+        left: direction === "right" ? 450 : -450,
+        behavior: "smooth",
+      });
+    }
+  };
 
   useEffect(() => {
     const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
@@ -91,6 +119,28 @@ export default function Page() {
         console.log("RES", res);
       });
     }
+
+    const fetchCargoBrands = async () => {
+      try {
+        const res = await fetch("/api/products/brands?category=CARGO");
+        const data = await res.json();
+        setCargoBrands(data.brands);
+        console.log("Fetched cargo brands:", data.brands);
+      } catch (err) {
+        console.error("Error fetching cargo brands:", err);
+      }
+    };
+
+    const fetchSuitBrands = async () => {
+      try {
+        const res = await fetch("/api/products/brands?category=LADIES' SUIT");
+        const data = await res.json();
+        setSuitBrands(data.brands);
+        console.log("Fetched suit brands:", data.brands);
+      } catch (err) {
+        console.error("Error fetching suit brands:", err);
+      }
+    };
 
     const fetchBestsellersCargo = async () => {
       try {
@@ -150,6 +200,20 @@ export default function Page() {
       }
     };
 
+    const fetchAllProducts = async () => {
+      try {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        setAllProducts(data.data);
+        console.log("Fetched All Products", data.data);
+      } catch (err) {
+        console.error("Error fetching All Products:", err);
+      }
+    };
+
+    fetchAllProducts();
+    fetchSuitBrands();
+    fetchCargoBrands();
     fetchBestsellersCargo();
     fetchBestsellersSuits();
     fetchNewestArrivalsCargos();
@@ -695,7 +759,7 @@ export default function Page() {
     <>
       <div>{shadersVisible && <ShaderWrapper />}</div>
       {/* -------------------------Hero-------------------------- */}
-      <Home />
+      <Home productsData={allProducts} />
       {/* <section className={`hero ${ibm_plex_mono.className}`}>
         <div className="hero-ll">
           <div className="hero-ll-head">
@@ -872,7 +936,10 @@ export default function Page() {
 
       {/* -------------------------Why Choose Us-------------------------- */}
 
-      <WhyChooseUs />
+      <WhyChooseUs
+        suitsImage={allProducts ? allProducts[12]?.image_urls[0] : "/Rem.png"}
+        cargoImage={allProducts ? allProducts[4]?.image_urls[0] : "/Rem.png"}
+      />
       {/* -------------------------Newest Arrivals-------------------------- */}
 
       <section className="na">
@@ -882,7 +949,14 @@ export default function Page() {
           <section className="na-marq">Newest Arrivals&nbsp;</section>
         </div>
 
-        <section className="newest-arrivals">
+        <section
+          style={{
+            backgroundImage: allProducts
+              ? `url(${allProducts[1]?.image_urls[0]})`
+              : `url(/Rem.png)`,
+          }}
+          className="newest-arrivals"
+        >
           <div className="na-black-overlay"></div>
         </section>
       </section>
@@ -1119,6 +1193,18 @@ export default function Page() {
               The Newly added Collections of{" "}
             </div>
             <div className="nap2-cc-heading2">Men's Cargo</div>
+            {cargoBrands.slice(0, 5).map((brand, index) => (
+              <div
+                key={brand}
+                className={`nap2-cc-brand blur ${italiana.className}`}
+              >
+                <div className="nap2-cc-brand-serial">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+                <div className="nap2-cc-brand-name">{brand}</div>
+              </div>
+            ))}
+{/* 
             <div className={`nap2-cc-brand blur ${italiana.className}`}>
               <div className="nap2-cc-brand-serial">01</div>
               <div className="nap2-cc-brand-name">Pantaloons</div>
@@ -1138,7 +1224,7 @@ export default function Page() {
             <div className={`nap2-cc-brand blur ${italiana.className}`}>
               <div className="nap2-cc-brand-serial">01</div>
               <div className="nap2-cc-brand-name">Denim & Co.</div>
-            </div>
+            </div> */}
           </div>
           <div className="nap2-collections-suits">
             <div className={`nap2-cs-heading1 ${italiana.className}`}>
@@ -1148,7 +1234,18 @@ export default function Page() {
               Ladies' <br />
               Suits
             </div>
-            <div className={`nap2-cs-brand blur ${italiana.className}`}>
+            {suitBrands.slice(0, 6).map((brand, index) => (
+              <div
+                key={brand}
+                className={`nap2-cs-brand blur ${italiana.className}`}
+              >
+                <div className="nap2-cs-brand-serial">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
+                <div className="nap2-cs-brand-name">{brand}</div>
+              </div>
+            ))}
+            {/* <div className={`nap2-cs-brand blur ${italiana.className}`}>
               <div className="nap2-cs-brand-serial">01</div>
               <div className="nap2-cs-brand-name">Zara</div>
             </div>
@@ -1171,7 +1268,7 @@ export default function Page() {
             <div className={`nap2-cs-brand blur ${italiana.className}`}>
               <div className="nap2-cs-brand-serial">01</div>
               <div className="nap2-cs-brand-name">Sharjah</div>
-            </div>
+            </div> */}
           </div>
           <div style={{ background: `black cover` }} className="nap2-right-bar">
             <Image
@@ -1293,7 +1390,10 @@ export default function Page() {
             <div className="bsdch-button-show-all">
               <SquareButton link={`products/best-sellers/cargos`} />
             </div>
-            <div className="bsdch-button-left center">
+            <div
+              onClick={() => scrollByCargo("left")}
+              className="bsdch-button-left center"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={`${svgSize}`}
@@ -1304,7 +1404,10 @@ export default function Page() {
                 <path d="M18 14L34 25L18 36V14Z" fill="black" />
               </svg>
             </div>
-            <div className="bsdch-button-right center">
+            <div
+              onClick={() => scrollByCargo("right")}
+              className="bsdch-button-right center"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={`${svgSize}`}
@@ -1317,7 +1420,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="bsdc-cards">
+          <div ref={scrollRefCargo} className="bsdc-cards">
             {bestsellersCargosData?.map((product) => (
               <ProductCard key={product.product_id} product={product} />
             ))}
@@ -1343,7 +1446,10 @@ export default function Page() {
             <div className="bsdsh-button-show-all">
               <SquareButton link={`products/best-sellers/suits`} />
             </div>
-            <div className="bsdsh-button-left center">
+            <div
+              onClick={() => scrollBySuits("left")}
+              className="bsdsh-button-left center"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={`${svgSize}`}
@@ -1354,7 +1460,10 @@ export default function Page() {
                 <path d="M18 14L34 25L18 36V14Z" fill="black" />
               </svg>
             </div>
-            <div className="bsdsh-button-right center">
+            <div
+              onClick={() => scrollBySuits("right")}
+              className="bsdsh-button-right center"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={`${svgSize}`}
@@ -1367,7 +1476,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="bsds-cards">
+          <div ref={scrollRefSuits} className="bsds-cards">
             {bestsellersSuitsData?.map((product) => (
               <ProductCard key={product.product_id} product={product} />
             ))}
@@ -1387,28 +1496,66 @@ export default function Page() {
         </section>
         <section className="faqs-cards">
           <div className="faqs-cards-line1 center">
-            <FAQCard visibility="visible" />
-            <FAQCard visibility="hidden" />
-            <FAQCard visibility="hidden" />
-            <FAQCard visibility="visible" />
+            <FAQCard
+              visibility="visible"
+              question={`What payment methods do you accept?`}
+              answer={`We accept all major credit and debit cards, UPI, PayPal, net
+            banking, and select digital wallets. We also accept Cash on Delivery
+            all across Patna.`}
+            />
+            <FAQCard visibility="hidden" question={``} answer={``} />
+            <FAQCard visibility="hidden" question={``} answer={``} />
+            <FAQCard
+              visibility="visible"
+              question={`How long does delivery take?`}
+              answer={`We typically deliver products within 3–5 business days across Patna and nearby regions. Delivery times may vary slightly depending on your exact location.`}
+            />
           </div>
           <div className="faqs-cards-line2 center">
-            <FAQCard visibility="hidden" />
-            <FAQCard visibility="visible" />
-            <FAQCard visibility="visible" />
-            <FAQCard visibility="hidden" />
+            <FAQCard visibility="hidden" question={``} answer={``} />
+            <FAQCard
+              visibility="visible"
+              question={`How can I track my order?`}
+              answer={`Once your order is shipped, you’ll receive an SMS or email with a tracking link. You can also track it directly from your My Orders section on the website.`}
+            />
+            <FAQCard
+              visibility="visible"
+              question={`Do you deliver outside Patna?`}
+              answer={`Yes we do. But there is a delivery fee for regions outside Patna.`}
+            />
+            <FAQCard visibility="hidden" question={``} answer={``} />
           </div>
           <div className="faqs-cards-line3 center">
-            <FAQCard visibility="visible" />
-            <FAQCard visibility="hidden" />
-            <FAQCard visibility="visible" />
-            <FAQCard visibility="visible" />
+            <FAQCard
+              visibility="visible"
+              question={`Can I modify or cancel my order after placing it?`}
+              answer={`Orders can be modified or cancelled within 1 hour of placement. Please reach out to our support team quickly via chat or email.`}
+            />
+            <FAQCard visibility="hidden" question={``} answer={``} />
+            <FAQCard
+              visibility="visible"
+              question={` Do you store the images I upload for virtual try-on?`}
+              answer={`No. Any image you upload for our AI try-on is processed temporarily and not stored or shared. We respect your privacy and do not retain personal visuals after rendering.`}
+            />
+            <FAQCard
+              visibility="visible"
+              question={` Can I opt out of AI features?`}
+              answer={`Yes. AI tools like search suggestions or try-on are completely optional. You can browse and shop normally without using any AI features if you prefer.`}
+            />
           </div>
           <div className="faqs-cards-line4 center">
-            <FAQCard visibility="hidden" />
-            <FAQCard visibility="visible" />
-            <FAQCard visibility="hidden" />
-            <FAQCard visibility="visible" />
+            <FAQCard visibility="hidden" question={``} answer={``} />
+            <FAQCard
+              visibility="visible"
+              question={` Do you use AI to make purchase decisions for me?`}
+              answer={`No. AI only helps you discover better options — you stay in control of what you buy. We use AI to enhance, not replace, your shopping experience.`}
+            />
+            <FAQCard visibility="hidden" question={``} answer={``} />
+            <FAQCard
+              visibility="visible"
+              question={`Is the virtual try-on tool accurate?`}
+              answer={`Our try-on tool gives a visual approximation of fit and style, not a tailor's measurement. It helps you make quicker decisions but should be paired with the product’s real sizing info.`}
+            />
           </div>
         </section>
       </section>

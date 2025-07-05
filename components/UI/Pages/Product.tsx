@@ -6,11 +6,15 @@ import "./Product.css";
 import Image from "next/image";
 import { lightenHexColor } from "../ProductsSideBar";
 import { Product } from "@/src/db/schema/products";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import ImageCaptureOrUpload from "@/components/Form/CameraUpload";
+import { useLenis } from "@/components/lenis/useLenis";
+import ShaderWrapper from "@/components/BG/RippleWrapper";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -20,6 +24,8 @@ const poppins = Poppins({
 type ProductPageProps = {
   product: Product;
 };
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function ProductPage({ product }: ProductPageProps) {
   let category = "";
@@ -350,6 +356,7 @@ export default function ProductPage({ product }: ProductPageProps) {
         const data = await res.json();
         console.log(data);
         setSimilarProductData(data.data);
+
         return data; // assumed to be an array of products
       } catch (err) {
         console.error("Error fetching by tags:", err);
@@ -360,8 +367,53 @@ export default function ProductPage({ product }: ProductPageProps) {
     fetchProductsByTags();
     fetchProductsByProductCode();
   }, [user?.id]);
+
+  const columns = useMemo(() => {
+    const result = [[], [], [], [], []] as Product[][];
+
+    similarProductData?.forEach((product, index) => {
+      result[index % 5].push(product);
+    });
+
+    return result;
+  }, [similarProductData]);
+
+  useEffect(() => {
+    const cols = document.querySelectorAll(".simp-card-column");
+
+    cols.forEach((col) => {
+      const speed = parseFloat(col.getAttribute("data-speed") || "1");
+
+      gsap.fromTo(
+        col,
+        { y: 0 },
+        {
+          y: -(window.innerHeight * speed),
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".simp-cards",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
+    });
+
+    return () => {
+      // Clean only triggers related to simp-cards section
+      ScrollTrigger.getAll()
+        .filter((t) => t.trigger?.classList.contains("simp-cards"))
+        .forEach((t) => t.kill());
+    };
+  }, [similarProductData]); // re-run when similarProductData updates
+
+  useLenis();
   return (
     <>
+      <div>
+        <ShaderWrapper />
+      </div>
       {showTryOn && <ImageCaptureOrUpload clothUrl={product.image_urls[0]} />}
       <section className={`product-page ${poppins.className}`}>
         <section className="p-page-header">
@@ -881,10 +933,25 @@ export default function ProductPage({ product }: ProductPageProps) {
         </section>
         <section className="similar-products">
           <div className="simp-header">SIMILAR PRODUCTS THAT YOU MAY LIKE</div>
-          <div className="simp-cards">
+          {/* <div className="simp-cards">
             {similarProductData?.map((similarProduct) => (
               <div key={similarProduct.product_id} className="simp-card">
                 <ProductCard product={similarProduct} />
+              </div>
+            ))}
+          </div> */}
+          <div className="simp-cards">
+            {columns.map((col, i) => (
+              <div
+                key={i}
+                className="simp-card-column"
+                data-speed={i % 2 === 0 ? 1.0 : 2.0}
+              >
+                {col.map((product) => (
+                  <div key={product.product_id} className="simp-card">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
               </div>
             ))}
           </div>

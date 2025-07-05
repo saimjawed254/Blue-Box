@@ -8,8 +8,10 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "300"] });
 
 type FAQCardProps = {
   visibility: "visible" | "hidden";
+  question: string;
+  answer: string;
 };
-export default function FAQCard({ visibility }: FAQCardProps) {
+export default function FAQCard({ visibility, question, answer }: FAQCardProps) {
     const [svgSize,setSvgSize]=useState(1);
     
   useEffect(() => {
@@ -25,12 +27,10 @@ export default function FAQCard({ visibility }: FAQCardProps) {
       >
         <div className="faq-card-container">
           <div className="faq-question">
-            What payment methods do you accept?
+            {question}
           </div>
           <div className="faq-answer">
-            We accept all major credit and debit cards, UPI, PayPal, net
-            banking, and select digital wallets. We also accept Cash on Delivery
-            all across Patna.
+            {answer}
           </div>
           <div className="faq-icons">
             <div className="faq-related-icons center">

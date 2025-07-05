@@ -813,6 +813,8 @@
   background-color: rgb(var(--yellow));
   transform: rotate(180deg);
   overflow: hidden;
+
+  cursor: pointer;
 }
 
 .bsdch-button-right {
@@ -824,6 +826,7 @@
 
   border: 1vh solid rgb(var(--pure-white));
   background-color: rgb(var(--yellow));
+  cursor: pointer;
 }
 
 .svg-floral {
@@ -882,6 +885,7 @@
   background-color: rgb(var(--yellow));
   transform: rotate(180deg);
   overflow: hidden;
+  cursor: pointer;
 }
 
 .bsdsh-button-right {
@@ -895,6 +899,7 @@
   border: 1vh solid rgb(var(--pure-white));
   background-color: rgb(var(--yellow));
   overflow: hidden;
+  cursor: pointer;
 }
 
 /* ---------------------------------Ratings and Reviews page-------------------------------- */

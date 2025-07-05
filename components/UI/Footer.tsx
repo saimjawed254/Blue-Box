@@ -16,7 +16,7 @@ const AUTH_ROUTES = ["/log-in", "/sign-in", "/mobile-blocked"];
 export default function Footer() {
   const pathname = usePathname();
   const hideFooter = AUTH_ROUTES.includes(pathname);
-  const [svgSize,setSvgSize]=useState(1);
+  const [svgSize, setSvgSize] = useState(1);
   if (hideFooter) {
     return null;
   }
@@ -35,16 +35,16 @@ export default function Footer() {
             LATEST ARRIVALS AND OFFERS FIRST.
           </div>
           <div className="footer-top-join center">
-            <div className="footer-top-link">
-              https://wa.onelink.me?whdssabhf12gw
-            </div>
+              <a target="_blank" href="https://wa.me/918235849155?text=Hi%20I%20am%20here%20through%20your%20Bluebox%20website" className="footer-top-link">
+                https://wa.me/918235849155?text=Hi%20I%20am%20here%20through%20your%20Bluebox%20website
+              </a>
             <div className="footer-top-link-icon">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={`${svgSize}`}
                 height={`${svgSize}`}
                 viewBox="0 0 50 50"
-                fill="none"
+                fill="rgb(var(--off-white))"
               >
                 <path
                   d="M35.7188 9.20635C33.9995 7.4703 31.9519 6.09379 29.6953 5.15703C27.4387 4.22027 25.0183 3.74201 22.575 3.7501C12.3375 3.7501 3.99375 12.0939 3.99375 22.3314C3.99375 25.6126 4.85625 28.8001 6.46875 31.6126L3.84375 41.2501L13.6875 38.6626C16.4063 40.1439 19.4625 40.9313 22.575 40.9313C32.8125 40.9313 41.1563 32.5876 41.1563 22.3501C41.1563 17.3814 39.225 12.7126 35.7188 9.20635ZM22.575 37.7813C19.8 37.7813 17.0812 37.0314 14.7 35.6251L14.1375 35.2876L8.2875 36.8251L9.84375 31.1251L9.46875 30.5439C7.92665 28.0821 7.10798 25.2362 7.10625 22.3314C7.10625 13.8189 14.0437 6.88135 22.5562 6.88135C26.6812 6.88135 30.5625 8.49385 33.4688 11.4189C34.908 12.8511 36.0486 14.5549 36.8243 16.4313C37.6 18.3078 37.9954 20.3196 37.9875 22.3501C38.025 30.8626 31.0875 37.7813 22.575 37.7813ZM31.05 26.2314C30.5812 26.0064 28.2937 24.8814 27.8812 24.7126C27.45 24.5626 27.15 24.4876 26.8313 24.9376C26.5125 25.4064 25.6312 26.4564 25.3687 26.7564C25.1062 27.0751 24.825 27.1126 24.3562 26.8689C23.8875 26.6439 22.3875 26.1376 20.625 24.5626C19.2375 23.3251 18.3187 21.8064 18.0375 21.3376C17.775 20.8689 18 20.6251 18.2437 20.3814C18.45 20.1751 18.7125 19.8376 18.9375 19.5751C19.1625 19.3126 19.2563 19.1064 19.4063 18.8064C19.5563 18.4876 19.4812 18.2251 19.3687 18.0001C19.2562 17.7751 18.3187 15.4876 17.9437 14.5501C17.5687 13.6501 17.175 13.7626 16.8938 13.7439H15.9937C15.675 13.7439 15.1875 13.8564 14.7562 14.3251C14.3437 14.7939 13.1438 15.9189 13.1438 18.2064C13.1438 20.4939 14.8125 22.7064 15.0375 23.0064C15.2625 23.3251 18.3187 28.0126 22.9687 30.0189C24.075 30.5064 24.9375 30.7876 25.6125 30.9939C26.7187 31.3501 27.7313 31.2939 28.5375 31.1814C29.4375 31.0501 31.2937 30.0564 31.6687 28.9689C32.0625 27.8814 32.0625 26.9626 31.9313 26.7564C31.8 26.5501 31.5187 26.4564 31.05 26.2314Z"
@@ -55,18 +55,21 @@ export default function Footer() {
           </div>
           <div className="footer-top-socials">
             <div className="footer-top-socials-icons">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={`${svgSize}`}
-                height={`${svgSize}`}
-                viewBox="0 0 50 50"
-                fill="none"
-              >
-                <path
-                  d="M16.2499 4.16699H33.7499C40.4166 4.16699 45.8333 9.58365 45.8333 16.2503V33.7503C45.8333 36.955 44.5602 40.0284 42.2941 42.2945C40.0281 44.5606 36.9546 45.8336 33.7499 45.8336H16.2499C9.58329 45.8336 4.16663 40.417 4.16663 33.7503V16.2503C4.16663 13.0456 5.43969 9.97218 7.70575 7.70612C9.97181 5.44005 13.0453 4.16699 16.2499 4.16699ZM15.8333 8.33366C13.8442 8.33366 11.9365 9.12383 10.53 10.5304C9.12347 11.9369 8.33329 13.8445 8.33329 15.8336V34.167C8.33329 38.3128 11.6875 41.667 15.8333 41.667H34.1666C36.1557 41.667 38.0634 40.8768 39.4699 39.4703C40.8764 38.0637 41.6666 36.1561 41.6666 34.167V15.8336C41.6666 11.6878 38.3124 8.33366 34.1666 8.33366H15.8333ZM35.9374 11.4587C36.6281 11.4587 37.2905 11.733 37.7789 12.2214C38.2672 12.7098 38.5416 13.3721 38.5416 14.0628C38.5416 14.7535 38.2672 15.4159 37.7789 15.9042C37.2905 16.3926 36.6281 16.667 35.9374 16.667C35.2468 16.667 34.5844 16.3926 34.096 15.9042C33.6076 15.4159 33.3333 14.7535 33.3333 14.0628C33.3333 13.3721 33.6076 12.7098 34.096 12.2214C34.5844 11.733 35.2468 11.4587 35.9374 11.4587ZM24.9999 14.5837C27.7626 14.5837 30.4121 15.6811 32.3656 17.6346C34.3191 19.5881 35.4166 22.2376 35.4166 25.0003C35.4166 27.763 34.3191 30.4125 32.3656 32.366C30.4121 34.3195 27.7626 35.417 24.9999 35.417C22.2373 35.417 19.5878 34.3195 17.6343 32.366C15.6808 30.4125 14.5833 27.763 14.5833 25.0003C14.5833 22.2376 15.6808 19.5881 17.6343 17.6346C19.5878 15.6811 22.2373 14.5837 24.9999 14.5837ZM24.9999 18.7503C23.3423 18.7503 21.7526 19.4088 20.5805 20.5809C19.4084 21.753 18.7499 23.3427 18.7499 25.0003C18.7499 26.6579 19.4084 28.2476 20.5805 29.4197C21.7526 30.5918 23.3423 31.2503 24.9999 31.2503C26.6575 31.2503 28.2473 30.5918 29.4194 29.4197C30.5915 28.2476 31.2499 26.6579 31.2499 25.0003C31.2499 23.3427 30.5915 21.753 29.4194 20.5809C28.2473 19.4088 26.6575 18.7503 24.9999 18.7503Z"
-                  fill="black"
-                />
-              </svg>
+              <a target="_blank" href={`https://instagram.com/s._aim_jawed`}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={`${svgSize}`}
+                  height={`${svgSize}`}
+                  viewBox="0 0 50 50"
+                  fill="none"
+                >
+                  <path
+                    d="M16.2499 4.16699H33.7499C40.4166 4.16699 45.8333 9.58365 45.8333 16.2503V33.7503C45.8333 36.955 44.5602 40.0284 42.2941 42.2945C40.0281 44.5606 36.9546 45.8336 33.7499 45.8336H16.2499C9.58329 45.8336 4.16663 40.417 4.16663 33.7503V16.2503C4.16663 13.0456 5.43969 9.97218 7.70575 7.70612C9.97181 5.44005 13.0453 4.16699 16.2499 4.16699ZM15.8333 8.33366C13.8442 8.33366 11.9365 9.12383 10.53 10.5304C9.12347 11.9369 8.33329 13.8445 8.33329 15.8336V34.167C8.33329 38.3128 11.6875 41.667 15.8333 41.667H34.1666C36.1557 41.667 38.0634 40.8768 39.4699 39.4703C40.8764 38.0637 41.6666 36.1561 41.6666 34.167V15.8336C41.6666 11.6878 38.3124 8.33366 34.1666 8.33366H15.8333ZM35.9374 11.4587C36.6281 11.4587 37.2905 11.733 37.7789 12.2214C38.2672 12.7098 38.5416 13.3721 38.5416 14.0628C38.5416 14.7535 38.2672 15.4159 37.7789 15.9042C37.2905 16.3926 36.6281 16.667 35.9374 16.667C35.2468 16.667 34.5844 16.3926 34.096 15.9042C33.6076 15.4159 33.3333 14.7535 33.3333 14.0628C33.3333 13.3721 33.6076 12.7098 34.096 12.2214C34.5844 11.733 35.2468 11.4587 35.9374 11.4587ZM24.9999 14.5837C27.7626 14.5837 30.4121 15.6811 32.3656 17.6346C34.3191 19.5881 35.4166 22.2376 35.4166 25.0003C35.4166 27.763 34.3191 30.4125 32.3656 32.366C30.4121 34.3195 27.7626 35.417 24.9999 35.417C22.2373 35.417 19.5878 34.3195 17.6343 32.366C15.6808 30.4125 14.5833 27.763 14.5833 25.0003C14.5833 22.2376 15.6808 19.5881 17.6343 17.6346C19.5878 15.6811 22.2373 14.5837 24.9999 14.5837ZM24.9999 18.7503C23.3423 18.7503 21.7526 19.4088 20.5805 20.5809C19.4084 21.753 18.7499 23.3427 18.7499 25.0003C18.7499 26.6579 19.4084 28.2476 20.5805 29.4197C21.7526 30.5918 23.3423 31.2503 24.9999 31.2503C26.6575 31.2503 28.2473 30.5918 29.4194 29.4197C30.5915 28.2476 31.2499 26.6579 31.2499 25.0003C31.2499 23.3427 30.5915 21.753 29.4194 20.5809C28.2473 19.4088 26.6575 18.7503 24.9999 18.7503Z"
+                    fill="black"
+                  />
+                </svg>
+              </a>
+
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={`${svgSize}`}
@@ -91,6 +94,7 @@ export default function Footer() {
                   fill="black"
                 />
               </svg>
+              <a target="_blank" href={`https://linkedin.com/in/saim-jawed`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={`${svgSize}`}
@@ -103,6 +107,7 @@ export default function Footer() {
                   fill="black"
                 />
               </svg>
+              </a>
             </div>
             <div className="footer-top-socials-text">Follow us on</div>
           </div>
@@ -142,8 +147,8 @@ export default function Footer() {
               <div className="flt-contacts-whatsapp">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.25}`}
-                  height={`${svgSize/1.25}`}
+                  width={`${svgSize / 1.25}`}
+                  height={`${svgSize / 1.25}`}
                   viewBox="0 0 39 39"
                   fill="none"
                 >
@@ -157,8 +162,8 @@ export default function Footer() {
               <div className="flt-contacts-mail">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.25}`}
-                  height={`${svgSize/1.25}`}
+                  width={`${svgSize / 1.25}`}
+                  height={`${svgSize / 1.25}`}
                   viewBox="0 0 44 44"
                   fill="none"
                 >
@@ -179,45 +184,44 @@ export default function Footer() {
         <div className={`footer-middle ${poppins.className}`}>
           <div className="footer-middle-navigators">
             <span className="fmn-heading">Services</span>
-            <span>Account</span>
-            <span>Orders</span>
-            <span>Order Cancellation</span>
-            <span>Track Order</span>
-            <span>Cart</span>
-            <span>Wishlist</span>
-            <span>Returns</span>
+            <Link href={'/users/account'}>Account</Link>
+            {/* <span>Orders</span> */}
+            {/* <span>Order Cancellation</span> */}
+            {/* <span>Track Order</span> */}
+            <Link href={'/users/cart'}>Cart</Link>
+            <Link href={'/users/wishlist'}>Wishlist</Link>
+            {/* <span>Returns</span> */}
           </div>
           <div className="footer-middle-cargo">
             <div className="footer-middle-navigators">
               <span className="fmn-heading">Cargo</span>
-              <span>Best Sellers</span>
-              <span>Newest Arrivals</span>
-              <span>&#x003e; 60% Discount</span>
-              <span>Under &#x20B9;599</span>
-              <span>All Products</span>
+              <Link href={'/products/best-sellers/cargos'}>Best Sellers</Link>
+              <Link href={'/products/newest-arrivals/cargos'}>Newest Arrivals</Link>
+              {/* <span>&#x003e; 60% Discount</span> */}
+              {/* <span>Under &#x20B9;599</span> */}
+              {/* <span>All Products</span> */}
             </div>
           </div>
           <div className="footer-middle-suits">
             <div className="footer-middle-navigators">
               <span className="fmn-heading">Suits</span>
-              <span>Best Sellers</span>
-              <span>Newest Arrivals</span>
-              <span>&#x003e; 60% Discount</span>
-              <span>Under &#x20B9;499</span>
-              <span>Party Wears</span>
-              <span>Casual Wears</span>
-              <span>All Products</span>
+              <Link href={'/products/best-sellers/suits'}>Best Sellers</Link>
+              <Link href={'/products/newest-arrivals/suits'}>Newest Arrivals</Link>
+              {/* <span>&#x003e; 60% Discount</span> */}
+              {/* <span>Under &#x20B9;499</span> */}
+              {/* <span>Party Wears</span> */}
+              {/* <span>Casual Wears</span> */}
+              {/* <span>All Products</span> */}
             </div>
           </div>
         </div>
         <div className={`footer-right ${ibm_plex_mono.className}`}>
           <div className="footer-right-navigate">
-            <span>HOME</span>
-            <span>NEWEST ARRIVALS</span>
-            <span>MEN'S CARGO</span>
-            <span>LADIES' SUITS</span>
-            <span>ACCOUNT</span>
-            <span>AI SEARCH</span>
+            <Link href={'/'}>HOME</Link>
+            <Link href={'/products/newest-arrivals'}>NEWEST ARRIVALS</Link>
+            <Link href={'/products/cargos'}>MEN'S CARGO</Link>
+            <Link href={'/products/suits'}>LADIES' SUITS</Link>
+            <Link href={'/users/account'}>ACCOUNT</Link>
           </div>
           <div className="footer-right-backToTop">
             <svg
@@ -232,13 +236,18 @@ export default function Footer() {
                 fill="black"
               />
             </svg>
-            Back to Top
+            <span style={{
+              cursor:"pointer"
+            }} onClick={() => window.scrollTo(0,0)}>
+              Back to Top
+            </span>
+            
           </div>
           <div className="footer-right-location">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={`${svgSize/2}`}
-              height={`${svgSize/2}`}
+              width={`${svgSize / 2}`}
+              height={`${svgSize / 2}`}
               viewBox="0 0 25 25"
               fill="none"
             >

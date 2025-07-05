@@ -7,23 +7,29 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { ScrollTrigger } from "gsap/all";
+import Link from "next/link";
 
-const poppins = Poppins({subsets:["latin"], weight: ["300", "400", "500"] });
-const bruno_ace = Bruno_Ace({subsets:["latin"], weight: ["400"] });
-const italiana = Italiana({subsets:["latin"], weight: ["400"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "500"] });
+const bruno_ace = Bruno_Ace({ subsets: ["latin"], weight: ["400"] });
+const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function WhyChooseUs() {
+type Props = {
+  suitsImage: string | null;
+  cargoImage: string | null;
+};
+
+export default function WhyChooseUs({ suitsImage, cargoImage }: Props) {
   const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
   const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
 
   const [svgSize, setSvgSize] = useState(20);
   useEffect(() => {
     if (typeof window !== "undefined") {
-    const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
-    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
-    setSvgSize(vwToPx(2.4));
+      const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+      const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+      setSvgSize(vwToPx(2.4));
     }
   }, []);
 
@@ -38,11 +44,10 @@ export default function WhyChooseUs() {
       const el = document.querySelector(selector);
       const img = el?.querySelector(".wcu-image");
 
-      // Animate into place (final position in grid)
       gsap.to(el, {
         x: -offset,
         scrollTrigger: {
-          trigger: ".why-choose-us", // adjust to your scroll section
+          trigger: ".why-choose-us",
           start: "top bottom",
           end: "bottom center",
           scrub: true,
@@ -112,7 +117,7 @@ export default function WhyChooseUs() {
             Handpicked Products &nbsp;&nbsp;&nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={`${svgSize*1.6}`}
+              width={`${svgSize * 1.6}`}
               height="2"
               viewBox="0 0 77 2"
               fill="none"
@@ -125,7 +130,7 @@ export default function WhyChooseUs() {
             COD available within Patna &nbsp;&nbsp;&nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={`${svgSize*1.6}`}
+              width={`${svgSize * 1.6}`}
               height="2"
               viewBox="0 0 77 2"
               fill="none"
@@ -137,7 +142,7 @@ export default function WhyChooseUs() {
             Free Delivery across Patna &nbsp;&nbsp;&nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={`${svgSize*1.6}`}
+              width={`${svgSize * 1.6}`}
               height="2"
               viewBox="0 0 77 2"
               fill="none"
@@ -149,7 +154,7 @@ export default function WhyChooseUs() {
             All India delivery &nbsp;&nbsp;&nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width={`${svgSize*1.6}`}
+              width={`${svgSize * 1.6}`}
               height="2"
               viewBox="0 0 77 2"
               fill="none"
@@ -167,10 +172,10 @@ export default function WhyChooseUs() {
           <Image
             style={{
               objectFit: "cover",
-              objectPosition: "center",
+              objectPosition: "10% 100%",
             }}
             className="wcu-image"
-            src={"/mark-adriane-1533MrY5liQ-unsplash.jpg"}
+            src={cargoImage || "/Rem.png"}
             alt=""
             fill
           />
@@ -179,21 +184,21 @@ export default function WhyChooseUs() {
           <Image
             style={{
               objectFit: "cover",
-              objectPosition: "center",
+              objectPosition: "10% 170%",
             }}
             className="wcu-image"
-            src={"/wilson-montoya-LP-MzWsvLd0-unsplash.jpg"}
+            src={suitsImage || "/Rem.png"}
             alt=""
             fill
           />
         </div>
-        <div className="wcu-button-explore">
+        <Link href={"/products/best-sellers"} className="wcu-button-explore">
           <div className="wcu-button">
             <div className={`wcu-button-text center ${bruno_ace.className}`}>
               EXPLORE
             </div>
           </div>
-        </div>
+        </Link>
       </section>
     </>
   );

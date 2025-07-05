@@ -104,7 +104,7 @@ export default function Navbar() {
         </div>
       </section>
       <nav className={`${ibm_plex_mono.className}`}>
-        <div className={`nav-logo center `}>Bluebox © 2025</div>
+        {/* <div className={`nav-logo center `}>Bluebox © 2025</div> */}
         <div className="navigate center">
           <Link href={"/"} className={`nav-home nav-link center`}>
             <span className="dot-fill"></span>

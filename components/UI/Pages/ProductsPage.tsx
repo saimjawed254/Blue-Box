@@ -3,13 +3,15 @@
 import "./ProductsPage.css";
 import ProductsSidebar from "@/components/UI/ProductsSideBar";
 import ProductCard from "@/components/UI/Cards/ProductCard";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Poppins } from "next/font/google";
 import PrimaryButton from "@/components/UI/Buttons/PrimaryButton";
 import { Product } from "@/src/db/schema/products";
+import { useLenis } from "@/components/lenis/useLenis";
+import ShaderWrapper from "@/components/BG/RippleWrapper";
 
 type ProductsPageProps = {
   slug: string[];
@@ -37,7 +39,7 @@ export default function ProductsPage({
   const [products, setProducts] = useState(productsData);
   const [sortButtonActive, setSortButtonActive] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>("price_low_to_high");
-  const [svgSize,setSvgSize]=useState(1);
+  const [svgSize, setSvgSize] = useState(1);
 
   const [availableSorts, setAvailableSorts] = useState<string[]>([
     "price_high_to_low",
@@ -65,9 +67,9 @@ export default function ProductsPage({
       const sidebar = document.querySelector(
         ".products-sidebar"
       ) as HTMLElement;
-          const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
-    const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
-    setSvgSize(vwToPx(2.4));
+      const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
+      const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
+      setSvgSize(vwToPx(2.4));
 
       const footer = document.querySelector(".footer");
       const products = document.querySelector(".products") as HTMLElement;
@@ -103,6 +105,33 @@ export default function ProductsPage({
       };
     }
   }, []);
+
+  useEffect(() => {
+    const cols = document.querySelectorAll(".pp-cards");
+    cols.forEach((col) => {
+      const speed = parseFloat(col.getAttribute("data-speed") || "1");
+
+      gsap.fromTo(col,{
+        y: 0,
+      }, {
+        y: -(window.innerHeight * speed),
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".pp-cards-wrapper",
+          start: "top 25%",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    });
+
+    return () => {
+      // Clean up if this component might unmount
+      ScrollTrigger.getAll()
+        .filter((t) => t.trigger?.classList.contains("pp-cards-wrapper"))
+        .forEach((t) => t.kill());
+    };
+  }, [products]); // run effect again when dynamic data changes
 
   useGSAP(() => {
     // gsap.registerPlugin(ScrollTrigger);
@@ -227,8 +256,20 @@ export default function ProductsPage({
     }
   };
 
+  const columns = useMemo(() => {
+    const result = [[], [], [], []] as Product[][];
+
+    products?.forEach((product, index) => {
+      result[index % 4].push(product);
+    });
+
+    return result;
+  }, [products]);
+
+  useLenis();
   return (
     <>
+          <div><ShaderWrapper /></div>
       <section className={`products ${poppins.className}`}>
         <div className="products-page-sidebar">
           <ProductsSidebar
@@ -245,8 +286,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -261,8 +302,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -277,8 +318,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -293,8 +334,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -309,8 +350,8 @@ export default function ProductsPage({
               <div className="pphm1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -327,8 +368,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -343,8 +384,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -359,8 +400,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -375,8 +416,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -391,8 +432,8 @@ export default function ProductsPage({
               <div className="pphm2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width={`${svgSize/1.5}`}
-                  height={`${svgSize/1.5}`}
+                  width={`${svgSize / 1.5}`}
+                  height={`${svgSize / 1.5}`}
                   viewBox="0 0 35 35"
                   fill="none"
                 >
@@ -512,11 +553,21 @@ export default function ProductsPage({
               </div>
             </div>
           </div>
-          <div className="pp-cards">
+          <div className="pp-cards-wrapper">
+            {columns.map((col, i) => (
+              <div key={i} className="pp-cards" data-speed={i % 2 === 0 ? 1.0 : 2.0}>
+                {col.map((product) => (
+                  <ProductCard key={product.product_id} product={product} />
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {/* <div className="pp-cards">
             {products?.map((product) => (
               <ProductCard key={product.product_id} product={product} />
             ))}
-          </div>
+          </div> */}
           <div className="pp-footer-space"></div>
         </div>
       </section>
