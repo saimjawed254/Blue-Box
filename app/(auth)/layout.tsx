@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import ShaderWrapper from "@/components/BG/RippleWrapper";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +12,6 @@ export default function Layout({
 }) {
   return (
     <>
-      {/* <ShaderWrapper visible={true} /> */}
       {children}
     </>
   );

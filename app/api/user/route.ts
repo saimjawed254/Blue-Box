@@ -18,12 +18,12 @@ export async function GET(req: NextRequest) {
       .where(eq(users.clerk_id, clerk_id));
 
     if (!result || result.length === 0) {
-      return NextResponse.json({ error: "Product not found" }, { status: 404 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json({ user_id: result[0].clerk_id });
   } catch (error) {
-    console.error("Error fetching product by ID:", error);
+    console.error("Error fetching user by ID:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

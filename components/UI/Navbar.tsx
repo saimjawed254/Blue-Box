@@ -163,7 +163,9 @@ export default function Navbar() {
                 <span className="dot-fill"></span>
                 <span className="nav-label">• Account</span>
               </Link>
-              <Link href="/user/account" className="nav-cred-user-image center">
+              <Link style={{
+                position:"relative"
+              }} href="/user/account" className="nav-cred-user-image center">
                 <Image
                   className="rounded-corners"
                   alt=""

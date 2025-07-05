@@ -1,0 +1,104 @@
+.dashboard {
+  width: 100vw;
+  height: 100vh;
+}
+
+.dashboard-sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20vw;
+  height: 100vh;
+  background: rgb(var(--pure-white));
+}
+
+.dashboard-sidebar-header {
+  width: 100%;
+  height: 12.5vh;
+  border-bottom: 0.1vw solid rgb(var(--pure-black));
+
+  font-size: 1.25vw;
+  font-weight: 600;
+
+  display: flex;
+  align-items: end;
+  justify-content: right;
+  padding: 0 2.5vw 1vw 0;
+}
+
+.ds-user-name {
+  width: 100%;
+  height: 7.5vh;
+  font-size: 1vw;
+  font-weight: 500;
+
+  display: flex;
+  align-items: end;
+  justify-content: right;
+  padding: 0 2.5vw 1vw 0;
+}
+
+.ds-user-email {
+  width: 100%;
+  height: 3vh;
+  font-size: 1vw;
+  font-weight: 400;
+  color: rgb(var(--off-text));
+  display: flex;
+  align-items: end;
+  justify-content: right;
+  padding: 0 2.5vw 1vw 0;
+}
+
+.ds-info-box {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: right;
+  padding: 0 2.5vw 1vw 2vw;
+}
+
+.ds-info-box-header {
+  font-size: 1vw;
+  font-weight: 500;
+}
+
+.ds-info-box-content {
+  text-align: right;
+  font-size: 1vw;
+  font-weight: 400;
+  color: rgb(var(--off-text));
+}
+
+.ds-logout {
+  position: absolute;
+  bottom: 12.5vh;
+
+  width: 100%;
+  height: 10vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  border-top: 0.1vw solid rgb(var(--pure-black));
+  border-bottom: 0.1vw solid rgb(var(--pure-black));
+  padding-right: 2.5vw;
+}
+
+.ds-logout-button{
+  font-size: 1.25vw;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.ds-buffer {
+  width: 100%;
+  height: 12.5vh;
+  position: absolute;
+  bottom: 0;
+}

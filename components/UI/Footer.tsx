@@ -17,15 +17,16 @@ export default function Footer() {
   const pathname = usePathname();
   const hideFooter = AUTH_ROUTES.includes(pathname);
   const [svgSize, setSvgSize] = useState(1);
-  if (hideFooter) {
-    return null;
-  }
+
   useEffect(() => {
     const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
     const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
     setSvgSize(vwToPx(2.4));
   }, []);
 
+  if (hideFooter) {
+    return null;
+  }
   return (
     <>
       <section className="footer">
