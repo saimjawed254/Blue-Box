@@ -945,7 +945,7 @@ export default function ProductPage({ product }: ProductPageProps) {
               <div
                 key={i}
                 className="simp-card-column"
-                data-speed={i % 2 === 0 ? 1.0 : 2.0}
+                data-speed={i % 2 === 0 ? 1.5 : 1.0}
               >
                 {col.map((product) => (
                   <div key={product.product_id} className="simp-card">
