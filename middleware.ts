@@ -12,11 +12,11 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
-    req.headers.get("x-real-ip") || 
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
     "anonymous";
 
-  const limiter = createRateLimiter(120, "60 s");
+  const limiter = createRateLimiter(120, "60 s", "@middleware");
   const { success } = await limiter.limit(ip);
 
   if (!success && !req.nextUrl.pathname.startsWith("/ratelimit")) {

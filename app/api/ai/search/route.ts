@@ -10,7 +10,7 @@ dotenv.config({ path: ".env" });
 const together = new Together({ apiKey: process.env.TOGETHER_API_KEY });
 
 export async function GET(req: NextRequest) {
-  const limiter = createRateLimiter(4, "60 s");
+  const limiter = createRateLimiter(4, "60 s", "@ai-search");
   const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
 
   const { success, limit, remaining, reset } = await limiter.limit(ip);
