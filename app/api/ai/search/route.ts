@@ -43,6 +43,9 @@ export async function GET(req: NextRequest) {
 
   const structurePrompt = `
 You are a shopping assistant AI.
+You must extract the category with any slight hint from the query.
+You can use gender based phrases or words to categorize them into cargos or suits.
+I sell only Men's Cargo and Ladies' suits.
 Extract the following structured fields from the query:
 - category ("CARGO" | "LADIES' SUIT" | null)
 - max_price (number or null)
