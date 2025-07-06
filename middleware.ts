@@ -29,6 +29,6 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.well-known|api/auth|mobile-blocked|rate-limit).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.well-known|api/auth|mobile-blocked).*)",
   ],
 };
