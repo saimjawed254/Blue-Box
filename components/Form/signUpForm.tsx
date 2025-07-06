@@ -26,19 +26,19 @@ export default function SignUpForm() {
       console.log(err);
     }
   };
-  // const handleGoogleSignIn = async () => {
-  //   if (!isLoaded) return;
+  const handleGoogleSignIn = async () => {
+    if (!isLoaded) return;
 
-  //   try {
-  //     await signIn.authenticateWithRedirect({
-  //       strategy: "oauth_google",
-  //       redirectUrl: "/",
-  //       redirectUrlComplete: "/",
-  //     });
-  //   } catch (err) {
-  //     console.error("OAuth error", err);
-  //   }
-  // };
+    try {
+      await signIn.authenticateWithRedirect({
+        strategy: "oauth_google",
+        redirectUrl: "/",
+        redirectUrlComplete: "/",
+      });
+    } catch (err) {
+      console.error("OAuth error", err);
+    }
+  };
 
   return (
     <>
@@ -52,7 +52,7 @@ export default function SignUpForm() {
           >
             Already have an account? &nbsp;
             <span
-              onClick={handleSignUp}
+              onClick={handleGoogleSignIn}
               style={{
                 fontWeight: "500",
                 color: "rgb(var(--off-white))",
