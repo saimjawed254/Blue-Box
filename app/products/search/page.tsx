@@ -19,6 +19,7 @@ export default async function SearchPage({
   }
 
   let data = [];
+  let status;
   try {
     const res = await fetch(
       `${process.env.FRONTEND_URL}/api/ai/search?query=${encodeURIComponent(
@@ -26,7 +27,7 @@ export default async function SearchPage({
       )}`
     );
     if (res.status === 429) {
-      redirect("/ratelimit");
+      status = true;
     } else if (!res.ok) {
       throw new Error("Search API failed");
     } else {
@@ -36,6 +37,10 @@ export default async function SearchPage({
   } catch (err) {
     console.error(err);
     notFound();
+  }
+
+  if (status === true) {
+    redirect("/ratelimit");
   }
 
   return (
