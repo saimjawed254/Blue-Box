@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Missing query" }, { status: 400 });
   }
 
-  const [brandRows, colorRows] = await Promise.all([
+  const [brandRows, tagRows] = await Promise.all([
     db.execute(
       sql`SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL`
     ),
@@ -39,26 +39,26 @@ export async function GET(req: NextRequest) {
   ]);
 
   const knownBrands = brandRows.rows.map((r: any) => r.brand);
-  const knownColors = Array.from(
-    new Set(colorRows.rows.map((r: any) => r.color))
-  );
+  const knownTags = Array.from(new Set(tagRows.rows.map((r: any) => r.tag)));
 
   const structurePrompt = `
 You are a shopping assistant AI.
-Extract the following structured fields from the query.
-There are only two categories, CARGO and LADIES' SUIT. 
-You have to choose from only one of the two if there is any indication of type else null.
-You can use the typical gender of the type of clothes to decide the category as well.
-Use these known brands: ${knownBrands.join(", ")}
-Use these known colors: ${knownColors.join(", ")}
-If you are not able to find an exact same color choose the closest colors from the available colors.
-Don't return anything else except json.
-Return valid JSON with keys:
-- category (\"CARGO\" | \"LADIES' SUIT\" | null)
+Extract the following structured fields from the query:
+- category ("CARGO" | "LADIES' SUIT" | null)
 - max_price (number or null)
 - brand (string or null)
 - colors (array of strings)
 - tags (array of strings)
+
+You must use only values from these lists:
+- Brands: ${knownBrands.join(", ")}
+- Tags (includes colors, styles, etc.): ${knownTags.join(", ")}
+
+Examples of tags include: fabric type, fit (e.g., "oversized"), use-case (e.g., "casual", "party wear"), or other keywords.
+
+If an exact tag is not found in the list, choose the closest related tag(s) from the known tags.
+
+Don't return anything else except valid JSON.
 
 User Query: "${query}"
 `;
@@ -106,14 +106,18 @@ User Query: "${query}"
   if (priceCap) {
     filters.push(sql`price <= ${sql`${priceCap}::int`}`);
   }
-  const colorArray = parsed.colors.map((c) => `'${c}'`).join(",");
-  filters.push(
-    sql.raw(`
-  EXISTS (
-    SELECT 1 FROM UNNEST(tags) AS tag WHERE tag = ANY(ARRAY[${colorArray}]::text[])
-  )
-`)
-  );
+  const allTags = Array.from(new Set([...parsed.colors, ...parsed.tags]));
+
+  if (allTags.length > 0) {
+    const tagArray = allTags.map((t) => `'${t}'`).join(",");
+    filters.push(
+      sql.raw(`
+      EXISTS (
+        SELECT 1 FROM UNNEST(tags) AS tag WHERE tag = ANY(ARRAY[${tagArray}]::text[])
+      )
+    `)
+    );
+  }
 
   const filterResults = await db.execute(
     sql`
