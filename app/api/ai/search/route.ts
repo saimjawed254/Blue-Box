@@ -3,15 +3,15 @@ import { db } from "@/src/db";
 import { SQL, sql } from "drizzle-orm";
 import Together from "together-ai";
 import * as dotenv from "dotenv";
-import { limiter } from "@/src/lib/limiter";
+import { createRateLimiter } from "@/src/lib/limiter";
 
 dotenv.config({ path: ".env" });
 
 const together = new Together({ apiKey: process.env.TOGETHER_API_KEY });
 
 export async function GET(req: NextRequest) {
-
-    const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
+  const limiter = createRateLimiter(4, "60 s");
+  const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
 
   const { success, limit, remaining, reset } = await limiter.limit(ip);
 

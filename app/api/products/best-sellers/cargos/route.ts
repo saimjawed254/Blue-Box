@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/src/db";
 import { products } from "@/src/db/schema/products";
 import { desc, eq, sql } from "drizzle-orm";
+import { getOrSetCache } from "@/src/lib/cache";
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,28 +11,32 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const offset = (page - 1) * limit;
 
-    // Fetch best-selling products by order_count DESC
-    const bestSellers = await db
-      .select()
-      .from(products)
-      .where(eq(products.category, "CARGO"))
-      .orderBy(desc(products.order_count))
-      .limit(limit)
-      .offset(offset);
+    const cacheKey = `best-sellers-cargos:p${page}:l${limit}`;
 
-    // Total count of all products
-    const totalResult = await db.execute(
-      sql`SELECT COUNT(*) AS count FROM ${products}`
-    );
+    const data = await getOrSetCache(cacheKey, async () => {
+      const bestSellers = await db
+        .select()
+        .from(products)
+        .where(eq(products.category, "CARGO"))
+        .orderBy(desc(products.order_count))
+        .limit(limit)
+        .offset(offset);
 
-    const total = Number(totalResult.rows[0]?.count || 0);
+      const totalResult = await db.execute(
+        sql`SELECT COUNT(*) AS count FROM ${products}`
+      );
 
-    return NextResponse.json({
-      page,
-      limit,
-      total,
-      data: bestSellers,
-    });
+      const total = Number(totalResult.rows[0]?.count || 0);
+
+      return {
+        page,
+        limit,
+        total,
+        data: bestSellers,
+      };
+    }, 300); 
+
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching best sellers:", error);
     return NextResponse.json(

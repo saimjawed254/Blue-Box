@@ -10,7 +10,6 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const offset = (page - 1) * limit;
 
-    // Fetch best-selling products by order_count DESC
     const bestSellers = await db
       .select()
       .from(products)
@@ -18,7 +17,6 @@ export async function GET(req: NextRequest) {
       .limit(limit)
       .offset(offset);
 
-    // Total count of all products
     const totalResult = await db.execute(
       sql`SELECT COUNT(*) AS count FROM ${products}`
     );
