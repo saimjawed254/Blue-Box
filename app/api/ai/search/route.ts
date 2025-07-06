@@ -88,7 +88,15 @@ User Query: "${query}"
         .replace(/```(?:json)?/gi, "")
         .replace(/```/g, "")
         .trim();
-      parsed = JSON.parse(cleaned);
+      const parsedRaw = JSON.parse(cleaned);
+
+      parsed = {
+        category: parsedRaw.category ?? null,
+        max_price: parsedRaw.max_price ?? null,
+        brand: parsedRaw.brand ?? null,
+        colors: Array.isArray(parsedRaw.colors) ? parsedRaw.colors : [],
+        tags: Array.isArray(parsedRaw.tags) ? parsedRaw.tags : [],
+      };
     }
   } catch (err) {
     console.warn("⚠️ Failed to parse structured query:", err);
