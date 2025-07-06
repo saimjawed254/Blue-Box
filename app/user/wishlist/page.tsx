@@ -17,7 +17,7 @@ export default async function Page() {
     const headerList = await headers();  
 
     const res = await fetch(
-      `http://localhost:3000/api/products/wishlists?clerk_id=${userId}`,
+      `${process.env.FRONTEND_URL}/api/products/wishlists?clerk_id=${userId}`,
       {
         method: "GET",
         headers: {

@@ -19,7 +19,7 @@ export default async function SearchPage({
   let data = [];
   try {
     const res = await fetch(
-      `https://blueboxxx.vercel.app/api/ai/search?query=${encodeURIComponent(
+      `${process.env.FRONTEND_URL}/api/ai/search?query=${encodeURIComponent(
         query
       )}`
     );

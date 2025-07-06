@@ -39,16 +39,16 @@ export default async function Page({
     let res;
     if (slugParts.length === 1) {
       res = await fetch(
-        `https://blueboxxx.vercel.app/api/products/${slugParts[0]}?page=${page}&limit=${limit}`
+        `${process.env.FRONTEND_URL}/api/products/${slugParts[0]}?page=${page}&limit=${limit}`
       );
     } else if (slugParts.length === 2) {
       if (slugParts[1] === "cargos") {
         res = await fetch(
-          `https://blueboxxx.vercel.app/api/products/${slugParts[0]}?category=CARGO&page=${page}&limit=${limit}`
+          `${process.env.FRONTEND_URL}/api/products/${slugParts[0]}?category=CARGO&page=${page}&limit=${limit}`
         );
       } else if (slugParts[1] === "suits") {
         res = await fetch(
-          `https://blueboxxx.vercel.app/api/products/${slugParts[0]}?category=LADIES' SUIT&page=${page}&limit=${limit}`
+          `${process.env.FRONTEND_URL}/api/products/${slugParts[0]}?category=LADIES' SUIT&page=${page}&limit=${limit}`
         );
       }
     }
