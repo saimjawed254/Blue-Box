@@ -1,0 +1,44 @@
+.cart-products {
+  width: 100vw;
+  height: auto;
+  z-index: 5;
+  position: relative;
+}
+
+.cp-top-buffer {
+  position: relative;
+
+  width: 100vw;
+  height: 12.5vh;
+  padding: 0 0 1vw 2.5vw;
+
+  display: flex;
+  align-items: end;
+  justify-content: left;
+
+  font-size: 1.25vw;
+  font-weight: 500;
+}
+
+.cp-cards-wrapper {
+  width: 100vw;
+  height: auto;
+  position: relative;
+
+  display: flex;
+}
+
+.cp-cards {
+  width: 100vw;
+  height: auto;
+}
+
+.cp-card {
+  height: auto;
+  flex-shrink: 0;
+}
+
+.cp-footer-space {
+  width: 100vw;
+  height: 15vh;
+}

@@ -185,12 +185,12 @@ export default function Footer() {
         <div className={`footer-middle ${poppins.className}`}>
           <div className="footer-middle-navigators">
             <span className="fmn-heading">Services</span>
-            <Link href={'/users/account'}>Account</Link>
+            <Link href={'/user/account'}>Account</Link>
             {/* <span>Orders</span> */}
             {/* <span>Order Cancellation</span> */}
             {/* <span>Track Order</span> */}
-            <Link href={'/users/cart'}>Cart</Link>
-            <Link href={'/users/wishlist'}>Wishlist</Link>
+            <Link href={'/user/cart'}>Cart</Link>
+            <Link href={'/user/wishlist'}>Wishlist</Link>
             {/* <span>Returns</span> */}
           </div>
           <div className="footer-middle-cargo">
