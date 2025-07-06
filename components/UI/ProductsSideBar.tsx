@@ -199,7 +199,7 @@ export default function ProductsSidebar({
                 />
                 <label htmlFor={label}>&nbsp;&nbsp;&nbsp;{label}</label>
                 <div className="psb-filters-brand-quantity">
-                  &nbsp;&nbsp;(7)
+                  &nbsp;&nbsp;
                 </div>
               </div>
             ))}

@@ -82,6 +82,12 @@
   border-radius: 1vw;
   background-color: rgb(var(--yellow));
   border: 1vh solid rgb(var(--pure-white));
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+
+.pdc-share-button:hover{
+  transform: scale(1.1);
 }
 
 .pdc-title {
@@ -249,6 +255,12 @@
 
   font-size: 1vw;
   color: rgb(var(--pure-black));
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pdc-ai-button:hover{
+  transform: scale(1.05);
 }
 
 .pdc-3buttons {
@@ -267,6 +279,8 @@
   justify-content: center;
   border-radius: 1vw;
   color: rgb(var(--pure-black));
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .pdc-buy-button {
@@ -277,6 +291,8 @@
   justify-content: center;
   border-radius: 1vw;
   color: rgb(var(--pure-black));
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .pdc-wishlist-button {
@@ -285,6 +301,18 @@
   border-radius: 1vw;
   background-color: rgb(var(--yellow));
   border: 1vh solid rgb(var(--pure-white));
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.pdc-cart-button:hover{
+  transform: scale(1.05);
+}
+.pdc-buy-button:hover{
+  transform: scale(1.05);
+}
+.pdc-wishlist-button:hover{
+  transform: scale(1.05);
 }
 
 .pdc-wishlist-button-pink {

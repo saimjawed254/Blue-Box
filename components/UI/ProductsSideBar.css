@@ -261,7 +261,7 @@
 .psb-filters-apply-header-cancel{
   width: 5vw;
   height: 4vh;
-  background-color: rgb(var(--off-text));
+  background-color: rgb(var(--yellow));
   border-radius: 100vw;
   font-weight: 400;
   font-size: 0.875vw;

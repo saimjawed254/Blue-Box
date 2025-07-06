@@ -98,6 +98,7 @@
   grid-column: 17 / span 3;
 
   border-radius: 50%;
+
 }
 
 .product-wishlist-icon {
@@ -107,13 +108,14 @@
   background-color: rgba(var(--off-white), 0.4);
 
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .product-wishlist-icon-pink {
   width: 5vw;
   aspect-ratio: 1/1;
 
-  background-color: rgba(var(--pink));
+  background-color: rgba(var(--yellow));
 
   border-radius: 50%;
 }

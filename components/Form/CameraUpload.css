@@ -112,3 +112,13 @@
 
   background: rgb(var(--off-black));
 }
+
+.tryon-result-text{
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  font-size: 1vw;
+  color: rgb(var(--pure-white));
+  z-index: 12;
+}

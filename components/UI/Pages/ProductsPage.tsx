@@ -449,7 +449,7 @@ export default function ProductsPage({
             <div className="pp-header-pagination">
               <div className="pphp-category">{slugString}</div>
               <div className="pphp-text">
-                (Showing 1 – 20 products of 2,014 products)
+                {/* (Showing 1 – 20 products of 2,014 products) */}
               </div>
             </div>
             <div className="pp-header-button blur">

@@ -3,9 +3,12 @@
 import Image from "next/image";
 import "./CameraUpload.css";
 import React, { useEffect, useRef, useState } from "react";
+import { Poppins } from "next/font/google";
 type Props = {
   clothUrl: string;
 };
+
+const poppins=Poppins({subsets:["latin"], weight:["400"]})
 
 export default function ImageCaptureOrUpload({ clothUrl }: Props) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -110,7 +113,7 @@ export default function ImageCaptureOrUpload({ clothUrl }: Props) {
   };
 
   return (
-    <div className="camera-upload">
+    <div className={`camera-upload ${poppins.className}`}>
       <div className="camera-buttons">
         <button
           className="camera-use-button"
@@ -134,7 +137,6 @@ export default function ImageCaptureOrUpload({ clothUrl }: Props) {
             {isLoading ? "Generating..." : "Try-On"}
           </button>
         </div>
-        
       </div>
 
       {isCameraActive && (
@@ -181,6 +183,10 @@ export default function ImageCaptureOrUpload({ clothUrl }: Props) {
             />
           </div>
         )}
+        <div className="tryon-result-text">
+          This is a demo. The feature is in development. Contact me for more
+          information.
+        </div>
       </div>
     </div>
   );
