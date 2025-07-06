@@ -26,7 +26,7 @@ export default async function SearchPage({
       )}`
     );
     if (res.status === 429) {
-      redirect("/rate-limit");
+      redirect("/ratelimit");
     } else if (!res.ok) {
       throw new Error("Search API failed");
     } else {

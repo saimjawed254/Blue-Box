@@ -1,6 +1,6 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { createRateLimiter } from "./src/lib/limiter"; // your Upstash logic
+import { createRateLimiter } from "./src/lib/limiter";
 
 export default clerkMiddleware(async (auth, req) => {
   const ua = req.headers.get("user-agent") || "";
@@ -19,9 +19,9 @@ export default clerkMiddleware(async (auth, req) => {
   const limiter = createRateLimiter(120, "60 s");
   const { success } = await limiter.limit(ip);
 
-  if (!success && !req.nextUrl.pathname.startsWith("/rate-limit")) {
+  if (!success && !req.nextUrl.pathname.startsWith("/ratelimit")) {
     console.log("Rate limit exceeded → redirecting");
-    return NextResponse.redirect(new URL("/rate-limit", req.url));
+    return NextResponse.redirect(new URL("/ratelimit", req.url));
   }
 
   return NextResponse.next();
