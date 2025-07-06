@@ -3,12 +3,25 @@ import { db } from "@/src/db";
 import { SQL, sql } from "drizzle-orm";
 import Together from "together-ai";
 import * as dotenv from "dotenv";
+import { limiter } from "@/src/lib/limiter";
 
 dotenv.config({ path: ".env" });
 
 const together = new Together({ apiKey: process.env.TOGETHER_API_KEY });
 
 export async function GET(req: NextRequest) {
+
+    const ip = req.headers.get("x-forwarded-for") ?? "anonymous";
+
+  const { success, limit, remaining, reset } = await limiter.limit(ip);
+
+  if (!success) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
+  }
+
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
