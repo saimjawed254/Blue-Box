@@ -2,6 +2,8 @@ import "./page.css";
 import { notFound } from "next/navigation";
 import * as React from "react";
 import ProductPage from "@/components/UI/Pages/Product";
+import * as dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 
 const validTopLevel = ["cargo", "suit"];
 

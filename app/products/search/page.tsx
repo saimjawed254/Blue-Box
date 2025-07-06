@@ -1,5 +1,7 @@
 import ProductsPage from "@/components/UI/Pages/ProductsPage";
 import { notFound, redirect } from "next/navigation";
+import * as dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 
 export default async function SearchPage({
   searchParams,

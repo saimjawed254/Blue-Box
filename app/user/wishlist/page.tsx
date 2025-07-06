@@ -2,6 +2,8 @@ import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import { headers, cookies } from "next/headers";
 import WishlistsPage from "@/components/UI/Pages/WishlistsPage";
+import * as dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 
 export default async function Page() {
   const { userId } = await auth();

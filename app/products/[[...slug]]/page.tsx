@@ -1,7 +1,8 @@
 import ProductsPage from "@/components/UI/Pages/ProductsPage";
 import "./page.css";
 import { notFound } from "next/navigation";
-import ProductsSidebar from "@/components/UI/ProductsSideBar";
+import * as dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 
 const validTopLevel = ["best-sellers", "newest-arrivals", "cargos", "suits"];
 
