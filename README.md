@@ -58,9 +58,9 @@ Open [`http://localhost:3000`](http://localhost:3000) to view the site.
 
 ![Screenshot 2025-07-06 233238](https://github.com/user-attachments/assets/9863b957-5d86-43f9-be10-7acd218c2800)
 ![Screenshot 2025-07-06 233256](https://github.com/user-attachments/assets/f3df6586-f31d-4351-ad8f-eb5c1e2b2333)
-![Screenshot 2025-07-06 233312](https://github.com/user-attachments/assets/2e83caf3-9bbb-4![Screenshot 2025-07-06 233721](https://github.com/user-attachments/assets/66187e3c-3395-45d5-8f1e-5c958f12aa9a)
-9c5-91a0-90dc257a01da)
-![Screenshot 2025-07-06 233759](https://github.com/user-attachments/assets/d7802201-f276-47c7-a9e8-7da476acaa75)
+![Screenshot 2025-07-06 233312](https://github.com/user-attachments/assets/37ee9845-c62c-45e9-897b-c805bed64c65)
+![Screenshot 2025-07-06 23![Screenshot 2025-07-06 233721](https://github.com/user-attachments/assets/29ce6588-bd44-4a43-b83c-64f079243e7c)
+3759](https://github.com/user-attachments/assets/d7802201-f276-47c7-a9e8-7da476acaa75)
 ![Screenshot 2025-07-06 200648](https://github.com/user-attachments/assets/a4fdc82b-ec9c-416c-8838-e0acdfe7e28c)
 ![Bluebox_DB_Diagram](https://github.com/user-attachments/assets/194631f8-3455-4234-8429-60f5c7799587)
 
