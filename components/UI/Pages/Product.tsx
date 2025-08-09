@@ -412,7 +412,7 @@ export default function ProductPage({ product }: ProductPageProps) {
   return (
     <>
       <div>
-        <ShaderWrapper />
+        {/* <ShaderWrapper /> */}
       </div>
       {showTryOn && <ImageCaptureOrUpload clothUrl={product.image_urls[0]} />}
       <section className={`product-page ${poppins.className}`}>

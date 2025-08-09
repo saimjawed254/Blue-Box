@@ -269,7 +269,7 @@ export default function ProductsPage({
   useLenis();
   return (
     <>
-          <div><ShaderWrapper /></div>
+          {/* <div><ShaderWrapper /></div> */}
       <section className={`products ${poppins.className}`}>
         <div className="products-page-sidebar">
           <ProductsSidebar

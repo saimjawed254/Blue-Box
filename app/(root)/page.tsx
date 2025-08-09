@@ -757,7 +757,7 @@ export default function Page() {
   useLenis();
   return (
     <>
-      <div>{shadersVisible && <ShaderWrapper />}</div>
+      {/* <div>{shadersVisible && <ShaderWrapper />}</div> */}
       {/* -------------------------Hero-------------------------- */}
       <Home productsData={allProducts} />
       {/* <section className={`hero ${ibm_plex_mono.className}`}>
