@@ -55,7 +55,7 @@ const italiana = Italiana({ subsets: ["latin"], weight: ["400"] });
 export default function Page() {
   const { user } = useUser();
   const alreadyInserted = useRef(false);
-  console.log(user, alreadyInserted);
+  // console.log(user, alreadyInserted);
 
   const [bestsellersCargosData, setBestsellersCargosData] =
     useState<Product[]>();
@@ -103,7 +103,7 @@ export default function Page() {
     setSvgSize(vwToPx(2.4));
 
     if (user && !alreadyInserted.current) {
-      console.log(user.primaryEmailAddress);
+      // console.log(user.primaryEmailAddress);
       alreadyInserted.current = true;
 
       fetch("api/users/create", {
@@ -116,7 +116,7 @@ export default function Page() {
           avatar_url: user.imageUrl,
         }),
       }).then((res) => {
-        console.log("RES", res);
+        // console.log("RES", res);
       });
     }
 
@@ -125,7 +125,7 @@ export default function Page() {
         const res = await fetch("/api/products/brands?category=CARGO");
         const data = await res.json();
         setCargoBrands(data.brands);
-        console.log("Fetched cargo brands:", data.brands);
+        // console.log("Fetched cargo brands:", data.brands);
       } catch (err) {
         console.error("Error fetching cargo brands:", err);
       }
@@ -136,7 +136,7 @@ export default function Page() {
         const res = await fetch("/api/products/brands?category=LADIES' SUIT");
         const data = await res.json();
         setSuitBrands(data.brands);
-        console.log("Fetched suit brands:", data.brands);
+        // console.log("Fetched suit brands:", data.brands);
       } catch (err) {
         console.error("Error fetching suit brands:", err);
       }
@@ -149,7 +149,7 @@ export default function Page() {
         );
         const data = await res.json();
         setBestsellersCargosData(data.data);
-        console.log("Fetched bestsellers cargos:", data.data);
+        // console.log("Fetched bestsellers cargos:", data.data);
       } catch (err) {
         console.error("Error fetching bestsellers:", err);
       }
@@ -162,7 +162,7 @@ export default function Page() {
         );
         const data = await res.json();
         setBestsellersSuitsData(data.data);
-        console.log("Fetched bestsellers suits:", data.data);
+        // console.log("Fetched bestsellers suits:", data.data);
       } catch (err) {
         console.error("Error fetching bestsellers:", err);
       }
@@ -178,7 +178,7 @@ export default function Page() {
         const cargos = data.data ?? [];
         const product = cargos[6];
         setLeftBar(product?.image_urls[0] || "/Rem.png");
-        console.log("Fetched Newest Arrivals Cargos:", data.data);
+        // console.log("Fetched Newest Arrivals Cargos:", data.data);
       } catch (err) {
         console.error("Error fetching Newest Arrivals:", err);
       }
@@ -194,7 +194,7 @@ export default function Page() {
         const suits = data.data ?? [];
         const product = suits[7];
         setRightBar(product?.image_urls[0] || "/Rem.png");
-        console.log("Fetched Newest Arrivals suits:", data.data);
+        // console.log("Fetched Newest Arrivals suits:", data.data);
       } catch (err) {
         console.error("Error fetching Newest Arrivals:", err);
       }
@@ -205,7 +205,7 @@ export default function Page() {
         const res = await fetch("/api/products");
         const data = await res.json();
         setAllProducts(data.data);
-        console.log("Fetched All Products", data.data);
+        // console.log("Fetched All Products", data.data);
       } catch (err) {
         console.error("Error fetching All Products:", err);
       }
@@ -230,7 +230,7 @@ export default function Page() {
       return (window.innerHeight * e) / 100;
     }
     window.addEventListener("scroll", () => {
-      console.log(window.scrollY);
+      // console.log(window.scrollY);
       const container = document.querySelector(
         ".na-container"
       ) as HTMLElement | null;

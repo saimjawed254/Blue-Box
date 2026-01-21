@@ -26,7 +26,7 @@ async function getEmbedding(text: string): Promise<number[]> {
 async function main() {
   const rows = await db.select().from(products);
 
-  console.log(`Together found ${rows.length} products to Embed`);
+  // console.log(`Together found ${rows.length} products to Embed`);
 
   for (const row of rows) {
     const title = row.title || "";
@@ -63,10 +63,10 @@ async function main() {
       .set({ embedding })
       .where(eq(products.product_id, row.product_id));
 
-    console.log(`Embedded: ${title}`);
+    // console.log(`Embedded: ${title}`);
   }
 
-  console.log("All product embeddings updated!");
+  // console.log("All product embeddings updated!");
 }
 
 main().catch((err) => {

@@ -71,7 +71,7 @@ export default function ProductForm() {
   };
 
   const onSubmit = async (data: ProductSchemaType) => {
-    console.log("Submitted:", data);
+    // console.log("Submitted:", data);
     try {
       const res = await fetch("/api/products/add-new", {
         method: "POST",
@@ -85,7 +85,7 @@ export default function ProductForm() {
 
       if (res.ok) {
         alert("✅ Product added successfully!");
-        console.log("Inserted product:", result.product);
+        // console.log("Inserted product:", result.product);
       } else {
         alert("❌ Failed to add product");
         console.error(result);

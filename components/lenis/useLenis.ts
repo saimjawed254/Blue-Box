@@ -12,8 +12,8 @@ export function useLenis() {
     const lenis = new Lenis({
       duration: 5,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      wheelMultiplier: 0.5,
-      touchMultiplier: 0.5,
+      wheelMultiplier: 0.8,
+      touchMultiplier: 0.8,
     });
 
     // Sync ScrollTrigger on every Lenis scroll

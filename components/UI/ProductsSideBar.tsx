@@ -88,10 +88,10 @@ export default function ProductsSidebar({
   }, [products]);
 
   const handleApply = () => {
-    console.log(selectedBrandFilters);
-    console.log(selectedColorFilters);
-    console.log(selectedDiscountFilter);
-    console.log(minValue, maxValue);
+    // console.log(selectedBrandFilters);
+    // console.log(selectedColorFilters);
+    // console.log(selectedDiscountFilter);
+    // console.log(minValue, maxValue);
     if (
       selectedBrandFilters.length === 0 &&
       minValue === minPrice &&

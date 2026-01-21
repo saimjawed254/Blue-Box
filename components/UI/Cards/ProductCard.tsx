@@ -64,12 +64,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         });
 
         const data = await res.json();
-        console.log("Wishlist", data);
+        // console.log("Wishlist", data);
 
         if (!res.ok) throw new Error(data.error || "Failed to add to wishlist");
         return data;
       } catch (err) {
-        console.log("Add to wishlist error:", err);
+        // console.log("Add to wishlist error:", err);
         throw err;
       }
     } else {
@@ -83,13 +83,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         });
 
         const data = await res.json();
-        console.log("Wishlist", data);
+        // console.log("Wishlist", data);
 
         if (!res.ok)
           throw new Error(data.error || "Failed to delete from wishlist");
         return data;
       } catch (err) {
-        console.log("Remove from wishlist error:", err);
+        // console.log("Remove from wishlist error:", err);
         throw err;
       }
     }

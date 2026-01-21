@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     limit?: number;
   } = body;
 
-  console.log(body);
+  // console.log(body);
 
   const offset = (page - 1) * limit;
 

@@ -21,11 +21,10 @@ export default async function SearchPage({
   let data = [];
   let status;
   try {
-    const res = await fetch(
-      `${process.env.FRONTEND_URL}/api/ai/search?query=${encodeURIComponent(
-        query
-      )}`
-    );
+    const apiUrl = `${process.env.FRONTEND_URL}/api/ai/search?query=${encodeURIComponent(query)}`;
+    // console.log("🔗 Fetching from:", apiUrl);
+    
+    const res = await fetch(apiUrl);
     if (res.status === 429) {
       status = true;
     } else if (!res.ok) {
@@ -33,7 +32,6 @@ export default async function SearchPage({
     } else {
       data = await res.json();
     }
-    console.log(data);
   } catch (err) {
     console.error(err);
     notFound();

@@ -66,7 +66,7 @@ export default function ProductPage({ product }: ProductPageProps) {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-        console.log("Shared successfully");
+        // console.log("Shared successfully");
       } catch (err) {
         console.error("Share failed:", err);
       }
@@ -99,7 +99,7 @@ export default function ProductPage({ product }: ProductPageProps) {
       });
 
       const data = await res.json();
-      console.log(data.message);
+      // console.log(data.message);
     } catch (err) {
       console.error(err);
     } finally {
@@ -125,7 +125,7 @@ export default function ProductPage({ product }: ProductPageProps) {
       });
 
       const data = await res.json();
-      console.log(data.message);
+      // console.log(data.message);
     } catch (err) {
       console.error(err);
     } finally {
@@ -149,14 +149,14 @@ export default function ProductPage({ product }: ProductPageProps) {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         setCoords({ lat, lon });
-        console.log(lat, lon);
+        // console.log(lat, lon);
         try {
           const res = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
           );
           const data = await res.json();
           setAddress(data.display_name || "Address not found");
-          console.log(data);
+          // console.log(data);
         } catch (error) {
           console.error(error);
           setAddress("Failed to fetch address");
@@ -244,12 +244,12 @@ export default function ProductPage({ product }: ProductPageProps) {
         });
 
         const data = await res.json();
-        console.log("Wishlist", data);
+        // console.log("Wishlist", data);
 
         if (!res.ok) throw new Error(data.error || "Failed to add to wishlist");
         return data;
       } catch (err) {
-        console.log("Add to wishlist error:", err);
+        // console.log("Add to wishlist error:", err);
         throw err;
       }
     } else {
@@ -263,13 +263,13 @@ export default function ProductPage({ product }: ProductPageProps) {
         });
 
         const data = await res.json();
-        console.log("Wishlist", data);
+        // console.log("Wishlist", data);
 
         if (!res.ok)
           throw new Error(data.error || "Failed to delete from wishlist");
         return data;
       } catch (err) {
-        console.log("Remove from wishlist error:", err);
+        // console.log("Remove from wishlist error:", err);
         throw err;
       }
     }
@@ -293,7 +293,7 @@ export default function ProductPage({ product }: ProductPageProps) {
           setIsAdding(!isAdding);
         }
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
     const buildSizeColorMap = (variants: Product[] | undefined) => {
@@ -317,7 +317,7 @@ export default function ProductPage({ product }: ProductPageProps) {
         result[size] = Array.from(sizeColorMap[size]);
       }
       setSizeColorMap(result);
-      console.log(result);
+      // console.log(result);
       setCurrentSizeColors(result[product.size]);
       const allColors = Object.values(result).flat();
       setUniqueColors(Array.from(new Set(allColors)));
@@ -354,7 +354,7 @@ export default function ProductPage({ product }: ProductPageProps) {
         if (!res.ok) throw new Error("Failed to fetch products");
 
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         setSimilarProductData(data.data);
 
         return data; // assumed to be an array of products

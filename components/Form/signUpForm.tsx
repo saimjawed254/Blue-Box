@@ -23,7 +23,7 @@ export default function SignUpForm() {
         redirectUrlComplete: "/",
       });
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
   const handleGoogleSignIn = async () => {

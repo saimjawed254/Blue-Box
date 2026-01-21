@@ -28,12 +28,12 @@ export default async function Page({
   if (!validTopLevel.includes(topLevel)) {
     notFound();
   }
-  console.log(slugParts);
+  // console.log(slugParts);
 
   const search_params = await searchParams;
   const page = parseInt((search_params?.page as string) ?? "1");
   const limit = parseInt((search_params?.limit as string) ?? "20");
-  console.log(page, limit);
+  // console.log(page, limit);
 
   let data = [];
   try {

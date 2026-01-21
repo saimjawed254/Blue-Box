@@ -23,18 +23,18 @@ export default async function Page({ params, searchParams }: Props) {
   if (!validTopLevel.includes(topLevel)) {
     notFound();
   }
-  console.log(slugParts);
+  // console.log(slugParts);
 
   const query = await searchParams;
   const product_id = query.id || null;
 
-  console.log(query);
+  // console.log(query);
   let product;
   try {
     const res = await fetch(`${process.env.FRONTEND_URL}/api/product/${product_id}`);
     if (!res?.ok) throw new Error("API failed");
     product = await res.json();
-    console.log(product);
+    // console.log(product);
   } catch (err) {
     console.error(err);
     notFound(); // fallback on error

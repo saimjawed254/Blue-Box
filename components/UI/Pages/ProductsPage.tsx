@@ -29,7 +29,7 @@ export default function ProductsPage({
   total,
   productsData,
 }: ProductsPageProps) {
-  console.log(slug, total);
+  // console.log(slug, total);
   let slugString = "";
   if (slug.length === 1) {
     slugString = slug[0].charAt(0).toUpperCase() + slug[0].substring(1);
@@ -61,7 +61,7 @@ export default function ProductsPage({
 
   useEffect(() => {
     const totalHeight = document.documentElement.scrollHeight;
-    console.log("Total scrollable page height:", totalHeight, vhToPx(90));
+    // console.log("Total scrollable page height:", totalHeight, vhToPx(90));
 
     if (typeof window !== "undefined") {
       const sidebar = document.querySelector(
@@ -78,7 +78,7 @@ export default function ProductsPage({
       ) as HTMLElement;
 
       if (products && sidebarBg) {
-        console.log(products.clientHeight);
+        // console.log(products.clientHeight);
         sidebarBg.style.height = `${products.clientHeight}`;
       }
 
@@ -192,7 +192,7 @@ export default function ProductsPage({
       const data = await res.json();
       setProducts(data.products);
       // setSelectedSort("price_low_to_high");
-      console.log("Hello", data);
+      // console.log("Hello", data);
     } catch (err) {
       console.error("Error applying filters:", err);
       // Optionally show a toast or error UI
@@ -208,7 +208,7 @@ export default function ProductsPage({
 
     // Optional: trigger API refetch or navigation
     fetchProductsBySort(newSort);
-    console.log(newSort);
+    // console.log(newSort);
   };
 
   const fetchProductsBySort = async (sort: string) => {
@@ -234,7 +234,7 @@ export default function ProductsPage({
 
       const data = await res.json();
       setProducts(data.products);
-      console.log("Hello", data);
+      // console.log("Hello", data);
     } catch (err) {
       console.error("Error applying filters:", err);
       // Optionally show a toast or error UI

@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default function Home({ productsData }: Props) {
-  console.log(productsData);
+  // console.log(productsData);
   const vwToPx = (vw: number) => (window.innerWidth * vw) / 100;
   const vhToPx = (vh: number) => (window.innerHeight * vh) / 100;
   const [svgSize, setSvgSize] = useState(1);

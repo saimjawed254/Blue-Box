@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
-  console.log(query);
+  // console.log(query);
 
   if (!query) {
     return NextResponse.json({ error: "Missing query" }, { status: 400 });
@@ -83,7 +83,7 @@ User Query: "${query}"
 
     const content = structureRes.choices?.[0]?.message?.content;
     if (content) {
-      console.log(content);
+      // console.log(content);
       const cleaned = content
         .replace(/```(?:json)?/gi, "")
         .replace(/```/g, "")
