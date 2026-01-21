@@ -76,7 +76,7 @@ User Query: "${query}"
 
   try {
     const structureRes = await together.chat.completions.create({
-      model: "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+      model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
       messages: [{ role: "user", content: structurePrompt }],
       temperature: 0.2,
     });
